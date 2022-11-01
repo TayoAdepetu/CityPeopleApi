@@ -16,6 +16,9 @@ class PostController extends Controller
     public function index()
     {
         //
+        $posts = Post::all();
+	    return $posts;
+      
     }
 
     /**
@@ -26,17 +29,34 @@ class PostController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePostRequest  $request
+     * @param  \App\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request)
+    public function store(Request $request)
     {
         //
+        $request->validate([
+            'title' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+            'body' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->slug = $request->slug;
+        $post->description = $request->description;
+        $post->user_id = $request->user_id;        
+    
+        Post::create($request->all());
     }
 
     /**
@@ -45,9 +65,16 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($slug)
     {
         //
+        if(exist(Post::where('slug', $slug))){
+            $post = Post::where('slug', $slug)->get();
+            return $post;
+        }else {
+            return('Post not found.');
+        }
+        
     }
 
     /**
@@ -56,9 +83,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($slug)
     {
-        //
+        //$post = Post::findOrFail($slug);       
+       
     }
 
     /**
@@ -68,9 +96,18 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, $slug)
     {
         //
+
+        $post = Post::where('slug', $slug)->update([
+            'title' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+            'body' => 'required',
+        ]);
+
+        return $post;
     }
 
     /**
@@ -79,8 +116,11 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($slug)
     {
         //
+        $post = Post::where('slug', $slug)->get();
+        return $post->delete();
+
     }
 }

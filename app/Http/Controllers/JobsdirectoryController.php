@@ -16,6 +16,8 @@ class JobsdirectoryController extends Controller
     public function index()
     {
         //
+        $jobs = Jobsdirectory::all();
+	    return $jobs;
     }
 
     /**
@@ -34,9 +36,27 @@ class JobsdirectoryController extends Controller
      * @param  \App\Http\Requests\StoreJobsdirectoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreJobsdirectoryRequest $request)
+    public function store(Request $request)
     {
         //
+        $request->validate([
+            'title' => 'required',
+            'slug' => 'required',
+            'location' => 'required',
+            'function' => 'required',
+            'employer' => 'required',
+            'user_id' => 'required',
+            'salary' => 'required',
+        ]);
+
+        $job = new Jobsdirectory();
+        $job->title = $request->title;
+        $job->body = $request->body;
+        $job->slug = $request->slug;
+        $job->description = $request->description;
+        $job->user_id = $request->user_id;        
+    
+        Jobsdirectory::create($request->all());
     }
 
     /**
@@ -45,9 +65,16 @@ class JobsdirectoryController extends Controller
      * @param  \App\Models\Jobsdirectory  $jobsdirectory
      * @return \Illuminate\Http\Response
      */
-    public function show(Jobsdirectory $jobsdirectory)
+    public function show($slug)
     {
         //
+
+        if(exist(Jobsdirectory::where('slug', $slug))){
+            $job = Jobsdirectory::where('slug', $slug)->get();
+            return $job;
+        }else {
+            return('Job not found.');
+        }
     }
 
     /**
@@ -68,9 +95,17 @@ class JobsdirectoryController extends Controller
      * @param  \App\Models\Jobsdirectory  $jobsdirectory
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateJobsdirectoryRequest $request, Jobsdirectory $jobsdirectory)
+    public function update($slug)
     {
         //
+        $job = Jobsdirectory::where('slug', $slug)->update([
+            'title' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+            'body' => 'required',
+        ]);
+
+        return $job;
     }
 
     /**
@@ -79,8 +114,10 @@ class JobsdirectoryController extends Controller
      * @param  \App\Models\Jobsdirectory  $jobsdirectory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jobsdirectory $jobsdirectory)
+    public function destroy($slug)
     {
         //
+        $job = Post::where('slug', $slug)->get();
+        return $job->delete();
     }
 }

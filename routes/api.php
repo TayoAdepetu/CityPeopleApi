@@ -38,3 +38,31 @@ Route::group([
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
 Route::post('auth/logout', 'App\Http\Controllers\LoginController@logout');
+
+//For Posts
+Route::get('auth/posts', 'App\Http\Controllers\PostController@index');
+Route::post('auth/create-new-post', 'App\Http\Controllers\PostController@store');
+Route::get('auth/blog/{slug}', 'App\Http\Controllers\PostController@show');
+Route::post('auth/update-post/{slug}', 'App\Http\Controllers\PostController@update');
+
+
+//For Jobs
+Route::get('auth/jobs', 'App\Http\Controllers\JobsdirectoryController@index');
+Route::post('auth/create-new-job', 'App\Http\Controllers\JobsdirectoryController@store');
+Route::get('auth/job/{slug}', 'App\Http\Controllers\JobsdirectoryController@show');
+Route::post('auth/update-job/{slug}', 'App\Http\Controllers\JobsdirectoryController@update');
+
+//For Bizdirectoryproducts
+//Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+Route::post('auth/create-directory-product', 'App\Http\Controllers\BizdirectoryproductsController@store');
+Route::get('auth/products/{businessname}', 'App\Http\Controllers\JBizdirectoryproductsController@show');
+//Route::post('auth/update-product/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
+Route::get('auth/product/{productname}', 'App\Http\Controllers\JBizdirectoryproductsController@showProduct');
+Route::delete('auth/delete-product/{productname}', 'App\Http\Controllers\JBizdirectoryproductsController@destroy');
+
+//For Bizdirectory
+Route::get('auth/all-biz', 'App\Http\Controllers\BizdirectoryController@index');
+Route::post('auth/create-directory', 'App\Http\Controllers\BizdirectoryController@store');
+Route::get('auth/biz-directory/{businessname}', 'App\Http\Controllers\JBizdirectoryController@show');
+//Route::post('auth/update-product/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
+Route::delete('auth/delete-biz/{businessname}', 'App\Http\Controllers\JBizdirectoryController@destroy');

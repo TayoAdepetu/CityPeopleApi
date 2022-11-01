@@ -34,9 +34,25 @@ class FaqsController extends Controller
      * @param  \App\Http\Requests\StoreFaqsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreFaqsRequest $request)
+    public function store(Request $request)
     {
         //
+        $request->validate([
+            'business_name' => 'required',
+            'slug' => 'required',
+            'question' => 'required',
+            'answer' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        $faq = new Post();
+        $faq->business_name = $request->business_name;
+        $faq->question = $request->question;
+        $faq->slug = $request->slug;
+        $faq->answer = $request->answer;
+        $faq->user_id = $request->user_id;        
+    
+        Faqs::create($request->all());
     }
 
     /**
@@ -45,9 +61,15 @@ class FaqsController extends Controller
      * @param  \App\Models\Faqs  $faqs
      * @return \Illuminate\Http\Response
      */
-    public function show(Faqs $faqs)
+    public function show($business_name)
     {
         //
+        if(exist(Faqs::where('business_name', $business_name))){
+            $faq = Faqs::where('business_name', $business_name)->get();
+            return $faq;
+        }else {
+            return('Post not found.');
+        }
     }
 
     /**
@@ -68,9 +90,17 @@ class FaqsController extends Controller
      * @param  \App\Models\Faqs  $faqs
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateFaqsRequest $request, Faqs $faqs)
+    public function update($slug)
     {
         //
+        $faq = Faqs::where('slug', $slug)->update([
+            'business_name' => 'required',
+            'slug' => 'required',
+            'question' => 'required',
+            'answer' => 'required',
+        ]);
+
+        return $faq;
     }
 
     /**
@@ -79,8 +109,10 @@ class FaqsController extends Controller
      * @param  \App\Models\Faqs  $faqs
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Faqs $faqs)
+    public function destroy($slug)
     {
         //
+        $faq = Faqs::where('slug', $slug)->get();
+        return $faq->delete();
     }
 }
