@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('salary');
             $table->string('location');
             $table->string('function');
+            $table->string('description');
             $table->timestamps();
         });
     }

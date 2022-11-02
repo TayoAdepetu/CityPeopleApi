@@ -23,9 +23,10 @@ return new class extends Migration
             $table->string('website');
             $table->string('email');
             $table->string('established');
-            $table->string('verified');
+            $table->enum('verified', ['YES', 'NO'])->default('YES');
             $table->string('phone');
             $table->string('registered_here');
+            $table->string('location');
             $table->timestamps();
         });
     }

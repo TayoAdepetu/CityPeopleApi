@@ -17,6 +17,7 @@ class Jobsdirectory extends Model
         'location',
         'function',
         'description',
+        'employer',
     ];
     
 }

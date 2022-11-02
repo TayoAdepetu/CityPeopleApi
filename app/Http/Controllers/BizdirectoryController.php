@@ -59,6 +59,25 @@ class BizdirectoryController extends Controller
         }
     }
 
+    public function update($slug)
+    {
+        //
+        $biz = Bizdirectory::where('slug', $slug)->update([
+            'business_name' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'website' => 'required',
+            'established' => 'required',
+            'registered_here' => 'required',
+            'number_of_employees' => 'required',
+        ]);
+
+        return $biz;
+    }
+
     public function destroy($businessname)
     {
         //

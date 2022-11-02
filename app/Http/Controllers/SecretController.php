@@ -16,6 +16,8 @@ class SecretController extends Controller
     public function index()
     {
         //
+        $secrets = Secret::all();
+	    return $secrets;
     }
 
     /**
@@ -34,9 +36,21 @@ class SecretController extends Controller
      * @param  \App\Http\Requests\StoreSecretRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSecretRequest $request)
+    public function store(Request $request)
     {
         //
+        $request->validate([
+            'title' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+        ]);
+
+        $secret = new Secret();
+        $secret->title = $request->title;
+        $secret->slug = $request->slug;
+        $secret->description = $request->description;       
+    
+        Secret::create($request->all());
     }
 
     /**
@@ -45,9 +59,15 @@ class SecretController extends Controller
      * @param  \App\Models\Secret  $secret
      * @return \Illuminate\Http\Response
      */
-    public function show(Secret $secret)
+    public function show($slug)
     {
         //
+        //if(exist(Secret::where('slug', $slug))){
+            $secret = Secret::where('slug', $slug)->get();
+            return $secret;
+       // }else {
+          //  return('Secret not found.');
+       // }
     }
 
     /**
@@ -68,9 +88,16 @@ class SecretController extends Controller
      * @param  \App\Models\Secret  $secret
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSecretRequest $request, Secret $secret)
+    public function update($slug)
     {
         //
+        $secret = Secret::where('slug', $slug)->update([
+            'title' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+        ]);
+
+        return $secret;
     }
 
     /**
@@ -79,8 +106,10 @@ class SecretController extends Controller
      * @param  \App\Models\Secret  $secret
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Secret $secret)
+    public function destroy($slug)
     {
         //
+        $secret = Secret::where('slug', $slug)->get();
+        return $secret->delete();
     }
 }

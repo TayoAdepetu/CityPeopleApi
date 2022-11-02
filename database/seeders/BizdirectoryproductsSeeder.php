@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use App\Models\Bizdirectoryproducts;
+
 class BizdirectoryproductsSeeder extends Seeder
 {
     /**
@@ -15,5 +17,6 @@ class BizdirectoryproductsSeeder extends Seeder
     public function run()
     {
         //
+        \App\Models\Bizdirectoryproducts::factory()->times(10)->create();
     }
 }

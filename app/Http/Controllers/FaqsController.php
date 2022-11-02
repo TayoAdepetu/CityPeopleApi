@@ -13,9 +13,15 @@ class FaqsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($businessname)
     {
         //
+        if(exist(Faqs::where('business_name', $businessname))){
+            $faq = Faqs::where('business_name', $businessname)->get();
+            return $faq;
+        }else {
+            return('Faq not found.');
+        }
     }
 
     /**
@@ -45,7 +51,7 @@ class FaqsController extends Controller
             'user_id' => 'required',
         ]);
 
-        $faq = new Post();
+        $faq = new Faqs();
         $faq->business_name = $request->business_name;
         $faq->question = $request->question;
         $faq->slug = $request->slug;
@@ -61,14 +67,14 @@ class FaqsController extends Controller
      * @param  \App\Models\Faqs  $faqs
      * @return \Illuminate\Http\Response
      */
-    public function show($business_name)
+    public function show($slug)
     {
-        //
-        if(exist(Faqs::where('business_name', $business_name))){
-            $faq = Faqs::where('business_name', $business_name)->get();
+        //        
+        if(exist(Faqs::where('slug', $slug))){
+            $faq = Faqs::where('slug', $slug)->get();
             return $faq;
         }else {
-            return('Post not found.');
+            return('Faq not found.');
         }
     }
 
