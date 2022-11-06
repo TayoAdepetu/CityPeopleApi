@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('business_name');
             $table->string('slug');
             $table->string('product_name')->unique();
+            $table->string('product_name_slug')->unique();
             $table->string('description');
             $table->string('phone');
             $table->string('biz_location');

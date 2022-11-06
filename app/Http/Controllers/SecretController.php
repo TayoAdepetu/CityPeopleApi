@@ -88,13 +88,13 @@ class SecretController extends Controller
      * @param  \App\Models\Secret  $secret
      * @return \Illuminate\Http\Response
      */
-    public function update($slug)
+    public function update(Request $request, $slug)
     {
         //
         $secret = Secret::where('slug', $slug)->update([
-            'title' => 'required',
-            'slug' => 'required',
-            'description' => 'required',
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'description' => $request->description,
         ]);
 
         return $secret;

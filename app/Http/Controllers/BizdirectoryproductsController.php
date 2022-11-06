@@ -40,6 +40,7 @@ class BizdirectoryproductsController extends Controller
         //
         $request->validate([
             'business_name' => 'required',
+            'product_name_slug' => 'required',
             'slug' => 'required',
             'product_name' => 'required',
             'description' => 'required',
@@ -51,6 +52,7 @@ class BizdirectoryproductsController extends Controller
         $product = new Bizdirectoryproducts();
         $product->business_name = $request->business_name;
         $product->product_name = $request->product_name;
+        $product->product_name_slug = $request->product_name_slug;
         $product->slug = $request->slug;
         $product->phone = $request->phone;
         $product->biz_location = $request->biz_location;
@@ -66,11 +68,11 @@ class BizdirectoryproductsController extends Controller
      * @param  \App\Models\Bizdirectoryproducts  $bizdirectoryproducts
      * @return \Illuminate\Http\Response
      */
-    public function show($businessname)
+    public function show($slug)
     {
         //
-        if(exist(Bizdirectoryproducts::where('business_name', $businessname))){
-            $product = Bizdirectoryproducts::where('business_name', $businessname)->get();
+        if(exist(Bizdirectoryproducts::where('slug', $slug))){
+            $product = Bizdirectoryproducts::where('slug', $slug)->get();
             return $product;
         }else {
             return('Product not found.');
@@ -101,16 +103,17 @@ class BizdirectoryproductsController extends Controller
      * @param  \App\Models\Bizdirectoryproducts  $bizdirectoryproducts
      * @return \Illuminate\Http\Response
      */
-    public function update($slug)
+    public function update(Request $request, $slug)
     {
         //
         $product = Bizdirectoryproducts::where('slug', $slug)->update([
-            'business_name' => 'required',
-            'slug' => 'required',
-            'product_name' => 'required',
-            'description' => 'required',
-            'phone' => 'required',
-            'biz_location' => 'required',
+            'business_name' => $request->business_name,
+            'slug' => $request->slug,
+            'product_name' => $request->product_name,
+            'product_name_slug' => $request->product_name_slug,
+            'description' => $request->description,
+            'phone' => $request->phone,
+            'biz_location' => $request->biz_location,
         ]);
 
         return $product;

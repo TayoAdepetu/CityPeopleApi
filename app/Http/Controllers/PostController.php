@@ -101,10 +101,10 @@ class PostController extends Controller
         //
 
         $post = Post::where('slug', $slug)->update([
-            'title' => 'required',
-            'slug' => 'required',
-            'description' => 'required',
-            'body' => 'required',
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'description' => $request->description,
+            'body' => $request->body,
         ]);
 
         return $post;

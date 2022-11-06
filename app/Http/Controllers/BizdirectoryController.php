@@ -48,40 +48,40 @@ class BizdirectoryController extends Controller
     }
 
 
-    public function showbiz($businessname)
+    public function showbiz($slug)
     {
         //
-        if(exist(Bizdirectory::where('business_name', $businessname))){
-            $product = Bizdirectory::where('product_name', $businessname)->get();
-            return $product;
-        }else {
-            return('Biz not found.');
-        }
+       // if(exist(Bizdirectory::where('slug', $slug))){
+            $biz = Bizdirectory::where('slug', $slug)->get();
+            return $biz;
+       // }else {
+        //    return('Biz not found.');
+       // }
     }
 
-    public function update($slug)
+    public function update(Request $request, $slug)
     {
         //
         $biz = Bizdirectory::where('slug', $slug)->update([
-            'business_name' => 'required',
-            'slug' => 'required',
-            'description' => 'required',
-            'location' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'website' => 'required',
-            'established' => 'required',
-            'registered_here' => 'required',
-            'number_of_employees' => 'required',
+            'business_name' => $request->business_name,
+            'slug' => $request->slug,
+            'description' => $request->description,
+            'location' => $request->location,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'website' => $request->website,
+            'established' => $request->established,
+            'registered_here' => $request->registered_here,
+            'number_of_employees' => $request->number_of_employees,
         ]);
 
         return $biz;
     }
 
-    public function destroy($businessname)
+    public function destroy($slug)
     {
         //
-        $biz = Bizdirectory::where('business_name', $businessname)->get();
+        $biz = Bizdirectory::where('slug', $slug)->get();
         return $biz->delete();
     }
 }

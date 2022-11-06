@@ -69,12 +69,12 @@ class JobsdirectoryController extends Controller
     {
         //
 
-        if(exist(Jobsdirectory::where('slug', $slug))){
+       // if(exist(Jobsdirectory::where('slug', $slug))){
             $job = Jobsdirectory::where('slug', $slug)->get();
             return $job;
-        }else {
-            return('Job not found.');
-        }
+        //}else {
+       //     return('Job not found.');
+        //}
     }
 
     /**
@@ -95,14 +95,14 @@ class JobsdirectoryController extends Controller
      * @param  \App\Models\Jobsdirectory  $jobsdirectory
      * @return \Illuminate\Http\Response
      */
-    public function update($slug)
+    public function update(Request $request, $slug)
     {
         //
         $job = Jobsdirectory::where('slug', $slug)->update([
-            'title' => 'required',
-            'slug' => 'required',
-            'description' => 'required',
-            'body' => 'required',
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'description' => $request->description,
+            'body' => $request->body,
         ]);
 
         return $job;

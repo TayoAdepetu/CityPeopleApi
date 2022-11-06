@@ -38,6 +38,8 @@ Route::group([
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
 Route::post('auth/logout', 'App\Http\Controllers\LoginController@logout');
+Route::post('auth/update-business-name/{email}', 'App\Http\Controllers\RegisterController@updateUserBiz');
+
 
 //For Posts
 Route::get('auth/posts', 'App\Http\Controllers\PostController@index');
@@ -55,7 +57,7 @@ Route::post('auth/update-job/{slug}', 'App\Http\Controllers\JobsdirectoryControl
 //For Bizdirectoryproducts
 //Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
 Route::post('auth/create-directory-product', 'App\Http\Controllers\BizdirectoryproductsController@store');
-Route::get('auth/products/{businessname}', 'App\Http\Controllers\BizdirectoryproductsController@show');
+Route::get('auth/products/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@show');
 //Route::post('auth/update-product/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
 Route::get('auth/product/{productname}', 'App\Http\Controllers\BizdirectoryproductsController@showProduct');
 Route::delete('auth/delete-product/{productname}', 'App\Http\Controllers\BizdirectoryproductsController@destroy');
@@ -63,24 +65,24 @@ Route::delete('auth/delete-product/{productname}', 'App\Http\Controllers\Bizdire
 //For Bizdirectory
 Route::get('auth/all-biz', 'App\Http\Controllers\BizdirectoryController@index');
 Route::post('auth/create-directory', 'App\Http\Controllers\BizdirectoryController@store');
-Route::get('auth/biz-directory/{businessname}', 'App\Http\Controllers\BizdirectoryController@showbiz');
+Route::get('auth/biz-directory/{slug}', 'App\Http\Controllers\BizdirectoryController@showbiz');
 Route::post('auth/update-directory/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
-Route::delete('auth/delete-biz/{businessname}', 'App\Http\Controllers\BizdirectoryController@destroy');
+Route::delete('auth/delete-biz/{slug}', 'App\Http\Controllers\BizdirectoryController@destroy');
 
 //For Faqs
 Route::get('auth/all-faqs', 'App\Http\Controllers\FaqsController@index');
 Route::post('auth/create-new-faq', 'App\Http\Controllers\FaqsController@store');
-Route::get('auth/faq/{slug}', 'App\Http\Controllers\FaqsController@show');
-Route::post('auth/update-post/{slug}', 'App\Http\Controllers\FaqsController@update');
-Route::delete('auth/delete-faq/{slug}', 'App\Http\Controllers\FaqsController@destroy');
+Route::get('auth/faq/{id}', 'App\Http\Controllers\FaqsController@show');
+Route::post('auth/update-post/{id}', 'App\Http\Controllers\FaqsController@update');
+Route::delete('auth/delete-faq/{id}', 'App\Http\Controllers\FaqsController@destroy');
 
 
 //For WorkingHours
-Route::get('auth/all-worktime', 'App\Http\Controllers\WorkingHoursController@index');
+Route::get('auth/all-worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@index');
 Route::post('auth/create-new-worktime', 'App\Http\Controllers\WorkingHoursController@store');
-Route::get('auth/worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@show');
-Route::post('auth/update-worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@update');
-Route::delete('auth/delete-worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
+//not needed Route::get('auth/worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@show');
+Route::post('auth/update-worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@update');
+Route::delete('auth/delete-worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@destroy');
 
 //For WorkingHours
 Route::get('auth/all-worktime', 'App\Http\Controllers\WorkingHoursController@index');

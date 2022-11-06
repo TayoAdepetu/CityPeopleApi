@@ -16,8 +16,8 @@ class WorkingHoursController extends Controller
     public function index($businessname)
     {
         //
-        if(exist(WorkingHours::where('business_name', $businessname))){
-            $worktime = WorkingHours::where('business_name', $businessname)->get();
+        if(exist(WorkingHours::where('slug', $businessname))){
+            $worktime = WorkingHours::where('slug', $businessname)->get();
             return $worktime;
         }else {
             return('Faq not found.');
@@ -77,16 +77,20 @@ class WorkingHoursController extends Controller
      * @param  \App\Models\WorkingHours  $workingHours
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkingHours $workingHours)
+
+     /*
+    public function show($businessname)
     {
         //
-        if(exist(WorkingHours::where('slug', $slug))){
-            $worktime = WorkingHours::where('slug', $slug)->get();
+        if(exist(WorkingHours::where('business_name', $businessname))){
+            $worktime = WorkingHours::where('business_name', $businessname)->get();
             return $worktime;
         }else {
             return('Working hours not found.');
         }
     }
+
+    */
 
     /**
      * Show the form for editing the specified resource.
@@ -106,19 +110,19 @@ class WorkingHoursController extends Controller
      * @param  \App\Models\WorkingHours  $workingHours
      * @return \Illuminate\Http\Response
      */
-    public function update($slug)
+    public function update(Request $request, $businessname)
     {
         //
-        $worktime = WorkingHours::where('slug', $slug)->update([
-            'business_name' => 'required',
-            'slug' => 'required',
-            'monday' => 'required',
-            'tuesday' => 'required',
-            'wednesday' => 'required',
-            'thursday' => 'required',
-            'friday' => 'required',
-            'saturday' => 'required',
-            'sunday' => 'required',
+        $worktime = WorkingHours::where('slug', $businessname)->update([
+            'business_name' => $request->business_name,
+            'slug' => $request->slug,
+            'monday' => $request->monday,
+            'tuesday' => $request->tuesday,
+            'wednesday' => $request->wednesday,
+            'thursday' => $request->thursday,
+            'friday' => $request->friday,
+            'saturday' => $request->saturday,
+            'sunday' => $request->sunday,
         ]);
 
         return $worktime;
@@ -130,10 +134,10 @@ class WorkingHoursController extends Controller
      * @param  \App\Models\WorkingHours  $workingHours
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy($businessname)
     {
         //
-        $worktime = WorkingHours::where('slug', $slug)->get();
+        $worktime = WorkingHours::where('slug', $businessname)->get();
         return $worktime->delete();
     }
 }

@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Bizdirectoryproducts extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'business_name',
+        'product_name',
+        'product_name_slug',
+        'user_id',
+        'slug',
+        'description',
+        'phone',
+        'biz_location'
+    ];
 }

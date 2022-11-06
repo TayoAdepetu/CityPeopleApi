@@ -16,8 +16,8 @@ class FaqsController extends Controller
     public function index($businessname)
     {
         //
-        if(exist(Faqs::where('business_name', $businessname))){
-            $faq = Faqs::where('business_name', $businessname)->get();
+        if(exist(Faqs::where('slug', $businessname))){
+            $faq = Faqs::where('slug', $businessname)->get();
             return $faq;
         }else {
             return('Faq not found.');
@@ -67,11 +67,11 @@ class FaqsController extends Controller
      * @param  \App\Models\Faqs  $faqs
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
         //        
-        if(exist(Faqs::where('slug', $slug))){
-            $faq = Faqs::where('slug', $slug)->get();
+        if(exist(Faqs::where('id', $id))){
+            $faq = Faqs::where('id', $id)->get();
             return $faq;
         }else {
             return('Faq not found.');
@@ -96,14 +96,14 @@ class FaqsController extends Controller
      * @param  \App\Models\Faqs  $faqs
      * @return \Illuminate\Http\Response
      */
-    public function update($slug)
+    public function update(Request $request, $id)
     {
         //
-        $faq = Faqs::where('slug', $slug)->update([
-            'business_name' => 'required',
-            'slug' => 'required',
-            'question' => 'required',
-            'answer' => 'required',
+        $faq = Faqs::where('id', $id)->update([
+            'business_name' => $request->business_name,
+            'slug' => $request->slug,
+            'question' => $request->question,
+            'answer' => $request->answer,
         ]);
 
         return $faq;
@@ -115,10 +115,10 @@ class FaqsController extends Controller
      * @param  \App\Models\Faqs  $faqs
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy($id)
     {
         //
-        $faq = Faqs::where('slug', $slug)->get();
+        $faq = Faqs::where('slug', $id)->get();
         return $faq->delete();
     }
 }

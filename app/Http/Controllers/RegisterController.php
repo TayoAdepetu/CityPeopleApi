@@ -38,4 +38,13 @@ class RegisterController extends Controller
 
         return Response::json(compact('token'));
     }
+
+    public function updateUserBiz(Request $request, $email){
+        $business_name = User::where('email', $email)->update([
+            'business_name' => $request->business_name,
+            'slug' => $request->slug,
+        ]);
+
+        return $business_name;
+    }
 }

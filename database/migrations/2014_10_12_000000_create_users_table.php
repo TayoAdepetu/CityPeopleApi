@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('phone_number')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->binary('user_image')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('business_name')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
