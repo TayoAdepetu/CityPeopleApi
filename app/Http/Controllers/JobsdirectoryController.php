@@ -41,20 +41,40 @@ class JobsdirectoryController extends Controller
         //
         $request->validate([
             'title' => 'required',
-            'slug' => 'required',
+            'job_slug' => 'required',
             'location' => 'required',
             'function' => 'required',
-            'employer' => 'required',
+            'description' => 'required',
             'user_id' => 'required',
             'salary' => 'required',
+            'phone' => 'required',
+            'business_name' => 'required',
+            'business_name_slug' => 'required',
         ]);
+
+        function generateKey(){
+            $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+            $randStr = substr(str_shuffle($str), 0);
+            while(exist(Jobsdirectory::where('job_slug', $randStr))){
+                $randStr = substr(str_shuffle($str), 0);
+            }
+
+                return $randStr;
+            }
 
         $job = new Jobsdirectory();
         $job->title = $request->title;
-        $job->body = $request->body;
-        $job->slug = $request->slug;
+        $job->job_slug = generateKey();
+        $job->salary = $request->salary;
+        $job->location = $request->location;
+        $job->function = $request->function;
+        $job->title_slug = $request->title_slug;
+        $job->phone = $request->phone;
         $job->description = $request->description;
-        $job->user_id = $request->user_id;        
+        $job->user_id = $request->user_id; 
+        $job->business_name = $request->business_name; 
+        $job->business_name_slug = $request->business_slug;
+  
     
         Jobsdirectory::create($request->all());
     }
@@ -65,12 +85,24 @@ class JobsdirectoryController extends Controller
      * @param  \App\Models\Jobsdirectory  $jobsdirectory
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($business_name_slug)
     {
         //
 
        // if(exist(Jobsdirectory::where('slug', $slug))){
-            $job = Jobsdirectory::where('slug', $slug)->get();
+            $job = Jobsdirectory::where('business_name_slug', $business_name_slug)->get();
+            return $job;
+        //}else {
+       //     return('Job not found.');
+        //}
+    }
+
+    public function showByJobSlug($job_slug)
+    {
+        //
+
+       // if(exist(Jobsdirectory::where('slug', $slug))){
+            $job = Jobsdirectory::where('job_slug', $job_slug)->get();
             return $job;
         //}else {
        //     return('Job not found.');
@@ -95,14 +127,16 @@ class JobsdirectoryController extends Controller
      * @param  \App\Models\Jobsdirectory  $jobsdirectory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request, $job_slug)
     {
         //
-        $job = Jobsdirectory::where('slug', $slug)->update([
+        $job = Jobsdirectory::where('job_slug', $job_slug)->update([
             'title' => $request->title,
-            'slug' => $request->slug,
             'description' => $request->description,
-            'body' => $request->body,
+            'location' => $request->location,
+            'function' => $request->function,
+            'salary' => $request->salary,
+            'phone' => $request->phone,
         ]);
 
         return $job;
@@ -114,10 +148,10 @@ class JobsdirectoryController extends Controller
      * @param  \App\Models\Jobsdirectory  $jobsdirectory
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy($id)
     {
         //
-        $job = Post::where('slug', $slug)->get();
+        $job = Post::where('id', $id)->get();
         return $job->delete();
     }
 }

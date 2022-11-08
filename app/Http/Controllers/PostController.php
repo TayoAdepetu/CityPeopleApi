@@ -46,12 +46,14 @@ class PostController extends Controller
             'slug' => 'required',
             'description' => 'required',
             'body' => 'required',
+            'author' => 'required',
             'user_id' => 'required',
         ]);
 
         $post = new Post();
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->author = $request->author;
         $post->slug = $request->slug;
         $post->description = $request->description;
         $post->user_id = $request->user_id;        
@@ -70,6 +72,19 @@ class PostController extends Controller
         //
         if(exist(Post::where('slug', $slug))){
             $post = Post::where('slug', $slug)->get();
+            return $post;
+        }else {
+            return('Post not found.');
+        }
+        
+    }
+
+
+    public function showByUsername($username)
+    {
+        //
+        if(exist(Post::where('name', $username))){
+            $post = Post::where('name', $username)->get();
             return $post;
         }else {
             return('Post not found.');
@@ -103,6 +118,7 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->update([
             'title' => $request->title,
             'slug' => $request->slug,
+            'author' => $request->author,
             'description' => $request->description,
             'body' => $request->body,
         ]);

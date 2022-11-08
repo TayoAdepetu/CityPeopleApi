@@ -20,7 +20,7 @@ class BizdirectoryController extends Controller
         //
         $request->validate([
             'business_name' => 'required',
-            'slug' => 'required',
+            'business_name_slug' => 'required',
             'description' => 'required',
             'location' => 'required',
             'user_id' => 'required',
@@ -35,7 +35,7 @@ class BizdirectoryController extends Controller
         $biz = new Bizdirectory();
         $biz->business_name = $request->business_name;
         $biz->location = $request->location;
-        $biz->slug = $request->slug;
+        $biz->business_name_slug = $request->business_name_slug;
         $biz->phone = $request->phone;
         $biz->description = $request->description;
         $biz->website = $request->website;
@@ -48,23 +48,21 @@ class BizdirectoryController extends Controller
     }
 
 
-    public function showbiz($slug)
+    public function showbiz($business_name_slug)
     {
         //
        // if(exist(Bizdirectory::where('slug', $slug))){
-            $biz = Bizdirectory::where('slug', $slug)->get();
+            $biz = Bizdirectory::where('business_name_slug', $business_name_slug)->get();
             return $biz;
        // }else {
         //    return('Biz not found.');
        // }
     }
 
-    public function update(Request $request, $slug)
+    public function update(Request $request, $business_name_slug)
     {
         //
-        $biz = Bizdirectory::where('slug', $slug)->update([
-            'business_name' => $request->business_name,
-            'slug' => $request->slug,
+        $biz = Bizdirectory::where('business_name_slug', $business_name_slug)->update([
             'description' => $request->description,
             'location' => $request->location,
             'phone' => $request->phone,
@@ -78,10 +76,10 @@ class BizdirectoryController extends Controller
         return $biz;
     }
 
-    public function destroy($slug)
+    public function destroy($business_name_slug)
     {
         //
-        $biz = Bizdirectory::where('slug', $slug)->get();
+        $biz = Bizdirectory::where('business_name_slug', $business_name_slug)->get();
         return $biz->delete();
     }
 }

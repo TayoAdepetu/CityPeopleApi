@@ -13,7 +13,7 @@ class Bizdirectoryproducts extends Model
         'product_name',
         'product_name_slug',
         'user_id',
-        'slug',
+        'business_name_slug',
         'description',
         'phone',
         'biz_location'

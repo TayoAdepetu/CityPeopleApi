@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('business_name');
-            $table->string('slug');
+            $table->string('business_name_slug');
             $table->string('question');
             $table->string('answer');
             $table->timestamps();

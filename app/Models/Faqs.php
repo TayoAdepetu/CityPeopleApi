@@ -12,7 +12,7 @@ class Faqs extends Model
     protected $fillable = [
         'business_name',
         'user_id',
-        'slug',
+        'business_name_slug',
         'question',
         'answer',
     ];

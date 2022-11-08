@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('business_name');
-            $table->string('slug');
+            $table->string('business_name_slug');
             $table->string('product_name')->unique();
             $table->string('product_name_slug')->unique();
             $table->string('description');

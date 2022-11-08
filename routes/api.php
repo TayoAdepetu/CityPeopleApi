@@ -45,51 +45,79 @@ Route::post('auth/update-business-name/{email}', 'App\Http\Controllers\RegisterC
 Route::get('auth/posts', 'App\Http\Controllers\PostController@index');
 Route::post('auth/create-new-post', 'App\Http\Controllers\PostController@store');
 Route::get('auth/blog/{slug}', 'App\Http\Controllers\PostController@show');
+//update post by post's slug
 Route::post('auth/update-post/{slug}', 'App\Http\Controllers\PostController@update');
+//get posts for specific user by username
+Route::get('auth/posts/{username}', 'App\Http\Controllers\PostController@showByUsername');
 
 
-//For Jobs
+//Get all Jobs
 Route::get('auth/jobs', 'App\Http\Controllers\JobsdirectoryController@index');
+//get all jobs using business_name_slug
+Route::get('auth/jobs/{business_name_slug}', 'App\Http\Controllers\JobsdirectoryController@show');
 Route::post('auth/create-new-job', 'App\Http\Controllers\JobsdirectoryController@store');
-Route::get('auth/job/{slug}', 'App\Http\Controllers\JobsdirectoryController@show');
-Route::post('auth/update-job/{slug}', 'App\Http\Controllers\JobsdirectoryController@update');
+//get a specific job using 
+Route::get('auth/job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@showById');
+//update a specific job using job_slug
+Route::post('auth/update-job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@update');
+//deele specific job using job_slug
+Route::post('auth/delete-job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@destroy');
 
-//For Bizdirectoryproducts
-//Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+//Get all Bizdirectoryproducts for admin and superadmin
+Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+//create products for specific business
 Route::post('auth/create-directory-product', 'App\Http\Controllers\BizdirectoryproductsController@store');
-Route::get('auth/products/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@show');
-//Route::post('auth/update-product/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
-Route::get('auth/product/{productname}', 'App\Http\Controllers\BizdirectoryproductsController@showProduct');
-Route::delete('auth/delete-product/{productname}', 'App\Http\Controllers\BizdirectoryproductsController@destroy');
+//get products for specific business using business_name_slug
+Route::get('auth/products/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@show');
+//update product using product_name_slug
+Route::post('auth/update-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
+//get single product using product_name_slug
+Route::get('auth/product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@showProduct');
+//delete product using product_name_slug
+Route::delete('auth/delete-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@destroy');
 
-//For Bizdirectory
+//get all Bizdirectory
 Route::get('auth/all-biz', 'App\Http\Controllers\BizdirectoryController@index');
 Route::post('auth/create-directory', 'App\Http\Controllers\BizdirectoryController@store');
-Route::get('auth/biz-directory/{slug}', 'App\Http\Controllers\BizdirectoryController@showbiz');
-Route::post('auth/update-directory/{slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
-Route::delete('auth/delete-biz/{slug}', 'App\Http\Controllers\BizdirectoryController@destroy');
+//get a specific biz directory using business_name_slug
+Route::get('auth/biz-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@showbiz');
+//update a specific biz directory
+Route::post('auth/update-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
+//delete a specific directory
+Route::delete('auth/delete-biz/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@destroy');
 
-//For Faqs
-Route::get('auth/all-faqs', 'App\Http\Controllers\FaqsController@index');
+//For all Faqs for admin and superadmin
+Route::get('auth/all-faqs-table', 'App\Http\Controllers\FaqsController@showAll');
+//use business_name_slug to get all faqs for a particular user
+Route::get('auth/all-faqs/{business_name_slug}', 'App\Http\Controllers\FaqsController@index');
+//create new faqs
 Route::post('auth/create-new-faq', 'App\Http\Controllers\FaqsController@store');
-Route::get('auth/faq/{id}', 'App\Http\Controllers\FaqsController@show');
-Route::post('auth/update-post/{id}', 'App\Http\Controllers\FaqsController@update');
+//get faq by ID when editing
+//Route::get('auth/faq/{id}', 'App\Http\Controllers\FaqsController@show');
+//update faq by ID 
+Route::post('auth/update-faq/{id}', 'App\Http\Controllers\FaqsController@update');
+//delete faq by ID
 Route::delete('auth/delete-faq/{id}', 'App\Http\Controllers\FaqsController@destroy');
 
 
-//For WorkingHours
-Route::get('auth/all-worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@index');
+//Get WorkingHours for a specific business using business_name_slug
+Route::get('auth/all-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@index');
 Route::post('auth/create-new-worktime', 'App\Http\Controllers\WorkingHoursController@store');
-//not needed Route::get('auth/worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@show');
-Route::post('auth/update-worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@update');
-Route::delete('auth/delete-worktime/{businessname}', 'App\Http\Controllers\WorkingHoursController@destroy');
+//get all worktime for admin
+Route::get('auth/worktime-admin', 'App\Http\Controllers\WorkingHoursController@showAll');
+//update worktime using business_name_slug
+Route::post('auth/update-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@update');
+//delete worktime using business_name_slug
+Route::delete('auth/delete-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
 
-//For WorkingHours
+/*For WorkingHours
 Route::get('auth/all-worktime', 'App\Http\Controllers\WorkingHoursController@index');
 Route::post('auth/create-new-worktime', 'App\Http\Controllers\WorkingHoursController@store');
 Route::get('auth/worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@show');
 Route::post('auth/update-worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@update');
 Route::delete('auth/delete-worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
+
+*/
 
 //For Secrets
 Route::get('auth/all-secrets', 'App\Http\Controllers\SecretController@index');

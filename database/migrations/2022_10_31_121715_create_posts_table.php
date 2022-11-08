@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->string('description');
+            $table->string('author');
             $table->longtext('body');
             $table->timestamps();
         });

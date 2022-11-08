@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bizdirectoryproducts;
+
 use Illuminate\Http\Request;
 
 class BizdirectoryproductsController extends Controller
@@ -14,9 +15,9 @@ class BizdirectoryproductsController extends Controller
      */
     public function index()
     {
-        //
-       // $bizproducts = Bizdirectoryproducts::all();
-	   // return $bizproducts;
+        
+       $bizproducts = Bizdirectoryproducts::all();
+	   return $bizproducts;
     }
 
     /**
@@ -40,21 +41,33 @@ class BizdirectoryproductsController extends Controller
         //
         $request->validate([
             'business_name' => 'required',
-            'product_name_slug' => 'required',
-            'slug' => 'required',
+            'business_name_slug' => 'required',
             'product_name' => 'required',
             'description' => 'required',
             'phone' => 'required',
+            'price' => 'required',
             'user_id' => 'required',
             'biz_location' => 'required',
         ]);
 
+
+        function generateKey(){
+            $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+            $randStr = substr(str_shuffle($str), 0);
+            while(exist(Bizdirectoryproducts::where('product_name_slug', $randStr))){
+                $randStr = substr(str_shuffle($str), 0);
+            }
+
+                return $randStr;
+            }
+
         $product = new Bizdirectoryproducts();
         $product->business_name = $request->business_name;
         $product->product_name = $request->product_name;
-        $product->product_name_slug = $request->product_name_slug;
-        $product->slug = $request->slug;
+        $product->product_name_slug = generateKey();
+        $product->business_name_slug = $request->business_name_slug;
         $product->phone = $request->phone;
+        $product->price = $request->price;
         $product->biz_location = $request->biz_location;
         $product->description = $request->description;
         $product->user_id = $request->user_id;        
@@ -68,11 +81,11 @@ class BizdirectoryproductsController extends Controller
      * @param  \App\Models\Bizdirectoryproducts  $bizdirectoryproducts
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($business_name_slug)
     {
         //
-        if(exist(Bizdirectoryproducts::where('slug', $slug))){
-            $product = Bizdirectoryproducts::where('slug', $slug)->get();
+        if(exist(Bizdirectoryproducts::where('business_name_slug', $business_name_slug))){
+            $product = Bizdirectoryproducts::where('business_name_slug', $slug)->get();
             return $product;
         }else {
             return('Product not found.');
@@ -88,8 +101,8 @@ class BizdirectoryproductsController extends Controller
     public function showProduct($productname)
     {
         //
-        if(exist(Bizdirectoryproducts::where('product_name', $productname))){
-            $product = Bizdirectoryproducts::where('product_name', $slug)->get();
+        if(exist(Bizdirectoryproducts::where('product_name_slug', $productname))){
+            $product = Bizdirectoryproducts::where('product_name_slug', $productname)->get();
             return $product;
         }else {
             return('Product not found.');
@@ -106,14 +119,12 @@ class BizdirectoryproductsController extends Controller
     public function update(Request $request, $slug)
     {
         //
-        $product = Bizdirectoryproducts::where('slug', $slug)->update([
-            'business_name' => $request->business_name,
-            'slug' => $request->slug,
+        $product = Bizdirectoryproducts::where('product_name_slug', $product_name_slug)->update([
             'product_name' => $request->product_name,
-            'product_name_slug' => $request->product_name_slug,
             'description' => $request->description,
             'phone' => $request->phone,
             'biz_location' => $request->biz_location,
+            'price' => $request->price,
         ]);
 
         return $product;
@@ -125,10 +136,10 @@ class BizdirectoryproductsController extends Controller
      * @param  \App\Models\Bizdirectoryproducts  $bizdirectoryproducts
      * @return \Illuminate\Http\Response
      */
-    public function destroy($productname)
+    public function destroy($product_name_slug)
     {
         //
-        $product = Bizdirectoryproducts::where('product_name', $productname)->get();
+        $product = Bizdirectoryproducts::where('product_name_slug', $product_name_slug)->get();
         return $product->delete();
     }
 }

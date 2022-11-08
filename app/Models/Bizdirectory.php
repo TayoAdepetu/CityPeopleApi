@@ -17,7 +17,7 @@ class Bizdirectory extends Model
         'user_id',
         'website',
         'established',
-        'slug',
+        'business_name_slug',
         'registered_here',
         'number_of_employees',
     ];

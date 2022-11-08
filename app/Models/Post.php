@@ -14,5 +14,6 @@ class Post extends Model
         'slug',
         'body',
         'description',
+        'author',
     ];
 }

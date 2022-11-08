@@ -12,7 +12,7 @@ class WorkingHours extends Model
     protected $fillable = [
         'user_id',
         'business_name',
-        'slug',
+        'business_name_slug',
         'monday',
         'tuesday',
         'wednesday',

@@ -13,15 +13,24 @@ class FaqsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($businessname)
+    public function index($business_name_slug)
     {
         //
-        if(exist(Faqs::where('slug', $businessname))){
-            $faq = Faqs::where('slug', $businessname)->get();
+        if(exist(Faqs::where('business_name_slug', $business_name_slug))){
+            $faq = Faqs::where('business_name_slug', $business_name_slug)->get();
             return $faq;
         }else {
             return('Faq not found.');
         }
+    }
+
+
+    public function showAll()
+    {
+        //
+        $faqs = Faqs::all();
+	    return $faqs;
+      
     }
 
     /**
@@ -45,7 +54,7 @@ class FaqsController extends Controller
         //
         $request->validate([
             'business_name' => 'required',
-            'slug' => 'required',
+            'business_name_slug' => 'required',
             'question' => 'required',
             'answer' => 'required',
             'user_id' => 'required',
@@ -54,7 +63,7 @@ class FaqsController extends Controller
         $faq = new Faqs();
         $faq->business_name = $request->business_name;
         $faq->question = $request->question;
-        $faq->slug = $request->slug;
+        $faq->business_name_slug = $request->business_name_slug;
         $faq->answer = $request->answer;
         $faq->user_id = $request->user_id;        
     
@@ -100,8 +109,6 @@ class FaqsController extends Controller
     {
         //
         $faq = Faqs::where('id', $id)->update([
-            'business_name' => $request->business_name,
-            'slug' => $request->slug,
             'question' => $request->question,
             'answer' => $request->answer,
         ]);
@@ -118,7 +125,7 @@ class FaqsController extends Controller
     public function destroy($id)
     {
         //
-        $faq = Faqs::where('slug', $id)->get();
+        $faq = Faqs::where('id', $id)->get();
         return $faq->delete();
     }
 }

@@ -42,7 +42,7 @@ class RegisterController extends Controller
     public function updateUserBiz(Request $request, $email){
         $business_name = User::where('email', $email)->update([
             'business_name' => $request->business_name,
-            'slug' => $request->slug,
+            'business_name_slug' => $request->business_name_slug,
         ]);
 
         return $business_name;

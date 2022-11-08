@@ -12,12 +12,15 @@ class Jobsdirectory extends Model
     protected $fillable = [
         'title',
         'user_id',
-        'slug',
+        'job_slug',
         'salary',
         'location',
         'function',
         'description',
-        'employer',
+        'business_name',
+        'business_nam_slug',
+        'phone',
+
     ];
     
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('business_name')->unique();
-            $table->string('slug');
+            $table->string('business_name_slug');
             $table->string('description');
             $table->string('number_of_employees');
             $table->string('website');
