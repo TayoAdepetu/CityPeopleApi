@@ -56,7 +56,7 @@ Route::get('auth/jobs', 'App\Http\Controllers\JobsdirectoryController@index');
 //get all jobs using business_name_slug
 Route::get('auth/jobs/{business_name_slug}', 'App\Http\Controllers\JobsdirectoryController@show');
 Route::post('auth/create-new-job', 'App\Http\Controllers\JobsdirectoryController@store');
-//get a specific job using 
+//get a specific job using job_slug
 Route::get('auth/job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@showById');
 //update a specific job using job_slug
 Route::post('auth/update-job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@update');
@@ -84,7 +84,7 @@ Route::get('auth/biz-directory/{business_name_slug}', 'App\Http\Controllers\Bizd
 //update a specific biz directory
 Route::post('auth/update-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
 //delete a specific directory
-Route::delete('auth/delete-biz/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@destroy');
+Route::delete('auth/delete-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@destroy');
 
 //For all Faqs for admin and superadmin
 Route::get('auth/all-faqs-table', 'App\Http\Controllers\FaqsController@showAll');

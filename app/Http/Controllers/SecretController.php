@@ -41,13 +41,23 @@ class SecretController extends Controller
         //
         $request->validate([
             'title' => 'required',
-            'slug' => 'required',
             'description' => 'required',
         ]);
 
+        
+        function generateKey(){
+            $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+            $randStr = substr(str_shuffle($str), 0);
+            while(exist(Bizdirectoryproducts::where('product_name_slug', $randStr))){
+                $randStr = substr(str_shuffle($str), 0);
+            }
+
+                return $randStr;
+            }
+
         $secret = new Secret();
         $secret->title = $request->title;
-        $secret->slug = $request->slug;
+        $secret->slug = generateKey();
         $secret->description = $request->description;       
     
         Secret::create($request->all());
@@ -93,7 +103,6 @@ class SecretController extends Controller
         //
         $secret = Secret::where('slug', $slug)->update([
             'title' => $request->title,
-            'slug' => $request->slug,
             'description' => $request->description,
         ]);
 
