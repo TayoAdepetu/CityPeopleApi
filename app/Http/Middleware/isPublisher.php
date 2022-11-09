@@ -21,7 +21,7 @@ class isAdmin
   public function handle(Request $request, Closure $next)
   {
     $user = $request->user();
-    if ($user->role != UserRole::ADMIN) {
+    if ($user->scope != UserRole::ADMIN || $user->scope != UserRole::ADMIN || $user->scope != UserRole::SUPERADMIN) {
       return $this->authorizationError("The logged in user is not authorized to carry out the request. Only admin is allowed");
     }else{
       return $next($request);
