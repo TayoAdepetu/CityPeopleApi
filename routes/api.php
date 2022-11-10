@@ -49,13 +49,15 @@ Route::get('auth/all-worktime/{business_name_slug}', 'App\Http\Controllers\Worki
 Route::get('auth/all-secrets', 'App\Http\Controllers\SecretController@index');
 Route::post('auth/create-new-secret', 'App\Http\Controllers\SecretController@store');
 Route::get('auth/secret/{slug}', 'App\Http\Controllers\SecretController@show');
+//get all comments per page
+Route::get('auth/post-comments/{page_slug}', 'App\Http\PostCommentsController@index');
 
 
 Route::group([
 
-    'middleware' => 'auth:api',
+    'middleware' => 'jwt.auth',
 
-], function ($router) {
+], function () {
 
     Route::get('auth/user', 'App\Http\Controllers\LoginController@me');
     Route::post('auth/logout', 'App\Http\Controllers\LoginController@logout');
@@ -69,6 +71,7 @@ Route::group([
     Route::post('auth/update-post/{slug}', 'App\Http\Controllers\PostController@update');
     //get posts for specific user by username
     Route::get('auth/posts/{username}', 'App\Http\Controllers\PostController@showByUsername');
+    
     });
 
     Route::group(['middleware' => 'iscommenter'], function(){
@@ -106,7 +109,8 @@ Route::group([
     Route::post('auth/update-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@update');
     //delete worktime using business_name_slug
     Route::delete('auth/delete-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
-
+    //save comment for logged-in user
+    Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
 });
     
     Route::group(['middleware' => 'isadmin'], function(){
@@ -135,7 +139,6 @@ Route::post('auth/update-worktime/{slug}', 'App\Http\Controllers\WorkingHoursCon
 Route::delete('auth/delete-worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
 
 */
-
 
 
 
