@@ -15,5 +15,7 @@ class FaqsSeeder extends Seeder
     public function run()
     {
         //
+        \App\Models\Faqs::factory(10)->create();
+
     }
 }

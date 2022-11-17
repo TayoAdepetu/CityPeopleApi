@@ -19,19 +19,18 @@ class JobsdirectoryFactory extends Factory
     public function definition()
     {
         $title= $this->faker->text($maxNbChars = 20);
-        $slug = str_slug($title, '-');
+        $job_slug = str_slug($title, '-');
         $salary = 26000;
 
         return [
             //
             'title' => $title,  
-            'slug' => $slug,
+            'job_slug' => $job_slug,
             'salary' => $salary,
             'location' => $this->faker->text($maxNbChars = 40),
             'function' => $this->faker->text($maxNbChars = 40),
             'description' => $this->faker->text($maxNbChars = 40),
-            'employer' => $title,
-            'user_id' => User::factory()
+            //'bizdirectory_id' => User::factory()
         ];
     }
 }

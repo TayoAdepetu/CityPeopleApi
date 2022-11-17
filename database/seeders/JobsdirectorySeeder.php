@@ -15,5 +15,7 @@ class JobsdirectorySeeder extends Seeder
     public function run()
     {
         //
+        \App\Models\Jobsdirectory::factory(10)->create();
+
     }
 }

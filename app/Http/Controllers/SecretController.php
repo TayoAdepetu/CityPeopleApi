@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Secret;
-use App\Http\Requests\StoreSecretRequest;
-use App\Http\Requests\UpdateSecretRequest;
+use Illuminate\Http\Request;
+
 
 class SecretController extends Controller
 {

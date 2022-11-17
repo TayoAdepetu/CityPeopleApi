@@ -19,14 +19,14 @@ class WorkingHoursFactory extends Factory
      */
     public function definition()
     {
-        $business_name= $this->faker->text($maxNbChars = 20);
-        $slug = str_slug($business_name, '-');
+        //$business_name= $this->faker->text($maxNbChars = 20);
+        //$slug = str_slug($business_name, '-');
         $time = '8am-6pm';
 
         return [
             //
-            'business_name' => $business_name,  
-            'slug' => $slug,
+            //'business_name' => $business_name,  
+            //'slug' => $slug,
             'monday' => $time,
             'tuesday' => $time,
             'wednesday' => $time,
@@ -34,7 +34,7 @@ class WorkingHoursFactory extends Factory
             'friday' => $time,
             'saturday' => $time,
             'sunday' => $time,
-            'user_id' => User::factory() 
+           // 'bizdirectory_id' => User::factory() 
         ];
     }
 }

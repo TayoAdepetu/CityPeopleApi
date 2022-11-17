@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Constants\UserRole;
 use App\Traits\ReturnsJsonResponses;
 
-class isAdmin
+class isCommenter
 {
   use ReturnsJsonResponses;
 

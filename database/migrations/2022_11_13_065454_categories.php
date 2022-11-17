@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bizdirectoryproducts', function (Blueprint $table) {
-            $table->id();
-            $table->string('bizdirectory_id');
-            $table->string('product_name')->unique();
-            $table->string('product_name_slug')->unique();
-            $table->string('description');
-            $table->string('location');
+        //
+        Schema::create('categories', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bizdirectoryproducts');
+        //
     }
 };

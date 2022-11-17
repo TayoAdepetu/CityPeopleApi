@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 */
+
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
 //Get all Posts
@@ -60,11 +61,11 @@ Route::group([
 ], function () {
 
     Route::get('auth/user', 'App\Http\Controllers\LoginController@me');
-    Route::post('auth/logout', 'App\Http\Controllers\LoginController@logout');
+    Route::post('auth/logout', 'App\Http\Controllers\LoginController@logoutUser');
     //to register business name on the Users Table for the first time
     Route::post('auth/update-business-name/{email}', 'App\Http\Controllers\RegisterController@updateUserBiz');
 
-    Route::group(['middleware' => 'ispublisher'], function(){
+    Route::group(['middleware' => 'isPublisher'], function(){
         //create new post
     Route::post('auth/create-new-post', 'App\Http\Controllers\PostController@store');
     //update post by post's slug
@@ -74,7 +75,7 @@ Route::group([
     
     });
 
-    Route::group(['middleware' => 'iscommenter'], function(){
+    Route::group(['middleware' => 'isCommenter'], function(){
     //get all jobs using business_name_slug
     Route::get('auth/jobs/{business_name_slug}', 'App\Http\Controllers\JobsdirectoryController@show');
     //create new job
@@ -113,7 +114,7 @@ Route::group([
     Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
 });
     
-    Route::group(['middleware' => 'isadmin'], function(){
+    Route::group(['middleware' => 'isAdmin'], function(){
         //Get all Bizdirectoryproducts for admin and superadmin
     Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
     //Get all Faqs for admin and superadmin

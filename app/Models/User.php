@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use App\Models\Post;
+use App\Models\Bizdirectory;
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -30,6 +33,9 @@ class User extends Authenticatable implements JWTSubject
         'scope',
         'email_verified_at'
     ];
+
+    protected $table = "users";
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -68,5 +74,13 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
+
+    public function bizdirectory(){
+        return $this->hasOne(Bizdirectory::class, 'business_name_slug', 'business_name_slug');
     }
 }

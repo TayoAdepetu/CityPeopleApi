@@ -15,16 +15,13 @@ return new class extends Migration
     {
         Schema::create('jobsdirectories', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->string('bizdirectory_id');
             $table->string('title');
             $table->string('job_slug');
-            $table->string('business_name');
             $table->string('salary');
             $table->string('location');
             $table->string('function');
             $table->string('description');
-            $table->string('phone');
-            $table->string('business_name_slug');
             $table->timestamps();
         });
     }

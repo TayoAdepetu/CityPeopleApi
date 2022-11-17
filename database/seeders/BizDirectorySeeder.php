@@ -15,5 +15,7 @@ class BizDirectorySeeder extends Seeder
     public function run()
     {
         //
+        //$directory1 = Bizdirectory::create(['business_name_slug' => 'adepet-organization', 'description' => $faker->sentence, 'number_of_employees' => '20', 'website' => $faker->url, 'established' => '1988', 'location' => $faker->address]);
+        \App\Models\Bizdirectory::factory(10)->create();
     }
 }

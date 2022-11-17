@@ -23,11 +23,11 @@ class FaqsFactory extends Factory
 
         return [
             //
-            'business_name' => $business_name,
-            'slug' => $slug,
+            //'business_name' => $business_name,
+            //'slug' => $slug,
             'question' => $this->faker->sentence,
             'answer' => $this->faker->sentence,
-            'user_id' => User::factory()
+            //'bizdirectory_id' => User::factory()
         ];
     }
 }

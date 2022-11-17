@@ -15,5 +15,7 @@ class SecretSeeder extends Seeder
     public function run()
     {
         //
+        \App\Models\Secret::factory(10)->create();
+
     }
 }

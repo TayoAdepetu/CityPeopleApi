@@ -15,17 +15,16 @@ return new class extends Migration
     {
         Schema::create('bizdirectories', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('business_name')->unique();
-            $table->string('business_name_slug');
+            $table->string('business_name_slug')->unique();
+            $table->foreign('business_name_slug')->references('business_name_slug')->on('users')
+                ->onDelete('cascade')
+                ->unique();
             $table->string('description');
             $table->string('number_of_employees');
             $table->string('website');
-            $table->string('email');
             $table->string('established');
             $table->enum('verified', ['YES', 'NO'])->default('YES');
-            $table->string('phone');
-            $table->string('registered_here');
+            //$table->string('registered_here');
             $table->string('location');
             $table->timestamps();
         });

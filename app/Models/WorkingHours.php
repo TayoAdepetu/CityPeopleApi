@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Bizdirectory;
+
 class WorkingHours extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'business_name',
-        'business_name_slug',
+        'bizdirectory_id',
         'monday',
         'tuesday',
         'wednesday',
@@ -21,4 +21,10 @@ class WorkingHours extends Model
         'saturday',
         'sunday',
     ];
+
+    protected $table = "working_hours";
+
+    public function bizdirectory(){
+        return $this->belongsTo(Bizdirectory::class);
+    }
 }

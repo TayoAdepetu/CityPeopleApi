@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\WorkingHours;
-use App\Http\Requests\StoreWorkingHoursRequest;
-use App\Http\Requests\UpdateWorkingHoursRequest;
+use Illuminate\Http\Request;
+
 
 class WorkingHoursController extends Controller
 {

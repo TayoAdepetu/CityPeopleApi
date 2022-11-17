@@ -5,22 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Bizdirectory;
+
 class Jobsdirectory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'user_id',
+        'bizdirectory_id',
         'job_slug',
         'salary',
         'location',
         'function',
-        'description',
-        'business_name',
-        'business_nam_slug',
-        'phone',
-
+        'description'
     ];
+
+    protected $table = "jobsdirectories";
+
+    public function bizdirectory(){
+        return $this->belongsTo(Bizdirectory::class);
+    }
     
 }

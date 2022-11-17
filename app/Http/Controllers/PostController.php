@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -46,14 +45,12 @@ class PostController extends Controller
             'slug' => 'required',
             'description' => 'required',
             'body' => 'required',
-            'author' => 'required',
             'user_id' => 'required',
         ]);
 
         $post = new Post();
         $post->title = $request->title;
         $post->body = $request->body;
-        $post->author = $request->author;
         $post->slug = $request->slug;
         $post->description = $request->description;
         $post->user_id = $request->user_id;        

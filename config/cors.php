@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', '*', 'laravelJWT'],
+    'paths' => ['api/*', '*', 'laravelJWT'],
 
     'allowed_methods' => ['*'],
 

@@ -24,10 +24,11 @@ class PostFactory extends Factory
         return [
             //
             'title' => $title,  
-            'description' => $this->faker->sentence,
+            'description' => $this->faker->sentence(),
             'slug' => $slug,
-            'body' => $this->faker->paragraph(30),
-            'user_id' => User::factory() 
+            //'category_id' => $slug,
+            'body' => $this->faker->paragraph(10),
+            //'user_id' => User::factory() 
         ];
     }
 }

@@ -15,5 +15,7 @@ class WorkingHoursSeeder extends Seeder
     public function run()
     {
         //
+        \App\Models\WorkingHours::factory(10)->create();
+
     }
 }

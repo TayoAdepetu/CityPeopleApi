@@ -17,18 +17,18 @@ class BizdirectoryproductsFactory extends Factory
      */
     public function definition()
     {
-        $business_name= $this->faker->text($maxNbChars = 20);
-        $slug = str_slug($business_name, '-');
+        $product_name= $this->faker->text($maxNbChars = 20);
+        $product_name_slug = str_slug($business_name, '-');
 
         return [
             //
-            'business_name' => $business_name,
-            'slug' => $slug,
+            //'business_name' => $business_name,
+            'product_name_slug' => $product_name_slug,
             'description' => $this->faker->sentence,
-            'biz_location' => $this->faker->sentence,
-            'product_name' => $this->faker->text($maxNbChars = 20),
-            'phone' => $this->faker->phoneNumber,
-            'user_id' => User::factory()
+            'location' => $this->faker->sentence,
+            'product_name' => $product_name,
+            //'phone' => $this->faker->phoneNumber,
+            //'bizdirectory_id' => User::factory()
         ];
     }
 }

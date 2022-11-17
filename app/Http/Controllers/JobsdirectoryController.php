@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jobsdirectory;
-use App\Http\Requests\StoreJobsdirectoryRequest;
-use App\Http\Requests\UpdateJobsdirectoryRequest;
+use Illuminate\Http\Request;
+
 
 class JobsdirectoryController extends Controller
 {

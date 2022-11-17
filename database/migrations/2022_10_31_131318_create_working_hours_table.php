@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('working_hours', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('business_name_slug')->unique();
-            $table->string('business_name')->unique();
+            $table->integer('bizdirectory_id');
             $table->string('monday');
             $table->string('tuesday');
             $table->string('wednesday');
