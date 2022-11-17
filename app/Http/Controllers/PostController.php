@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -45,6 +46,7 @@ class PostController extends Controller
             'slug' => 'required',
             'description' => 'required',
             'body' => 'required',
+            'category_id' => 'required',
             'user_id' => 'required',
         ]);
 
@@ -53,6 +55,7 @@ class PostController extends Controller
         $post->body = $request->body;
         $post->slug = $request->slug;
         $post->description = $request->description;
+        $post->category_id = Category::find($request->category_id)->pluck('id');        
         $post->user_id = $request->user_id;        
     
         Post::create($request->all());

@@ -5,9 +5,9 @@ namespace App\Constants;
 class UserRole
 {
   const SUPERADMIN = "superadmin";
-  const ADMIN = "admin";
-  const PUBLISHER = "publisher";
-  const COMMENTER = "commenter";
-  const SELLER = "seller";
+  const ADMIN = "admin" || "superadmin";
+  const PUBLISHER = "publisher" || "admin" || "superadmin";
+  const COMMENTER = "commenter" || "publisher" || "admin" || "superadmin";
+  const SELLER = "seller" || "publisher" || "admin" || "superadmin";
   const SUSPENDED = "suspended";
 }

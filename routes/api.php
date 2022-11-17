@@ -72,6 +72,10 @@ Route::group([
     Route::post('auth/update-post/{slug}', 'App\Http\Controllers\PostController@update');
     //get posts for specific user by username
     Route::get('auth/posts/{username}', 'App\Http\Controllers\PostController@showByUsername');
+    //choose category for post
+    Route::get('auth/category-admin', 'App\Http\Controllers\CategoryController@index');
+    
+
     
     });
 
@@ -124,6 +128,15 @@ Route::group([
     //update and delete secret
     Route::post('auth/update-secret/{slug}', 'App\Http\Controllers\SecretController@update');
     Route::delete('auth/delete-secret/{slug}', 'App\Http\Controllers\SecretController@destroy');
+    //create category
+    Route::post('auth/create-category', 'App\Http\Controllers\CategoryController@store');
+    Route::post('auth/delete-category/{id}', 'App\Http\Controllers\CategoryController@destroy');
+    Route::post('auth/update-category/{id}', 'App\Http\Controllers\CategoryController@update');
+    
+
+
+
+
         });
 });
 
