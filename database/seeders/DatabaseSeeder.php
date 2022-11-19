@@ -21,8 +21,17 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        //we call out the factory classes here so that they can populate the tables when seeded
         $this->call(User::class);
         $this->call(BizDirectory::class);
+        $this->call(Bizdirectoryproducts::class);
+        $this->call(Category::class);
+        $this->call(Faqs::class);
+        $this->call(Jobsdirectory::class);
+        $this->call(Post::class);
+        $this->call(Secret::class);
+        $this->call(WorkingHours::class);
+
 }
 
 }

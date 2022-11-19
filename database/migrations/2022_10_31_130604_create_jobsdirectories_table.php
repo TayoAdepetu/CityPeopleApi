@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('jobsdirectories', function (Blueprint $table) {
             $table->id();
-            $table->string('bizdirectory_id');
+            $table->integer('bizdirectory_id');
             $table->string('title');
             $table->string('job_slug');
             $table->string('salary');

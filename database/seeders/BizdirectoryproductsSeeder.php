@@ -17,6 +17,6 @@ class BizdirectoryproductsSeeder extends Seeder
     public function run()
     {
         //
-        \App\Models\Bizdirectoryproducts::factory()->times(10)->create();
+        \App\Models\Bizdirectoryproducts::factory()->times(2)->create();
     }
 }
