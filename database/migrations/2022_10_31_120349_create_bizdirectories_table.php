@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('bizdirectories', function (Blueprint $table) {
             $table->id();
             $table->string('business_name_slug')->unique();
-            $table->foreign('business_name_slug')->references('business_name_slug')->on('users')
+            $table->foreign('business_name_slug')->references('business_name_slug')->on('users')->onUpdate('cascade')
                 ->onDelete('cascade')
                 ->unique();
             $table->string('description');

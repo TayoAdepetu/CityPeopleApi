@@ -35,7 +35,7 @@ Route::get('auth/blog/{slug}', 'App\Http\Controllers\PostController@show');
 //Get all Jobs
 Route::get('auth/jobs', 'App\Http\Controllers\JobsdirectoryController@index');
 //get a specific job using job_slug
-Route::get('auth/job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@showById');
+Route::get('auth/job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@showByJobSlug');
 //get products for specific business using business_name_slug
 Route::get('auth/products/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@show');
 //get single product using product_name_slug
@@ -50,8 +50,14 @@ Route::get('auth/all-worktime/{business_name_slug}', 'App\Http\Controllers\Worki
 Route::get('auth/all-secrets', 'App\Http\Controllers\SecretController@index');
 Route::post('auth/create-new-secret', 'App\Http\Controllers\SecretController@store');
 Route::get('auth/secret/{slug}', 'App\Http\Controllers\SecretController@show');
-//get all comments per page
+//get all post comments per page
 Route::get('auth/post-comments/{page_slug}', 'App\Http\PostCommentsController@index');
+//save secret comment for all users
+Route::post('auth/secret-comments', 'App\Http\SecretCommentsController@store');
+//get all secret-anonymous comments per page
+Route::get('auth/secret-anonymous-comments/{page_slug}', 'App\Http\SecretCommentsController@index');
+//get all biz-directory review comments per page
+Route::get('auth/review-comments/{page_slug}', 'App\Http\DirectoryReviewsController@index');
 
 
 Route::group([
@@ -74,6 +80,7 @@ Route::group([
     Route::get('auth/posts/{username}', 'App\Http\Controllers\PostController@showByUsername');
     //choose category for post
     Route::get('auth/category-admin', 'App\Http\Controllers\CategoryController@index');
+
     
 
     
@@ -114,8 +121,10 @@ Route::group([
     Route::post('auth/update-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@update');
     //delete worktime using business_name_slug
     Route::delete('auth/delete-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
-    //save comment for logged-in user
+    //save post comment for logged-in user
     Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
+    //save biz-directory review comment for logged-in user
+    Route::post('auth/directory-comments', 'App\Http\DirectoryReviewsController@store');
 });
     
     Route::group(['middleware' => 'isAdmin'], function(){

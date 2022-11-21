@@ -70,12 +70,8 @@ class PostController extends Controller
     public function show($slug)
     {
         //
-        if(exist(Post::where('slug', $slug))){
-            $post = Post::where('slug', $slug)->get();
-            return $post;
-        }else {
-            return('Post not found.');
-        }
+        $post = Post::with('user', 'category')->where('slug', $slug)->get();
+        return $post;
         
     }
 
@@ -83,13 +79,9 @@ class PostController extends Controller
     public function showByUsername($username)
     {
         //
-        if(exist(Post::where('name', $username))){
-            $post = Post::where('name', $username)->get();
-            return $post;
-        }else {
-            return('Post not found.');
-        }
-        
+        $user = User::where('name', $username)->first();
+        $post = $user->posts()->with('user')->get();
+        return $post;
     }
 
     /**
@@ -111,14 +103,13 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $slug)
     {
         //
-
         $post = Post::where('slug', $slug)->update([
             'title' => $request->title,
             'slug' => $request->slug,
-            'author' => $request->author,
             'description' => $request->description,
             'body' => $request->body,
         ]);
@@ -137,6 +128,5 @@ class PostController extends Controller
         //
         $post = Post::where('slug', $slug)->get();
         return $post->delete();
-
     }
 }

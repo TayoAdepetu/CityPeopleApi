@@ -13,7 +13,7 @@ class BizdirectoryController extends Controller
     public function index()
     {
         //
-       $bizdirectories = Bizdirectory::all();
+       $bizdirectories = Bizdirectory::with('user')->get();
 	   return $bizdirectories;
     }
 
@@ -48,8 +48,8 @@ class BizdirectoryController extends Controller
         //$biz = User::findorfail($business_name_slug)->bizdirectory()->first()->get();
         //$user = User::where('business_name_slug', $business_name_slug)->first();
         //        $biz = Bizdirectory::with('user')->where('business_name_slug', $business_name_slug)->first();
-        $user = User::find($business_name_slug);
-        $biz = $user->bizdirectory()->get();
+        $user = User::where('business_name_slug', $business_name_slug)->first();
+        $biz = $user->bizdirectory()->with('user')->first();
         return $biz;
             //$biz = Bizdirectory::where('business_name_slug', $business_name_slug)->get();
             //return $biz;
@@ -61,14 +61,12 @@ class BizdirectoryController extends Controller
     public function update(Request $request, $business_name_slug)
     {
         //
-        $biz = Bizdirectory::where('business_name_slug', $business_name_slug)->update([
+        $user = User::where('business_name_slug', $business_name_slug)->first();
+        $biz = $user->bizdirectory()->update([
             'description' => $request->description,
             'location' => $request->location,
-            'phone' => $request->phone,
-            'email' => $request->email,
             'website' => $request->website,
             'established' => $request->established,
-            'registered_here' => $request->registered_here,
             'number_of_employees' => $request->number_of_employees,
         ]);
 
@@ -78,7 +76,8 @@ class BizdirectoryController extends Controller
     public function destroy($business_name_slug)
     {
         //
-        $biz = Bizdirectory::where('business_name_slug', $business_name_slug)->get();
+        $user = User::where('business_name_slug', $business_name_slug)->first();
+        $biz = $user->bizdirectory()->get();
         return $biz->delete();
     }
 }

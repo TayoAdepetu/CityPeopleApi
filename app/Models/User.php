@@ -9,8 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-use App\Models\Post;
-use App\Models\Bizdirectory;
+//use App\Models\Post;
+//use App\Models\Bizdirectory;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -82,5 +82,21 @@ class User extends Authenticatable implements JWTSubject
 
     public function bizdirectory(){
         return $this->hasOne(Bizdirectory::class, 'business_name_slug', 'business_name_slug');
+    }
+    
+    public function products(){
+        return $this->hasMany(Bizdirectoryproducts::class);
+    }
+
+    public function faqs(){
+        return $this->hasMany(Faqs::class);
+    }
+
+    public function jobs(){
+        return $this->hasMany(Jobsdirectory::class);
+    }
+
+    public function worktime(){
+        return $this->hasOne(WorkingHours::class);
     }
 }

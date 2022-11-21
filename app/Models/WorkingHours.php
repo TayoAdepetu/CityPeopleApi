@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Bizdirectory;
+//use App\Models\Bizdirectory;
 
 class WorkingHours extends Model
 {
@@ -24,7 +24,7 @@ class WorkingHours extends Model
 
     protected $table = "working_hours";
 
-    public function bizdirectory(){
-        return $this->belongsTo(Bizdirectory::class);
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

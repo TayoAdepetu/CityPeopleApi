@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Bizdirectory;
+//use App\Models\Bizdirectory;
 
 class Bizdirectoryproducts extends Model
 {
@@ -16,12 +16,13 @@ class Bizdirectoryproducts extends Model
         'bizdirectory_id',
         'description',
         'location',
+        'price'
 
     ];
 
     protected $table = "bizdirectoryproducts";
 
-    public function bizdirectory(){
-        return $this->belongsTo(Bizdirectory::class);
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

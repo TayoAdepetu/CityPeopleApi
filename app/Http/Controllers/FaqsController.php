@@ -15,19 +15,17 @@ class FaqsController extends Controller
     public function index($business_name_slug)
     {
         //
-        if(exist(Faqs::where('business_name_slug', $business_name_slug))){
-            $faq = Faqs::where('business_name_slug', $business_name_slug)->get();
-            return $faq;
-        }else {
-            return('Faq not found.');
-        }
+        $user = User::where('business_name_slug', $business_name_slug)->first();
+        $faq = $user->faqs()->with('user')->get();
+        return $faq;
+       
     }
 
 
     public function showAll()
     {
         //
-        $faqs = Faqs::all();
+        $faqs = Faqs::with('user')->get();
 	    return $faqs;
       
     }
@@ -52,19 +50,15 @@ class FaqsController extends Controller
     {
         //
         $request->validate([
-            'business_name' => 'required',
-            'business_name_slug' => 'required',
             'question' => 'required',
             'answer' => 'required',
             'user_id' => 'required',
         ]);
 
         $faq = new Faqs();
-        $faq->business_name = $request->business_name;
         $faq->question = $request->question;
-        $faq->business_name_slug = $request->business_name_slug;
         $faq->answer = $request->answer;
-        $faq->user_id = $request->user_id;        
+        $faq->user_id = $request->user_id;      
     
         Faqs::create($request->all());
     }
@@ -77,13 +71,9 @@ class FaqsController extends Controller
      */
     public function show($id)
     {
-        //        
-        if(exist(Faqs::where('id', $id))){
-            $faq = Faqs::where('id', $id)->get();
-            return $faq;
-        }else {
-            return('Faq not found.');
-        }
+        //
+        $faq = Faqs::where('id', $id)->get();
+        return $faq;
     }
 
     /**

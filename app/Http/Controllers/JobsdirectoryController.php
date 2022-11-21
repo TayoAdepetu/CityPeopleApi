@@ -16,7 +16,7 @@ class JobsdirectoryController extends Controller
     public function index()
     {
         //
-        $jobs = Jobsdirectory::all();
+        $jobs = Jobsdirectory::with('user')->get();
 	    return $jobs;
     }
 
@@ -47,9 +47,6 @@ class JobsdirectoryController extends Controller
             'description' => 'required',
             'user_id' => 'required',
             'salary' => 'required',
-            'phone' => 'required',
-            'business_name' => 'required',
-            'business_name_slug' => 'required',
         ]);
 
         function generateKey(){
@@ -68,13 +65,8 @@ class JobsdirectoryController extends Controller
         $job->salary = $request->salary;
         $job->location = $request->location;
         $job->function = $request->function;
-        $job->title_slug = $request->title_slug;
-        $job->phone = $request->phone;
         $job->description = $request->description;
-        $job->user_id = $request->user_id; 
-        $job->business_name = $request->business_name; 
-        $job->business_name_slug = $request->business_slug;
-  
+        $job->user_id = $request->user_id;   
     
         Jobsdirectory::create($request->all());
     }
@@ -88,25 +80,17 @@ class JobsdirectoryController extends Controller
     public function show($business_name_slug)
     {
         //
-
-       // if(exist(Jobsdirectory::where('slug', $slug))){
-            $job = Jobsdirectory::where('business_name_slug', $business_name_slug)->get();
-            return $job;
-        //}else {
-       //     return('Job not found.');
-        //}
+        $user = User::where('business_name_slug', $business_name_slug)->first();
+        $job = $user->jobs()->with('user')->get();
+        return $job;
+       
     }
 
     public function showByJobSlug($job_slug)
     {
         //
-
-       // if(exist(Jobsdirectory::where('slug', $slug))){
-            $job = Jobsdirectory::where('job_slug', $job_slug)->get();
-            return $job;
-        //}else {
-       //     return('Job not found.');
-        //}
+        $job = Jobsdirectory::with('user')->where('job_slug', $job_slug)->get();
+        return $job;
     }
 
     /**
@@ -136,7 +120,6 @@ class JobsdirectoryController extends Controller
             'location' => $request->location,
             'function' => $request->function,
             'salary' => $request->salary,
-            'phone' => $request->phone,
         ]);
 
         return $job;
