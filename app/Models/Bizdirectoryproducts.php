@@ -13,7 +13,7 @@ class Bizdirectoryproducts extends Model
     protected $fillable = [
         'product_name',
         'product_name_slug',
-        'bizdirectory_id',
+        'user_id',
         'description',
         'location',
         'price'

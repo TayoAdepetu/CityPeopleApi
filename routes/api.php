@@ -58,6 +58,8 @@ Route::post('auth/secret-comments', 'App\Http\SecretCommentsController@store');
 Route::get('auth/secret-anonymous-comments/{page_slug}', 'App\Http\SecretCommentsController@index');
 //get all biz-directory review comments per page
 Route::get('auth/review-comments/{page_slug}', 'App\Http\DirectoryReviewsController@index');
+//use business_name_slug to get all faqs for a particular user
+Route::get('auth/all-faqs/{business_name_slug}', 'App\Http\Controllers\FaqsController@index');
 
 
 Route::group([
@@ -107,8 +109,6 @@ Route::group([
     Route::post('auth/update-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
     //delete a specific directory
     Route::delete('auth/delete-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@destroy');
-    //use business_name_slug to get all faqs for a particular user
-    Route::get('auth/all-faqs/{business_name_slug}', 'App\Http\Controllers\FaqsController@index');
     //create new faqs
     Route::post('auth/create-new-faq', 'App\Http\Controllers\FaqsController@store');
     //update faq by ID 

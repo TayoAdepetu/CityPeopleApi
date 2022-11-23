@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\WorkingHours;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 

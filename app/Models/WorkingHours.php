@@ -12,7 +12,7 @@ class WorkingHours extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bizdirectory_id',
+        'user_id',
         'monday',
         'tuesday',
         'wednesday',

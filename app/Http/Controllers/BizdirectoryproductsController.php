@@ -95,7 +95,7 @@ class BizdirectoryproductsController extends Controller
     public function showProduct($productname)
     {
         //
-        $product = Bizdirectoryproducts::where('product_name_slug', $productname)->get();
+        $product = Bizdirectoryproducts::with('user')->where('product_name_slug', $productname)->get();
         return $product;
     }
 
