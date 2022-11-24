@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password_confirmation');
             $table->string('phone_number')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->binary('user_image')->nullable();
+            $table->binary('user_image')->default('user.png');
             $table->string('business_name_slug')->nullable()->unique();
             $table->string('business_name')->nullable()->unique();
             $table->rememberToken();

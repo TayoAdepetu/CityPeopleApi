@@ -18,6 +18,7 @@ class Post extends Model
         'slug',
         'body',
         'description',
+        'image',
     ];
 
     protected $table = "posts";

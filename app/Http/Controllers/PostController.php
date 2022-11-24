@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Image;
 
 class PostController extends Controller
 {
@@ -42,11 +43,11 @@ class PostController extends Controller
     {
         //
         $request->validate([
-            'title' => 'required',
-            'slug' => 'required',
+            'title' => 'required|max:255',
+            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
             'description' => 'required',
             'body' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|integer',
             'user_id' => 'required',
         ]);
 
@@ -56,7 +57,18 @@ class PostController extends Controller
         $post->slug = $request->slug;
         $post->description = $request->description;
         $post->category_id = Category::find($request->category_id)->pluck('id');        
-        $post->user_id = $request->user_id;        
+        $post->user_id = $request->user_id;
+        
+        if ($request->hasFile('image')){
+            $image = $request->file('image');
+            //ensure each image name is unique
+            $filename = $request->slug . '.' . $image->getClientOriginalExtension();
+            $location = public_path('postimage/' . $filename);
+            //using the intervention library we installed to save in laravel folder
+            Image::make($image)->resize(800, 400)->save($location);
+            //put image name in database so that we can use it to search the folder when we need it
+            $post->image = $filename;
+        }
     
         Post::create($request->all());
     }
