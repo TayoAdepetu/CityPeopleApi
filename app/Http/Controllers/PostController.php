@@ -44,11 +44,12 @@ class PostController extends Controller
         //
         $request->validate([
             'title' => 'required|max:255',
-            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
+            'slug' => 'required|min:5|max:255',
             'description' => 'required',
             'body' => 'required',
             'category_id' => 'required|integer',
             'user_id' => 'required',
+            'image' => 'required',
         ]);
 
         $post = new Post();
@@ -56,11 +57,40 @@ class PostController extends Controller
         $post->body = $request->body;
         $post->slug = $request->slug;
         $post->description = $request->description;
-        $post->category_id = Category::find($request->category_id)->pluck('id');        
+        $post->category_id = $request->category_id;
         $post->user_id = $request->user_id;
-        
+/*
+       
         if ($request->hasFile('image')){
             $image = $request->file('image');
+            //ensure each image name is unique
+            $filename = $request->slug . '.' . 'png';
+            $location = public_path('postimage/' . $filename);
+            //using the intervention library we installed to save in laravel folder
+            Image::make($image)->resize(800, 400)->save($location);
+            //put image name in database so that we can use it to search the folder when we need it
+            $post->image = $filename;
+        }
+
+        */
+         
+        if(preg_match('/^data:image\/(\w+);base64,/', $request->image)){
+                $value = substr($request->image, strpos($request->image, ',') + 1);
+                //$value = base64_decode($value);
+                $filename = $request->slug. '.' .'png';
+                $location = public_path('postimage/' . $filename);
+                //using the intervention library we installed to save in laravel folder
+                Image::make($value)->resize(800, 400)->save($location);
+                //put image name in database so that we can use it to search the folder when we need it
+                $post->image = $filename;
+        }
+        //you must use $post->save() for the image name to be uploaded properly to database
+        $post->save();
+        
+        /*
+        if ($request->image){
+            $image = base64_decode($request->image);
+            //$image = $request->file('image');
             //ensure each image name is unique
             $filename = $request->slug . '.' . $image->getClientOriginalExtension();
             $location = public_path('postimage/' . $filename);
@@ -69,8 +99,8 @@ class PostController extends Controller
             //put image name in database so that we can use it to search the folder when we need it
             $post->image = $filename;
         }
-    
-        Post::create($request->all());
+    */
+        //Post::create($request->all());
     }
 
     /**
