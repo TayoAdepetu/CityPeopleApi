@@ -72,6 +72,9 @@ Route::group([
     Route::post('auth/logout', 'App\Http\Controllers\LoginController@logoutUser');
     //to register business name on the Users Table for the first time
     Route::post('auth/update-business-name/{email}', 'App\Http\Controllers\RegisterController@updateUserBiz');
+    //upload user image
+    Route::post('auth/update-user-image/{email}', 'App\Http\Controllers\RegisterController@updateUserImage');
+
 
     Route::group(['middleware' => 'isPublisher'], function(){
         //create new post
