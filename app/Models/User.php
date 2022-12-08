@@ -31,7 +31,8 @@ class User extends Authenticatable implements JWTSubject
         'business_name',
         'business_name_slug',
         'scope',
-        'email_verified_at'
+        'email_verified_at',
+        'is_verified',
     ];
 
     protected $table = "users";
@@ -75,6 +76,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
 
     public function posts(){
         return $this->hasMany(Post::class);

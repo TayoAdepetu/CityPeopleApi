@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+
 
 class LoginController extends Controller
 {
     public function loginUser(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => ['required'],
             'password' => ['required']
         ]);
+
+        if(!$credentials) {
+            return response()->json(['success'=> false, 'error'=> $credentials->messages()], 401);
+        }
 
         if ($token = Auth::attempt($request->only('email', 'password'))) {
             return $this->respondWithToken($token);
@@ -55,4 +62,6 @@ class LoginController extends Controller
     {
         Auth::logout();
     }
+
+
 }

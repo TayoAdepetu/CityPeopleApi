@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use JWTAuth;
 use Validator;
+use DB, Mail;
+use Illuminate\Mail\Message;
 use Response;
 use Image;
 
@@ -27,19 +29,59 @@ class RegisterController extends Controller
             return response()->json($validator->errors());
         }
 
+        $name = $request->name;
+        $email = $request->email;
+        $password = $request->password;
 
-        User::create([
+
+        $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
             'password_confirmation' => bcrypt($request->get('password_confirmation'))
         ]);
 
+
+        /*
         $user = User::first();
         $token = JWTAuth::fromUser($user);
 
         return Response::json(compact('token'));
+
+        */
+//https://medium.com/mesan-digital/tutorial-5-how-to-build-a-laravel-5-4-jwt-authentication-api-with-e-mail-verification-61d3f356f823
+        
+$verification_code = str_random(30); //Generate verification code
+        DB::table('user_verifications')->insert(['user_id'=>$user->id,'token'=>$verification_code]);
+
+        $subject = "Please verify your email address.";
+        Mail::send([], ['name' => $name, 'verification_code' => $verification_code],
+            function($mail) use ($email, $name, $subject, $html){
+                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "Support@CityPeople.com");
+                $mail->to($email, $name);
+                $mail->subject($subject);
+                //https://stackoverflow.com/questions/26139931/laravel-mail-pass-string-instead-of-view
+                $mail->html("<div>
+                Hi {{ $name }},
+                <br>
+                Thank you for creating an account with us. Don't forget to complete your registration!
+                <br>
+                Here is your verification code: $verification_code
+                <br>
+                Please, copy the verification code and click on the link below to confirm your email address:
+                <br>
+            
+                <a href='http://localhost:3000/confirm-email'>Confirm my email address</a>
+            
+                <br/>
+                </div>", "text/html");
+            }
+
+        );
+
+        return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
     }
+
 
     //let users supply business name before they can have bizdirectory
     public function updateUserBiz(Request $request, $email){
@@ -68,5 +110,126 @@ class RegisterController extends Controller
             return $user_image;
         }
         
+    }
+
+
+    /**
+     * API Verify User
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function verifyUser($verification_code)
+    {
+        $check = DB::table('user_verifications')->where('token',$verification_code)->first();
+
+        if(!is_null($check)){
+            $user = User::find($check->user_id);
+
+            if($user->is_verified == 1){
+                return response()->json([
+                    'success'=> true,
+                    'message'=> 'Account already verified..'
+                ]);
+            }
+
+            $user->update(['is_verified' => 1, 'scope'=> 'commenter']);
+            DB::table('user_verifications')->where('token',$verification_code)->delete();
+
+            return response()->json([
+                'success'=> true,
+                'message'=> 'You have successfully verified your email address.'
+            ]);
+        }
+
+        return response()->json(['success'=> false, 'error'=> "Verification code is invalid."]);
+
+    }
+
+    public function requestPasswordChangeCode(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            $error_message = "Your email address was not found.";
+            return response()->json(['success' => false, 'error' => ['email'=> $error_message]], 401);
+        }
+
+        $verification_code = str_random(30); //Generate verification code
+        DB::table('user_verifications')->insert(['user_id'=>$user->id,'token'=>$verification_code]);
+
+        $name = $user->name;
+        $email = $request->email;
+
+        try {
+            $subject = "Password Change Request.";
+            Mail::send([], ['name' => $name, 'verification_code' => $verification_code],
+            function($mail) use ($email, $name, $subject, $html){
+                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "Support@CityPeople.com");
+                $mail->to($email, $name);
+                $mail->subject($subject);
+                //https://stackoverflow.com/questions/26139931/laravel-mail-pass-string-instead-of-view
+                $mail->html("<div>
+                Hi {{ $name }},
+                <br>
+                Here is your verification code: $verication_code
+                <br>
+                Please, copy the above verification code and click on the link below to change your password:
+                <br>            
+                <a href='http://localhost:3000/passwordchange'>Confirm my email address</a>
+            
+                <br/>
+                </div>", "text/html");
+            })
+
+            /*
+            Password::sendResetLink($request->only('email'), function (Message $message) {
+                $message->subject('Your Password Reset Link');
+            });
+*/
+        } catch (\Exception $e) {
+            //Return with error
+            $error_message = $e->getMessage();
+            return response()->json(['success' => false, 'error' => $error_message], 401);
+        }
+
+        return response()->json([
+            'success' => true, 'data'=> ['message'=> 'A reset email has been sent! Please check your email.']
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required|number',
+            'email' => 'required|email',
+            'password' => 'required|min:8|string',
+            'password_confirmation' => 'required|min:8|string|same:password',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $verification_code = $request->code;
+        $newpassword = bcrypt($request->newpassword);
+        $newpassword_confirmation = bcrypt($request->newpassword_confirmation);
+
+        $check = DB::table('user_verifications')->where('token',$verification_code)->first();
+
+        if(!is_null($check)){
+            $user = User::find($check->user_id);
+
+            $user->update(['password' => $newpassword, 'password_confirmation'=> $newpassword_confirmation]);
+            DB::table('user_verifications')->where('token',$verification_code)->delete();
+
+            return response()->json([
+                'success'=> true,
+                'message'=> 'You have successfully changed your password.'
+            ]);
+        }
+
+        return response()->json(['success'=> false, 'error'=> "Password change credentials invalid."]);
+
     }
 }

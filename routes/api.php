@@ -26,6 +26,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 */
 
+//verify email
+Route::post('auth/user/verify/{verification_code}', 'App\Http\Controllers\RegisterController@verifyUser');
+//request password change code
+Route::get('auth/password/reset-code/', 'App\Http\Controllers\RegisterController@requestPasswordChangeCode');
+//change Password
+Route::post('auth/create-new-password', 'App\Http\Controllers\RegisterController@changePassword');
+
+
+    //recover password
+Route::post('auth/recover-password', 'App\Http\Controllers\LoginController@recoverPassword');
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
 //Get all Posts
@@ -86,9 +96,6 @@ Route::group([
     //choose category for post
     Route::get('auth/category-admin', 'App\Http\Controllers\CategoryController@index');
 
-    
-
-    
     });
 
     Route::group(['middleware' => 'isCommenter'], function(){
