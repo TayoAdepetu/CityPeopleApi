@@ -26,10 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 */
 
+//Search feature
+Route::get('auth/search-web/{keyword}', 'App\Http\Controllers\BizdirectoryController@searchAll');
+
 //verify email
 Route::post('auth/user/verify/{verification_code}', 'App\Http\Controllers\RegisterController@verifyUser');
 //request password change code
-Route::get('auth/password/reset-code/', 'App\Http\Controllers\RegisterController@requestPasswordChangeCode');
+Route::post('auth/password/reset-code/', 'App\Http\Controllers\RegisterController@requestPasswordChangeCode');
 //change Password
 Route::post('auth/create-new-password', 'App\Http\Controllers\RegisterController@changePassword');
 

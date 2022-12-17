@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use JWTAuth;
 use Validator;
-use DB, Mail;
+use DB;
 use Illuminate\Mail\Message;
 use Response;
 use Image;
+use App\Mail\Registration;
+use App\Mail\Password;
+
 
 class RegisterController extends Controller
 {
@@ -49,11 +53,13 @@ class RegisterController extends Controller
         return Response::json(compact('token'));
 
         */
-//https://medium.com/mesan-digital/tutorial-5-how-to-build-a-laravel-5-4-jwt-authentication-api-with-e-mail-verification-61d3f356f823
-        
+//https://mailtrap.io/blog/send-email-in-laravel/        
 $verification_code = str_random(30); //Generate verification code
         DB::table('user_verifications')->insert(['user_id'=>$user->id,'token'=>$verification_code]);
 
+//The email sending is done using the to method on the Mail facade
+    Mail::to($email)->send(new Registration($name, $verification_code));
+        /*
         $subject = "Please verify your email address.";
         Mail::send([], ['name' => $name, 'verification_code' => $verification_code],
             function($mail) use ($email, $name, $subject, $html){
@@ -78,6 +84,8 @@ $verification_code = str_random(30); //Generate verification code
             }
 
         );
+
+        */
 
         return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
     }
@@ -114,7 +122,7 @@ $verification_code = str_random(30); //Generate verification code
 
 
     /**
-     * API Verify User
+     * API Verify User Email
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -161,18 +169,28 @@ $verification_code = str_random(30); //Generate verification code
         $name = $user->name;
         $email = $request->email;
 
-        try {
-            $subject = "Password Change Request.";
-            Mail::send([], ['name' => $name, 'verification_code' => $verification_code],
-            function($mail) use ($email, $name, $subject, $html){
-                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "Support@CityPeople.com");
-                $mail->to($email, $name);
-                $mail->subject($subject);
+        Mail::to($email)->send(new Password($name, $verification_code));
+
+        return response()->json([
+            'success' => true, 'data'=> ['message'=> 'A reset email has been sent! Please check your email.']
+        ]);
+
+    }
+
+        //getenv('FROM_EMAIL_ADDRESS'), 
+        
+            //$subject = "Password Change Request.";
+           // Mail::send([], ['name' => $name, 'verification_code' => $verification_code],
+            /*
+            function($mail) use ($email, $name, $subject, $verification_code){
+                $mail->from("Support@CityPeople.com", "CityPeople")
+                ->to($email, $name)
+                ->subject($subject)
                 //https://stackoverflow.com/questions/26139931/laravel-mail-pass-string-instead-of-view
-                $mail->html("<div>
+                ->html("<div>
                 Hi {{ $name }},
                 <br>
-                Here is your verification code: $verication_code
+                Here is your verification code: $verification_code
                 <br>
                 Please, copy the above verification code and click on the link below to change your password:
                 <br>            
@@ -180,23 +198,29 @@ $verification_code = str_random(30); //Generate verification code
             
                 <br/>
                 </div>", "text/html");
-            })
+            });
+        }
+
+        
+
+           
+        }
+        
 
             /*
             Password::sendResetLink($request->only('email'), function (Message $message) {
                 $message->subject('Your Password Reset Link');
             });
 */
-        } catch (\Exception $e) {
+
+/*
+        } catch (Exception $e) {
             //Return with error
             $error_message = $e->getMessage();
             return response()->json(['success' => false, 'error' => $error_message], 401);
         }
-
-        return response()->json([
-            'success' => true, 'data'=> ['message'=> 'A reset email has been sent! Please check your email.']
-        ]);
-    }
+*/
+      
 
     public function changePassword(Request $request)
     {

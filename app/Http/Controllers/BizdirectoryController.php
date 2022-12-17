@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bizdirectory;
+use App\Models\Bizdirectoryproducts;
 use App\Models\User;
 
 
@@ -80,4 +81,36 @@ class BizdirectoryController extends Controller
         $biz = $user->bizdirectory()->get();
         return $biz->delete();
     }
+
+    /*
+    public function searchAll(Request $request, $keyword){
+        $searchResult = User::where('name', 'Like', '%'. $request->keyword . '%')
+        ->orWhere('business_name', 'Like', '%' . $request->keyword . '%')
+
+        
+        if($request->item == 'username'){
+            $user = User::where('name', 'Like', '%'. $request->keyword . '%')->get()->paginate(20);
+            return $user;           
+        }
+
+        if($request->item == 'business'){
+            $user = User::where('business_name', 'Like', '%' . $request->keyword . '%')>get();
+            $biz = $user->bizdirectory()->with('user')->get()->paginate(20);
+            return $biz;          
+        }
+
+        if($request->item == 'product'){
+            $products = Bizdirectoryproducts::where('product_name', 'Like', '%' . $request->keyword . '%')->with('user')->get()->paginate(20);
+            return $products;
+        }
+        
+        if($request->item == 'article'){
+            $article = Post::where('title', 'Like', '%' . $request->keyword . '%')->with('user')->get()->paginate(20);
+            return $article;        
+        }
+
+        
+       
+    }
+    */
 }
