@@ -138,6 +138,15 @@ Route::group([
     Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
     //save biz-directory review comment for logged-in user
     Route::post('auth/directory-comments', 'App\Http\DirectoryReviewsController@store');
+    //chat list
+    Route::get('auth/chat', 'App\Http\ChatController@index');
+    //chat messages
+    Route::get('auth/message', 'App\Http\MessageController@index');
+    //store chat messages
+    Route::post('auth/message', 'App\Http\MessageController@store');
+
+
+
 });
     
     Route::group(['middleware' => 'isAdmin'], function(){
@@ -154,10 +163,6 @@ Route::group([
     Route::post('auth/create-category', 'App\Http\Controllers\CategoryController@store');
     Route::post('auth/delete-category/{id}', 'App\Http\Controllers\CategoryController@destroy');
     Route::post('auth/update-category/{id}', 'App\Http\Controllers\CategoryController@update');
-    
-
-
-
 
         });
 });

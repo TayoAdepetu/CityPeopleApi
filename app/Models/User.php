@@ -101,4 +101,9 @@ class User extends Authenticatable implements JWTSubject
     public function worktime(){
         return $this->hasOne(WorkingHours::class);
     }
+
+    public function messages(){
+    return $this->hasMany(Message::class);
+}
+
 }

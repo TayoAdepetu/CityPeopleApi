@@ -4,9 +4,11 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\EmailTest;
 
 class Kernel extends ConsoleKernel
 {
+    protected $commands = [EmailTest::class];
     /**
      * Define the application's command schedule.
      *
