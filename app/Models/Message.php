@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Message extends Model
 {
@@ -12,10 +13,10 @@ class Message extends Model
 
     public function getSelfMessageAttribute()
 {
-    return $this->user_id === auth()->user()->id;
+    return $this->user_id === Auth::user()->id;
 }
 
-    protected $fillable = ['body'];
+    protected $fillable = ['body', 'receiver_id', 'user_id', 'channel_id'];
 
     protected $appends = ['selfMessage'];
 

@@ -39,6 +39,7 @@ Route::post('auth/create-new-password', 'App\Http\Controllers\RegisterController
 
     //recover password
 Route::post('auth/recover-password', 'App\Http\Controllers\LoginController@recoverPassword');
+Route::get('auth/login', 'App\Http\Controllers\LoginController@loginUser')->name('login');
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
 //Get all Posts
@@ -87,6 +88,15 @@ Route::group([
     Route::post('auth/update-business-name/{email}', 'App\Http\Controllers\RegisterController@updateUserBiz');
     //upload user image
     Route::post('auth/update-user-image/{email}', 'App\Http\Controllers\RegisterController@updateUserImage');
+
+    //following this tutorial: https://appdividend.com/2022/03/01/laravel-vue-chat-application/
+
+    //chat list
+    Route::get('/chat', 'App\Http\Controllers\ChatController@index')->name('chat');
+    //chat messages
+    Route::get('/message', 'App\Http\Controllers\MessageController@index')->name('message');
+    //store chat messages
+    Route::post('/message', 'App\Http\Controllers\MessageController@store')->name('message.store');
 
 
     Route::group(['middleware' => 'isPublisher'], function(){
@@ -138,14 +148,6 @@ Route::group([
     Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
     //save biz-directory review comment for logged-in user
     Route::post('auth/directory-comments', 'App\Http\DirectoryReviewsController@store');
-    //chat list
-    Route::get('auth/chat', 'App\Http\ChatController@index');
-    //chat messages
-    Route::get('auth/message', 'App\Http\MessageController@index');
-    //store chat messages
-    Route::post('auth/message', 'App\Http\MessageController@store');
-
-
 
 });
     
