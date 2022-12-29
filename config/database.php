@@ -45,12 +45,12 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL', 'mysql://bd57d3344d9f21:f57224f2@eu-cdbr-west-03.cleardb.net/heroku_398fc8ab01d4360?reconnect=true'),
-            'host' => env('DB_HOST', 'eu-cdbr-west-03.cleardb.net'),
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'heroku_398fc8ab01d4360'),
-            'username' => env('DB_USERNAME', 'bd57d3344d9f21'),
-            'password' => env('DB_PASSWORD', 'f57224f2'),
+            'database' => env('DB_DATABASE', 'Citypeopledb'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'Adetayowale001'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
