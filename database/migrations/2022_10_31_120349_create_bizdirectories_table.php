@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('number_of_employees');
             $table->string('website');
             $table->string('established');
-            $table->enum('verified', ['YES', 'NO'])->default('YES');
+            $table->enum('verified', ['YES', 'NO']); //->default('YES');
             //$table->string('registered_here');
             $table->string('location');
             $table->timestamps();
