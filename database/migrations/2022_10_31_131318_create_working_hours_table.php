@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('working_hours', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')
+            /*$table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')
             ->onDelete('cascade')
-            ->unique();
+            ->unique();*/
             $table->string('monday');
             $table->string('tuesday');
             $table->string('wednesday');

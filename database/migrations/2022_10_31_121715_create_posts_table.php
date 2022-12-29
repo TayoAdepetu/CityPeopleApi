@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')
+            /*$table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')
             ->onDelete('cascade')
-            ->unique();
+            ->unique();*/
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->string('description');
             $table->integer('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')
+           /* $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')
             ->onDelete('cascade')
-            ->unique();
+            ->unique();*/
             $table->longtext('body');
             $table->string('image');
             $table->timestamps();
