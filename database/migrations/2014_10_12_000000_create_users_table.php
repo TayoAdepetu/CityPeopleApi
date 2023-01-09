@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('email')->unique();
-            $table->enum('scope', ['admin', 'publisher', 'seller', 'commenter', 'superadmin'])->nullable();//guest is default
+            $table->enum('scope', ['admin', 'publisher', 'seller', 'commenter', 'superadmin'])->default('guest');//guest is default
             $table->string('password');
             $table->string('password_confirmation');
             $table->string('phone_number')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->binary('user_image')->nullable();//user.png is default
+            $table->binary('user_image')->default('user.png');//user.png is default
             $table->string('business_name_slug')->nullable()->unique();
             $table->string('business_name')->nullable()->unique();
             $table->rememberToken();
