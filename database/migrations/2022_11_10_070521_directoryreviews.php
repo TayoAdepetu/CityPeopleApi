@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('directoryreviews', function (Blueprint $table) {
             $table->increments('id');
             $table->text('comment');
-            $table->integer('reply_id')->nullable();//default(0);
-            $table->string('page_slug')->nullable();//default(0);
+            $table->integer('reply_id')->default(0);
+            $table->string('page_slug')->default(0);
             $table->integer('user_id');
             $table->timestamps();
         });
