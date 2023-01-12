@@ -90,13 +90,14 @@ Route::group([
     Route::post('auth/update-user-image/{email}', 'App\Http\Controllers\RegisterController@updateUserImage');
 
     //following this tutorial: https://appdividend.com/2022/03/01/laravel-vue-chat-application/
+    //https://morioh.com/p/045be6631506
 
     //chat list
-    Route::get('/chat', 'App\Http\Controllers\ChatController@index')->name('chat');
+    Route::get('/channels/{$currentuser}', 'App\Http\Controllers\ChatController@fetchChats');
     //chat messages
-    Route::get('/message', 'App\Http\Controllers\MessageController@index')->name('message');
+    Route::get('/getmessages/{$channel_number}', 'App\Http\Controllers\ChatController@fetchMessages');
     //store chat messages
-    Route::post('/message', 'App\Http\Controllers\MessageController@store')->name('message.store');
+    Route::post('/message', 'App\Http\Controllers\ChatController@store');
 
 
     Route::group(['middleware' => 'isPublisher'], function(){

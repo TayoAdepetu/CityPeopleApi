@@ -4,25 +4,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-/*
 import './bootstrap';
 import { createApp } from 'vue';
 
-import ChatComponent from './components/ChatComponent.vue';
-import UserComponent from './components/UserComponent.vue';
-import ChatMessagesComponent from './components/ChatMessagesComponent.vue';
-import ChatFormComponent from './components/ChatFormComponent.vue';
+const app = createApp({});
+
 import MessageComponent from './components/MessageComponent.vue';
+app.component('message-component', MessageComponent);
 
 
-const app = createApp({
-    el: '#app',
-    components:{
-        ChatComponent,
-        UserComponent,
-        ChatMessagesComponent,
-        ChatFormComponent,
-        MessageComponent,
-    }
-});
-*/
+
+
+app.mount('#app');

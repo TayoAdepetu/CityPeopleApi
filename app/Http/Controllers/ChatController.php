@@ -7,6 +7,8 @@ use DB;
 use App\Models\Message;
 use App\Models\BizMessengers;
 use App\Events\ChatMessage;
+
+
 class ChatController extends Controller
 {
    /**
@@ -16,14 +18,28 @@ class ChatController extends Controller
     */
    public function __construct()
    {
-       $this->middleware('auth');
+      // $this->middleware('auth');
    }
 
-   public function index()
+    public function index()
     {
-        $messages = Message::with(['user'])->get();
+    return view('chat');
+    }
 
-        return response()->json($messages);    
+
+    //fetch all chats for specific user
+
+   public function fetchChats($currentuser)
+    {
+        $chats = BizMessengers::with(['user'])->where('user_id', $currentuser)->orWhere('receiver_id', $currentuser)->get();
+
+        return response()->json($chats);
+    }
+
+    //get messages for each channel ID
+    public function fetchMessages($channel_number){
+        $messages = Message::with('user')->where('channel_id', $channel_number)->get();
+        return response()->json($messages);
     }
     
    /**
@@ -35,6 +51,9 @@ class ChatController extends Controller
    {
        $threadExists = BizMessengers::where(['user_id' => $request->user_id, 'receiver_id' => $request->receiver_id,])->first();
        
+       $user = Auth::user();
+
+       if($user){
        if(!$threadExists){
         $thread = BizMessengers::create([
             "user_id" => $request->user_id,
@@ -45,27 +64,27 @@ class ChatController extends Controller
             "user_id" => $request->user_id,
             "receiver_id" => $request->receiver_id,
             "body" => $request->body,
-            "channel_id" => $request->channel_id,
+            "channel_id" => $thread->id,
         ]);
 
-        broadcast(new ChatMessage($message))->toOthers();
-        return response()->json($message);
+        broadcast(new ChatMessage($user, $message))->toOthers();
+        return true;
        }
 
        $message = Message::create([
         "user_id" => $request->user_id,
         "receiver_id" => $request->receiver_id,
         "body" => $request->body,
-        "channel_id" => $request->channel_id,
+        "channel_id" => $threadExists->id,
         ]);
 
-        broadcast(new ChatMessage($message))->toOthers();
-        return response()->json($message);
+        broadcast(new ChatMessage($user, $message))->toOthers();
+        return true;
+    }
    }
    
    public function chatPage()
    {
-       $users = User::take(10)->get();
-       return view('chat',['users'=> $users]);
+
    }
 }

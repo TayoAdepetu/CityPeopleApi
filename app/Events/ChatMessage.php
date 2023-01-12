@@ -17,27 +17,17 @@ class ChatMessage implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+    public $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(Message $message, User $user)
     {
         $this->message = $message;
-    }
-    
-
-    public function broadcastWith()
-    {
-        $this->message->load(['user']);
-
-        return [
-            'message' => array_merge($this->message->toArray(), [
-                'selfMessage' => false
-            ])
-        ];
+        $this->user = $user;
     }
 
     /**

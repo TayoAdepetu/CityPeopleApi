@@ -28,6 +28,7 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
+/*
 
 import Echo from 'laravel-echo';
 
@@ -43,7 +44,16 @@ window.Echo = new Echo({
     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'http') === 'http',
     enabledTransports: ['ws', 'wss'],
     disableStats: true,
-   // encrypted: true,
+    encrypted: true,
+    cluster:'eu',
+    auth: {
+        headers: {
+            Authorization: 'Bearer ' + auth.accessToken,
+            Accept: "application/json"
+        },
+    },
 });
 
 import './echo';
+
+*/

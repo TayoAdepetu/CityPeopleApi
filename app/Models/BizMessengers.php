@@ -12,6 +12,10 @@ class BizMessengers extends Model
 
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
+    }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
     }
 }
