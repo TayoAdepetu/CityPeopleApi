@@ -10,22 +10,22 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
-class Registration extends Mailable
+class Chat extends Mailable
 {
     use Queueable, SerializesModels;
     public $name;
-    public $verification_code;
+    public $message;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $verification_code)
+    public function __construct($name, $message)
     {
         //
         $this->name = $name;
-        $this->verification_code = $verification_code;
+        $this->message = $message;
     }
 
     /**
@@ -37,7 +37,7 @@ class Registration extends Mailable
     {
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS'), "CityPeople Support"),
-            subject: 'CityPeople Registration: Verify Email Address',
+            subject: $name .'from'. env('MAIL_FROM_ADDRESS'),
         );
     }
 
@@ -49,8 +49,8 @@ class Registration extends Mailable
     public function content()
     {
         return new Content(
-            view: 'emails.userreg',
-            with: ['name' => $this->name, 'verification_code' => $this->verification_code],
+            view: 'emails.chat',
+            with: ['name' => $this->name, 'message' => $this->message],
         );
     }
 

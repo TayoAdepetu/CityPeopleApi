@@ -67,8 +67,18 @@ class ChatController extends Controller
             "channel_id" => $thread->id,
         ]);
 
-        broadcast(new ChatMessage($user, $message))->toOthers();
-        return true;
+        $name = $user->name;
+        $email = $user->email;
+
+        try{
+            //https://mailtrap.io/blog/send-email-in-laravel/
+            //The email sending is done using the to method on the Mail facade
+            Mail::to($email)->send(new Chat($name, $message));
+            broadcast(new ChatMessage($user, $message))->toOthers();
+            return response()->json(['success'=> true, 'message'=> 'Message Sent!']);
+        } catch(\Exception $error){
+            return response()->json(['success'=> false, 'message'=> 'Message not sent.']);
+        }
        }
 
        $message = Message::create([
@@ -78,8 +88,18 @@ class ChatController extends Controller
         "channel_id" => $threadExists->id,
         ]);
 
-        broadcast(new ChatMessage($user, $message))->toOthers();
-        return true;
+        $name = $user->name;
+        $email = $user->email;
+
+        try{
+            //https://mailtrap.io/blog/send-email-in-laravel/
+            //The email sending is done using the to method on the Mail facade
+            Mail::to($email)->send(new Chat($name, $message));
+            broadcast(new ChatMessage($user, $message))->toOthers();
+            return response()->json(['success'=> true, 'message'=> 'Message Sent!']);
+        } catch(\Exception $error){
+            return response()->json(['success'=> false, 'message'=> 'Message not sent.']);
+        }
     }
    }
    
