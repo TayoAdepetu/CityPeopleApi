@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Post;
 
-class CategoryController extends Controller
+class AfricategoryController extends Controller
 {
     //
     public function store(Request $request)
@@ -16,16 +14,16 @@ class CategoryController extends Controller
             'name' => 'required',
         ]);
 
-        $category = new Category();
+        $category = new Africategory();
         $category->name = $request->name;      
     
-        Category::create($request->all());
+        Africategory::create($request->all());
     }
 
     public function index()
     {
         //
-        $category = Category::all();
+        $category = Africategory::all();
 	    return $category;
       
     }
@@ -34,7 +32,7 @@ class CategoryController extends Controller
     {
         //
 
-        $category = Category::where('id', $id)->update([
+        $category = Africategory::where('id', $id)->update([
             'name' => $request->name,
         ]);
 
@@ -45,7 +43,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
-        $category = Category::where('id', $id)->get();
+        $category = Africategory::where('id', $id)->get();
         return $category->delete();
 
     }

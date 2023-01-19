@@ -166,6 +166,20 @@ Route::group([
     Route::post('auth/create-category', 'App\Http\Controllers\CategoryController@store');
     Route::post('auth/delete-category/{id}', 'App\Http\Controllers\CategoryController@destroy');
     Route::post('auth/update-category/{id}', 'App\Http\Controllers\CategoryController@update');
+    //For Subsubject articles
+    //fetch a specific subsubject
+    Route::get('auth/fetch-subsubject/{id}', 'App\Http\Controllers\SubsubjectController@fetchById');
+    Route::post('auth/edit-subsubject/{id}', 'App\Http\Controllers\SubsubjectController@update');
+    //get all posts for a specific subject 
+    Route::get('auth/fetch-subsubject-posts/{slug}', 'App\Http\Controllers\SubsubjectController@index');
+    Route::delete('auth/delete-subsubject-posts/{slug}', 'App\Http\Controllers\SubsubjectController@destroy');
+    Route::post('auth/create-new-subsubject', 'App\Http\Controllers\SubsubjectController@store');
+
+    //Images categories
+    Route::get('auth/fetch-categories/', 'App\Http\Controllers\AfricategoryController@index');
+    Route::post('auth/create-categories/', 'App\Http\Controllers\AfricategoryController@store');
+    Route::post('auth/delete-categories/{id}', 'App\Http\Controllers\AfricategoryController@destroy');
+    Route::post('auth/update-categories/{id}', 'App\Http\Controllers\AfricategoryController@update');
 
         });
 });

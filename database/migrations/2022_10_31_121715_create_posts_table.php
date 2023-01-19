@@ -27,7 +27,7 @@ return new class extends Migration
             ->onDelete('cascade')
             ->unique();*/
             $table->longtext('body');
-            $table->string('image');
+            //$table->string('image');
             $table->timestamps();
         });
     }
