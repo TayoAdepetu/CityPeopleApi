@@ -16,13 +16,17 @@ class Bizdirectoryproducts extends Model
         'user_id',
         'description',
         'location',
-        'price'
-
+        'product_id',
+        'price',
     ];
 
     protected $table = "bizdirectoryproducts";
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function productimages(){
+        return $this->hasMany(Productimages::class);
     }
 }

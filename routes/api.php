@@ -74,6 +74,10 @@ Route::get('auth/secret-anonymous-comments/{page_slug}', 'App\Http\SecretComment
 Route::get('auth/review-comments/{page_slug}', 'App\Http\DirectoryReviewsController@index');
 //use business_name_slug to get all faqs for a particular user
 Route::get('auth/all-faqs/{business_name_slug}', 'App\Http\Controllers\FaqsController@index');
+//Get all Bizdirectoryproducts for admin and superadmin
+Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+//get a single image from Afrimages
+Route::get('auth/retrieve-image{$image_path}', 'App\Http\Controllers\AfrimagesController@showByImagePath');
 
 
 Route::group([
@@ -153,8 +157,7 @@ Route::group([
 });
     
     Route::group(['middleware' => 'isAdmin'], function(){
-        //Get all Bizdirectoryproducts for admin and superadmin
-    Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+        
     //Get all Faqs for admin and superadmin
     Route::get('auth/all-faqs-table', 'App\Http\Controllers\FaqsController@showAll');
     //get all worktime for admin
@@ -180,6 +183,13 @@ Route::group([
     Route::post('auth/create-categories/', 'App\Http\Controllers\AfricategoryController@store');
     Route::post('auth/delete-categories/{id}', 'App\Http\Controllers\AfricategoryController@destroy');
     Route::post('auth/update-categories/{id}', 'App\Http\Controllers\AfricategoryController@update');
+
+    //Images
+    Route::get('auth/fetch-images/', 'App\Http\Controllers\AfrimagesController@index');
+    Route::post('auth/create-images/', 'App\Http\Controllers\AfrimagesController@storeImages');
+    Route::post('auth/delete-images/{id}', 'App\Http\Controllers\AfrimagesController@destroy');
+    Route::post('auth/update-images/{id}', 'App\Http\Controllers\AfrimagesController@update');
+    Route::get('auth/fetch-images/{username}', 'App\Http\Controllers\AfrimagesController@showByUsername');
 
         });
 });

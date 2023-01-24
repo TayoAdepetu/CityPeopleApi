@@ -110,4 +110,12 @@ class User extends Authenticatable implements JWTSubject
     return $this->hasMany(BizMessengers::class);
     }
 
+    public function afrimages(){
+    return $this->hasMany(Afrimages::class);
+    }
+
+    public function productimages(){
+    return $this->hasMany(Productimages::class);
+    }
+
 }

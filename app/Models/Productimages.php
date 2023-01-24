@@ -5,24 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Afrimages extends Model
+class Productimages extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'image_name',
-        'image_path',
+        'product_image_path',
         'user_id',
-        'photo_id',
-        'description',
-        'category_id',
+        'product_name_slug',
+        
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
-    }
-
-    public function category(){
-        return $this->belongsTo(Africategory::class);
     }
 }

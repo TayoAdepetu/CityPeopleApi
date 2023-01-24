@@ -41,7 +41,7 @@ class AfrimagesController extends Controller
           if(preg_match('/^data:image\/(\w+);base64,/', $request->image)){
                 $value = substr($request->image, strpos($request->image, ',') + 1);
                 //$value = base64_decode($value);
-                $filename = $request->slug. '.' .'png';
+                $filename = $request->slug. '/'.$image->photo_id. '.' .'png';
                 $location = public_path('postimage/' . $filename);
                 //using the intervention library we installed to save in laravel folder
                 Image::make($value)->resize(800, 400)->save($location);
@@ -51,5 +51,20 @@ class AfrimagesController extends Controller
         }
 
         $image->save();
+    }
+
+    public function showByUsername($username)
+    {
+        //
+        $user = User::where('name', $username)->first();
+        $image = $user->images()->with('user')->get();
+        return $image;
+    }
+
+    public function showByImagePath($image_path)
+    {
+        //
+        $image = Afrimages::where('image_path', $image_path)->with('user')->first();
+        return $image;
     }
 }

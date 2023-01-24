@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bizdirectoryproducts;
 use App\Models\Bizdirectory;
 use App\Models\User;
+use App\Models\Productimages;
 
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class BizdirectoryproductsController extends Controller
     public function index()
     {
         
-       $bizproducts = Bizdirectoryproducts::with('user')->get();
+       $bizproducts = Bizdirectoryproducts::with('user')->paginate(5);
 	   return $bizproducts;
     }
 
@@ -48,6 +49,7 @@ class BizdirectoryproductsController extends Controller
             'price' => 'required',
             'user_id' => 'required',
             'location' => 'required',
+            'images' => 'required',
         ]);
 
 
@@ -63,13 +65,35 @@ class BizdirectoryproductsController extends Controller
 
         $product = new Bizdirectoryproducts();
         $product->product_name = $request->product_name;
-        $product->product_name_slug = generateKey();
+        $product->product_name_slug = $request->product_name. '/' .generateKey();
         $product->price = $request->price;
         $product->location = $request->biz_location;
         $product->description = $request->description;
-        $product->user_id = $request->user_id;        
+        $product->user_id = $request->user_id;
+
+        $product_images = $request->images;
+
+        foreach($product_images as $product_image){
+            if(preg_match('/^data:image\/(\w+);base64,/', $product_image)){
+                $value = substr($request->image, strpos($request->image, ',') + 1);
+                //$value = base64_decode($value);
+                $filename = $request->product_name_slug. '.' .'png';
+                $location = public_path('productimage/' . $filename);
+                //using the intervention library we installed to save in laravel folder
+                //Image::make($value)->resize(800, 400)->save($location);
+                Image::make($value)->save($location);
+                //put image name in database so that we can use it to search the folder when we need it                
+
+                Productimages::create([
+                    'product_image_path' => $filename,
+                    'user_id' => $product->user_id,
+                    'product_name_slug' => $product->product_name_slug,
+                ]);
+        
+        }
+        }
     
-        Bizdirectoryproducts::create($request->all());
+        $product->save();
     }
 
     /**

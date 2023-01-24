@@ -14,7 +14,7 @@ class BizdirectoryController extends Controller
     public function index()
     {
         //
-       $bizdirectories = Bizdirectory::with('user')->get();
+       $bizdirectories = Bizdirectory::with('user')->paginate(5);
 	   return $bizdirectories;
     }
 

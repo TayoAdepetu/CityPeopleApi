@@ -16,7 +16,7 @@ class JobsdirectoryController extends Controller
     public function index()
     {
         //
-        $jobs = Jobsdirectory::with('user')->get();
+        $jobs = Jobsdirectory::with('user')->paginate(5);
 	    return $jobs;
     }
 
