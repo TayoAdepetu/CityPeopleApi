@@ -26,7 +26,7 @@ class FaqsController extends Controller
     public function showAll()
     {
         //
-        $faqs = Faqs::with('user')->get();
+        $faqs = Faqs::with('user')->paginate(20);
 	    return $faqs;
       
     }

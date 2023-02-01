@@ -26,7 +26,7 @@ class WorkingHoursController extends Controller
     public function showAll()
     {
         //
-        $worktime = WorkingHours::with('user')->get();
+        $worktime = WorkingHours::with('user')->paginate(20);
 	    return $worktime;     
     }
 

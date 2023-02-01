@@ -42,20 +42,26 @@ Route::post('auth/recover-password', 'App\Http\Controllers\LoginController@recov
 Route::get('auth/login', 'App\Http\Controllers\LoginController@loginUser')->name('login');
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
-//Get all Posts
+//Get all Posts paginate 5
 Route::get('auth/posts', 'App\Http\Controllers\PostController@index');
+//Get all Posts paginate 20
+Route::get('auth/more-posts', 'App\Http\Controllers\PostController@indexMore');
 //get specific post by slug
 Route::get('auth/blog/{slug}', 'App\Http\Controllers\PostController@show');
-//Get all Jobs
+//Get all Jobs paginate 5
 Route::get('auth/jobs', 'App\Http\Controllers\JobsdirectoryController@index');
+//Get all Jobs paginate 20
+Route::get('auth/more-jobs', 'App\Http\Controllers\JobsdirectoryController@indexMore');
 //get a specific job using job_slug
 Route::get('auth/job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@showByJobSlug');
 //get products for specific business using business_name_slug
 Route::get('auth/products/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@show');
 //get single product using product_name_slug
 Route::get('auth/product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@showProduct');
-//get all Bizdirectory
+//get all Bizdirectory with 5 paginate
 Route::get('auth/all-biz', 'App\Http\Controllers\BizdirectoryController@index');
+//get all Bizdirectory with 20 paginate
+Route::get('auth/all-biusinesses', 'App\Http\Controllers\BizdirectoryController@indexMore');
 //get a specific biz directory using business_name_slug
 Route::get('auth/biz-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@showbiz');
 //Get WorkingHours for a specific business using business_name_slug
@@ -74,10 +80,15 @@ Route::get('auth/secret-anonymous-comments/{page_slug}', 'App\Http\SecretComment
 Route::get('auth/review-comments/{page_slug}', 'App\Http\DirectoryReviewsController@index');
 //use business_name_slug to get all faqs for a particular user
 Route::get('auth/all-faqs/{business_name_slug}', 'App\Http\Controllers\FaqsController@index');
-//Get all Bizdirectoryproducts for admin and superadmin
+//Get all Bizdirectoryproducts paginate 5
 Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+//Get all Bizdirectoryproducts paginate 20
+Route::get('auth/all-ecommerce-products', 'App\Http\Controllers\BizdirectoryproductsController@indexMore');
 //get a single image from Afrimages
-Route::get('auth/retrieve-image{$image_path}', 'App\Http\Controllers\AfrimagesController@showByImagePath');
+Route::get('auth/retrieve-image{image_path}', 'App\Http\Controllers\AfrimagesController@showByImagePath');
+//download image from Afrimages
+Route::get('auth/download-image{image_path}', 'App\Http\Controllers\AfrimagesController@downloadImage');
+
 
 
 Route::group([
@@ -186,10 +197,14 @@ Route::group([
 
     //Images
     Route::get('auth/fetch-images/', 'App\Http\Controllers\AfrimagesController@index');
+    Route::get('auth/fetch-afri-images/', 'App\Http\Controllers\AfrimagesController@indexMore');
     Route::post('auth/create-images/', 'App\Http\Controllers\AfrimagesController@storeImages');
-    Route::post('auth/delete-images/{id}', 'App\Http\Controllers\AfrimagesController@destroy');
-    Route::post('auth/update-images/{id}', 'App\Http\Controllers\AfrimagesController@update');
+    Route::post('auth/delete-images/{image_path}', 'App\Http\Controllers\AfrimagesController@deleteImage');
+    Route::post('auth/update-images/{image_path}', 'App\Http\Controllers\AfrimagesController@update');
     Route::get('auth/fetch-images/{username}', 'App\Http\Controllers\AfrimagesController@showByUsername');
+
+    //fetch all users
+    Route::get('auth/all-users', 'App\Http\Controllers\LoginController@allUsers');
 
         });
 });

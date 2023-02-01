@@ -23,6 +23,13 @@ class BizdirectoryproductsController extends Controller
 	   return $bizproducts;
     }
 
+    public function indexMore()
+    {
+        
+       $bizproducts = Bizdirectoryproducts::with('user')->paginate(20);
+	   return $bizproducts;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -20,6 +20,14 @@ class JobsdirectoryController extends Controller
 	    return $jobs;
     }
 
+    public function indexMore()
+    {
+        //
+        $jobs = Jobsdirectory::with('user')->paginate(20);
+	    return $jobs;
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

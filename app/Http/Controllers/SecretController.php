@@ -16,7 +16,7 @@ class SecretController extends Controller
     public function index()
     {
         //
-        $secrets = Secret::all();
+        $secrets = Secret::all()->paginate(20);
 	    return $secrets;
     }
 

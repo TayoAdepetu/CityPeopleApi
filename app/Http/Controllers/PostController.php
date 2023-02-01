@@ -22,6 +22,14 @@ class PostController extends Controller
       
     }
 
+    public function indexMore()
+    {
+        //
+        $posts = Post::with('user', 'category')->orderBy('created_at', 'desc')->paginate(2);
+	    return $posts;
+      
+    }
+
     /**
      * Show the form for creating a new resource.
      *

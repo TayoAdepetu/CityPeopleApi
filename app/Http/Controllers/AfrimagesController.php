@@ -4,10 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Image;
+use File;
+use Repsonse;
 
 class AfrimagesController extends Controller
 {
     //
+
+    public function index()
+    {
+        //
+        $images = Afrimages::with('user', 'category')->orderBy('created_at', 'desc')->paginate(5);
+	    return $images;
+      
+    }
+
+    public function indexMore()
+    {
+        //
+        $images = Afrimages::with('user', 'category')->orderBy('created_at', 'desc')->paginate(20);
+	    return $images;
+      
+    }
 
     public function storeImages(Request $request){
         $request->validate([
@@ -57,7 +75,7 @@ class AfrimagesController extends Controller
     {
         //
         $user = User::where('name', $username)->first();
-        $image = $user->images()->with('user')->get();
+        $image = $user->images()->with('user')->paginate(20);
         return $image;
     }
 
@@ -67,4 +85,33 @@ class AfrimagesController extends Controller
         $image = Afrimages::where('image_path', $image_path)->with('user')->first();
         return $image;
     }
+
+    public function downloadImage(Request $request, $image_path){
+        //using the filename store in database = $image_path
+        $filepath = public_path('postimage/'.$image_path);
+        return Response::download($filepath);
+    }
+
+    public function deleteImage(Request $request, $image_path) {
+
+        unlink("postimage/".$image_path);
+
+        Afrimages::where("image_path", $image_path)->delete();
+
+        return back()->with("success", "Image deleted successfully.");
+
+    }
+
+    public function update(Request $request, $image_path)
+    {
+        //
+        $newImage = Afrimages::where('image_path', $image_path)->update([
+            'image_name' => $request->image_name,
+            'image_category' => $request->image_category,
+            'image_description' => $request->image_description,
+        ]);
+
+        return $newImage;
+    }
+
 }

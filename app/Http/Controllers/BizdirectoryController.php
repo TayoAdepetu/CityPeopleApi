@@ -18,6 +18,14 @@ class BizdirectoryController extends Controller
 	   return $bizdirectories;
     }
 
+    public function indexMore()
+    {
+        //
+       $bizdirectories = Bizdirectory::with('user')->paginate(20);
+	   return $bizdirectories;
+    }
+
+
     public function store(Request $request)
     {
         //
