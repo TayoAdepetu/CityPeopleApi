@@ -39,7 +39,7 @@ Route::post('auth/create-new-password', 'App\Http\Controllers\RegisterController
 
     //recover password
 Route::post('auth/recover-password', 'App\Http\Controllers\LoginController@recoverPassword');
-Route::get('auth/login', 'App\Http\Controllers\LoginController@loginUser')->name('login');
+//Route::get('auth/login', 'App\Http\Controllers\LoginController@loginUser')->name('login');
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
 //Get all Posts paginate 5
