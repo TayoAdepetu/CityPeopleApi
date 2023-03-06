@@ -51,9 +51,9 @@ class FaqsController extends Controller
     {
         //
         $request->validate([
-            'question' => 'required',
-            'answer' => 'required',
-            'user_id' => 'required',
+            'question' => 'required|string',
+            'answer' => 'required|string',
+            'user_id' => 'required|integer',
         ]);
 
         $faq = new Faqs();
@@ -98,12 +98,19 @@ class FaqsController extends Controller
     public function update(Request $request, $id)
     {
         //
+         $validator = $request->validate([
+            'question' => 'required|string',
+            'answer' => 'required|string',
+        ]);
+
+        if(!$validator->fails()){
         $faq = Faqs::where('id', $id)->update([
             'question' => $request->question,
             'answer' => $request->answer,
         ]);
 
         return $faq;
+    }
     }
 
     /**

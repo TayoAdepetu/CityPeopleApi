@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\User;
 use Image;
+use Illuminate\Support\Facades\Validator;
+
 
 class PostController extends Controller
 {
@@ -25,20 +28,9 @@ class PostController extends Controller
     public function indexMore()
     {
         //
-        $posts = Post::with('user', 'category')->orderBy('created_at', 'desc')->paginate(2);
+        $posts = Post::with('user', 'category')->orderBy('created_at', 'desc')->paginate(20);
 	    return $posts;
       
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-
     }
 
     /**
@@ -51,12 +43,12 @@ class PostController extends Controller
     {
         //
         $request->validate([
-            'title' => 'required|max:255',
-            'slug' => 'required|min:5|max:255',
-            'description' => 'required',
-            //'body' => 'required',
+            'title' => 'required|string',
+            'slug' => 'required|string',
+            'description' => 'required|string',
+            'body' => 'required|string',
             'category_id' => 'required|integer',
-            'user_id' => 'required',
+            'user_id' => 'required|integer',
             //'image' => 'required',
         ]);
 
@@ -68,7 +60,7 @@ class PostController extends Controller
         $post->category_id = $request->category_id;
         $post->user_id = $request->user_id;
 
-         /*
+        
         if(preg_match('/^data:image\/(\w+);base64,/', $request->image)){
                 $value = substr($request->image, strpos($request->image, ',') + 1);
                 //$value = base64_decode($value);
@@ -79,18 +71,11 @@ class PostController extends Controller
                 //put image name in database so that we can use it to search the folder when we need it
                 $post->image = $filename;
         }
-        you must use $post->save() for the image name to be uploaded properly to database
-        */
+        
         $post->save();
         
         }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
     public function show($slug)
     {
         //
@@ -108,29 +93,21 @@ class PostController extends Controller
         return $post;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($slug)
-    {
-        //$post = Post::findOrFail($slug);       
-       
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePostRequest  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-
     public function update(Request $request, $slug)
     {
         //
+        $validator = $request->validate([
+            'title' => 'required|string',
+            'slug' => 'required|string',
+            'description' => 'required|string',
+            'body' => 'required|string',
+           // 'category_id' => 'required|integer',
+        ]);
+
+        if($validator->fails()){
+            return false;
+
+    }else{
         $post = Post::where('slug', $slug)->update([
             'title' => $request->title,
             'slug' => $request->slug,
@@ -140,13 +117,8 @@ class PostController extends Controller
 
         return $post;
     }
+    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($slug)
     {
         //

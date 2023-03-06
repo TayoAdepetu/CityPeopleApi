@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 
 class AfricategoryController extends Controller
 {
-    //
+    //save new image category
     public function store(Request $request)
     {
         //
         $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'string', 'unique:africategories', 'min:2', 'max:255'],
         ]);
 
         $category = new Africategory();
@@ -31,12 +31,18 @@ class AfricategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = $request->validate([
+            'name' => ['required', 'string', 'unique:africategories', 'min:2', 'max:255'],
+        ]);
 
+        if(!$validator->fails()){
         $category = Africategory::where('id', $id)->update([
             'name' => $request->name,
         ]);
 
         return $category;
+    }
+
     }
 
 

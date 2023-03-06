@@ -7,6 +7,10 @@ use DB;
 use App\Models\Message;
 use App\Models\BizMessengers;
 use App\Events\ChatMessage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Chat;
+
+
 
 
 class ChatController extends Controller
@@ -75,9 +79,10 @@ class ChatController extends Controller
             //The email sending is done using the to method on the Mail facade
             Mail::to($email)->send(new Chat($name, $message));
             broadcast(new ChatMessage($user, $message))->toOthers();
-            return response()->json(['success'=> true, 'message'=> 'Message Sent!']);
+            
+            return response()->json(['success'=> true, 'data'=> ['message'=> 'Message Sent!']]);
         } catch(\Exception $error){
-            return response()->json(['success'=> false, 'message'=> 'Message not sent.']);
+                    return throw $error;
         }
        }
 
@@ -96,7 +101,7 @@ class ChatController extends Controller
             //The email sending is done using the to method on the Mail facade
             Mail::to($email)->send(new Chat($name, $message));
             broadcast(new ChatMessage($user, $message))->toOthers();
-            return response()->json(['success'=> true, 'message'=> 'Message Sent!']);
+            return response()->json(['success'=> true, 'data'=>['message' => 'Message Sent!']]);
         } catch(\Exception $error){
             return response()->json(['success'=> false, 'message'=> 'Message not sent.']);
         }
@@ -105,6 +110,6 @@ class ChatController extends Controller
    
    public function chatPage()
    {
-
+    
    }
 }

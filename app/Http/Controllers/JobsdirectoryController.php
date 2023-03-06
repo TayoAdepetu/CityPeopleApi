@@ -48,13 +48,13 @@ class JobsdirectoryController extends Controller
     {
         //
         $request->validate([
-            'title' => 'required',
-            'job_slug' => 'required',
-            'location' => 'required',
-            'function' => 'required',
-            'description' => 'required',
-            'user_id' => 'required',
-            'salary' => 'required',
+            'title' => 'required|string',
+            'job_slug' => 'required|string',
+            'location' => 'required|string',
+            'function' => 'required|string',
+            'description' => 'required|string',
+            'user_id' => 'required|integer',
+            'salary' => 'required|string',
         ]);
 
         function generateKey(){
@@ -122,6 +122,15 @@ class JobsdirectoryController extends Controller
     public function update(Request $request, $job_slug)
     {
         //
+        $validator = $request->validate([
+            'title' => 'required|string',
+            'location' => 'required|string',
+            'function' => 'required|string',
+            'description' => 'required|string',
+            'salary' => 'required|string',
+        ]);
+
+        if(!$validator->fails()){
         $job = Jobsdirectory::where('job_slug', $job_slug)->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -131,6 +140,7 @@ class JobsdirectoryController extends Controller
         ]);
 
         return $job;
+    }
     }
 
     /**

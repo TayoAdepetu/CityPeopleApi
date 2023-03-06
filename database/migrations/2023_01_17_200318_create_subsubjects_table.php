@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('subsubjects', function (Blueprint $table) {
             $table->id();
             $table->string('subsubject_name');
-            $table->integer('subject_name');
+            $table->string('subject_name')->unique();
             $table->integer('user_id');
             $table->string('slug')->unique();
             $table->string('description');

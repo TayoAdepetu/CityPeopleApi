@@ -40,8 +40,8 @@ class SecretController extends Controller
     {
         //
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|string',
+            'description' => 'required|string',
         ]);
 
         
@@ -101,12 +101,21 @@ class SecretController extends Controller
     public function update(Request $request, $slug)
     {
         //
+        $validator = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+           // 'category_id' => 'required|integer',
+        ]);
+
+        if(!$validator->fails()){
+
         $secret = Secret::where('slug', $slug)->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
         return $secret;
+    }
     }
 
     /**

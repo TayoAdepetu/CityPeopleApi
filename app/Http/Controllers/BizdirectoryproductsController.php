@@ -50,12 +50,12 @@ class BizdirectoryproductsController extends Controller
     {
         //
         $request->validate([
-            'product_name_slug' => 'required',
-            'product_name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-            'user_id' => 'required',
-            'location' => 'required',
+            'product_name_slug' => 'required|string',
+            'product_name' => 'required|string',
+            'description' => 'required|string',
+            'price' => 'required|string',
+            'user_id' => 'required|integer',
+            'location' => 'required|string',
             'images' => 'required',
         ]);
 
@@ -140,6 +140,14 @@ class BizdirectoryproductsController extends Controller
     public function update(Request $request, $slug)
     {
         //
+         $validator = $request->validate([
+            'product_name' => 'required|string',
+            'description' => 'required|string',
+            'price' => 'required|string',
+            'location' => 'required|string',
+        ]);
+
+        if(!$validator-fails()){
         $product = Bizdirectoryproducts::where('product_name_slug', $product_name_slug)->update([
             'product_name' => $request->product_name,
             'description' => $request->description,
@@ -148,6 +156,7 @@ class BizdirectoryproductsController extends Controller
         ]);
 
         return $product;
+    }
     }
 
     /**

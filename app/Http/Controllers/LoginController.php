@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\Models\Users;
+use Validator;
 
 
 class LoginController extends Controller
@@ -14,8 +15,8 @@ class LoginController extends Controller
     public function loginUser(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required'],
-            'password' => ['required']
+            'email' => 'required|email',
+            'password' => 'required|string'
         ]);
 
         if(!$credentials) {
@@ -66,7 +67,7 @@ class LoginController extends Controller
 
     public function allUsers(){
         $users = Users::all()->paginate(20);
-        return $users
+        return $users;
     }
 
 }

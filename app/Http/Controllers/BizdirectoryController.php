@@ -30,11 +30,11 @@ class BizdirectoryController extends Controller
     {
         //
         $request->validate([
-            'description' => 'required',
-            'location' => 'required',
-            'website' => 'required',
-            'established' => 'required',
-            'number_of_employees' => 'required',
+            'description' => 'required|string',
+            'location' => 'required|string',
+            'website' => 'required|string',
+            'established' => 'required|string',
+            'number_of_employees' => 'required|string',
         ]);
 
         $biz = new Bizdirectory();
@@ -70,6 +70,15 @@ class BizdirectoryController extends Controller
     public function update(Request $request, $business_name_slug)
     {
         //
+        $validator = $request->validate([
+            'description' => 'required|string',
+            'location' => 'required|string',
+            'website' => 'required|string',
+            'established' => 'required|string',
+            'number_of_employees' => 'required|string',
+        ]);
+
+        if(!$validator-fails()){
         $user = User::where('business_name_slug', $business_name_slug)->first();
         $biz = $user->bizdirectory()->update([
             'description' => $request->description,
@@ -80,6 +89,7 @@ class BizdirectoryController extends Controller
         ]);
 
         return $biz;
+    }
     }
 
     public function destroy($business_name_slug)

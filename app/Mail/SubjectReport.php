@@ -10,22 +10,22 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
-class Chat extends Mailable
+class SubjectReport extends Mailable
 {
     use Queueable, SerializesModels;
-    public $name;
-    public $message;
+    public $subject_name;
+    public $comment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $message)
+    public function __construct($subject_name, $comment)
     {
         //
-        $this->name = $name;
-        $this->message = $message;
+        $this->subject_name = $subject_name;
+        $this->comment = $comment;
     }
 
     /**
@@ -36,8 +36,8 @@ class Chat extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), "CityPeople Support"),
-            subject: $this->name .'from'. env('MAIL_FROM_ADDRESS'),
+            from: new Address(env('MAIL_FROM_ADDRESS'), "CityPeople Content Comment"),
+            subject: $this->subject_name,
         );
     }
 
@@ -49,8 +49,8 @@ class Chat extends Mailable
     public function content()
     {
         return new Content(
-            view: 'emails.chat',
-            with: ['name' => $this->name, 'message' => $this->message],
+            view: 'emails.report',
+            with: ['subject_name' => $this->subject_name, 'comment' => $this->comment],
         );
     }
 

@@ -29,10 +29,10 @@ class AfrimagesController extends Controller
 
     public function storeImages(Request $request){
         $request->validate([
-            'image_name' => 'required',
-            'image_description' => 'required',
+            'image_name' => ['required', 'string', 'unique:afrimages'],
+            'image_description' => ['required', 'string', 'min:2'],
             'category_id' => 'required|integer',
-            'user_id' => 'required',
+            'user_id' => 'required|integer',
             'image' => 'required',
             //'image_path' => 'required',
             //'photo_id' => 'required',
@@ -105,13 +105,22 @@ class AfrimagesController extends Controller
     public function update(Request $request, $image_path)
     {
         //
+        $validator = $request->validate([
+            'image_name' => ['required', 'string', 'unique:afrimages'],
+            'image_description' => ['required', 'string', 'min:2'],
+            'category_id' => 'required|integer',
+        ]);
+
+        if(!$validator-fails()){
         $newImage = Afrimages::where('image_path', $image_path)->update([
             'image_name' => $request->image_name,
-            'image_category' => $request->image_category,
+            'category_id' => $request->category_id,
             'image_description' => $request->image_description,
         ]);
 
         return $newImage;
+    }
+    
     }
 
 }

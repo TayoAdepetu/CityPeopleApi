@@ -185,9 +185,14 @@ Route::group([
     Route::get('auth/fetch-subsubject/{id}', 'App\Http\Controllers\SubsubjectController@fetchById');
     Route::post('auth/edit-subsubject/{id}', 'App\Http\Controllers\SubsubjectController@update');
     //get all posts for a specific subject 
-    Route::get('auth/fetch-subsubject-posts/{slug}', 'App\Http\Controllers\SubsubjectController@index');
+    Route::get('auth/fetch-subsubject-posts/{subject_name}', 'App\Http\Controllers\SubsubjectController@index');
     Route::delete('auth/delete-subsubject-posts/{slug}', 'App\Http\Controllers\SubsubjectController@destroy');
     Route::post('auth/create-new-subsubject', 'App\Http\Controllers\SubsubjectController@store');
+    //report subsubject cocntent
+    Route::post('auth/send-report-subsubject', 'App\Http\Controllers\SubsubjectController@reportSubsubject');
+    //report subject content
+    Route::post('auth/send-report-subject', 'App\Http\Controllers\SubsubjectController@reportSubject');
+
 
     //Images categories
     Route::get('auth/fetch-categories/', 'App\Http\Controllers\AfricategoryController@index');

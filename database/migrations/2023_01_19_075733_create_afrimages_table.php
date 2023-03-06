@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('afrimages', function (Blueprint $table) {
             $table->id();
-            $table->string('image_path');
+            $table->string('image_path')->unique();
             $table->integer('user_id');
-            $table->string('photo_id');
+            $table->string('photo_id')->unique();
             $table->integer('category_id');
-            $table->string('image_name');
+            $table->string('image_name')->unique();
             $table->string('image_description');
             $table->timestamps();
         });

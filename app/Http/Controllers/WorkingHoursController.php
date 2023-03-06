@@ -50,14 +50,14 @@ class WorkingHoursController extends Controller
     {
         //
         $request->validate([
-            'monday' => 'required',
-            'tuesday' => 'required',
-            'wednesday' => 'required',
-            'thursday' => 'required',
-            'friday' => 'required',
-            'saturday' => 'required',
-            'sunday' => 'required',
-            'user_id' => 'required',
+            'monday' => 'required|string',
+            'tuesday' => 'required|string',
+            'wednesday' => 'required|string',
+            'thursday' => 'required|string',
+            'friday' => 'required|string',
+            'saturday' => 'required|string',
+            'sunday' => 'required|string',
+            'user_id' => 'required|string',
         ]);
 
         $worktime = new WorkingHours();
@@ -115,6 +115,18 @@ class WorkingHoursController extends Controller
     public function update(Request $request, $business_name_slug)
     {
         //
+        $validator = $request->validate([
+            'monday' => 'required|string',
+            'tuesday' => 'required|string',
+            'wednesday' => 'required|string',
+            'thursday' => 'required|string',
+            'friday' => 'required|string',
+            'saturday' => 'required|string',
+            'sunday' => 'required|string',
+            'user_id' => 'required|string',
+        ]);
+
+        if(!$validator->fails()){
         $user = User::where('business_name_slug', $business_name_slug)->first();
         $worktime = $user->worktime()->update([
             'monday' => $request->monday,
@@ -127,6 +139,7 @@ class WorkingHoursController extends Controller
         ]);
 
         return $worktime;
+    }
     }
 
     /**
