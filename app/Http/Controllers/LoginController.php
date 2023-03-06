@@ -14,6 +14,7 @@ class LoginController extends Controller
 {
     public function loginUser(Request $request)
     {
+        try{
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
@@ -30,6 +31,8 @@ class LoginController extends Controller
         /* throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.']
         ]); */
+    }catch(JWTException $exception){
+      return $this->response()->json($exception);
     }
 
 
