@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 use DB;
 use Illuminate\Mail\Message;
 use Response;
-use Image;
+use Intervention\Image\Facades\Image;
 use App\Mail\Registration;
 use App\Mail\PasswordChangeCode;
 
@@ -48,8 +48,6 @@ class RegisterController extends Controller
         if (!$user) {
             return response()->json($user->errors());
         }
-
-
        
         try{
             //https://mailtrap.io/blog/send-email-in-laravel/        
