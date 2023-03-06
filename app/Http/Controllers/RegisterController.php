@@ -59,7 +59,9 @@ class RegisterController extends Controller
             $user = User::first();
             $token = JWTAuth::fromUser($user);
 
-            return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.', 'secret' => Response::json(compact('token'))]);
+            return Response::json(compact('token'))
+
+            //return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
         } catch(\Exception $error){
             //return response()->json(['success'=> false, 'message'=> $error]);
             return $error;

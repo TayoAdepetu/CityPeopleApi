@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use App\Models\Users;
+use App\Models\User;
 use Validator;
 
 
@@ -66,7 +66,7 @@ class LoginController extends Controller
     }
 
     public function allUsers(){
-        $users = Users::all()->paginate(20);
+        $users = User::all()->paginate(20);
         return $users;
     }
 
