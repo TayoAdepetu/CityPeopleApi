@@ -50,13 +50,7 @@ class RegisterController extends Controller
         }
 
 
-        /*
-        $user = User::first();
-        $token = JWTAuth::fromUser($user);
-
-        return Response::json(compact('token'));
-
-        */
+       
         try{
             //https://mailtrap.io/blog/send-email-in-laravel/        
             $verification_code = str_random(30); //Generate verification code
@@ -64,7 +58,10 @@ class RegisterController extends Controller
 
             //The email sending is done using the to method on the Mail facade
             Mail::to($email)->send(new Registration($name, $verification_code));
-                return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
+            $user = User::first();
+            $token = JWTAuth::fromUser($user);
+
+            return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.', 'secret' => Response::json(compact('token'))]);
         } catch(\Exception $error){
             //return response()->json(['success'=> false, 'message'=> $error]);
             return $error;
@@ -129,6 +126,7 @@ class RegisterController extends Controller
                 'success'=> true,
                 'message'=> 'You have successfully verified your email address.'
             ]);
+            
         }
 
         return response()->json(['success'=> false, 'error'=> "Verification code is invalid."]);
