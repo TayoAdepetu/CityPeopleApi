@@ -64,7 +64,7 @@ class RegisterController extends Controller
 
             //return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
         } catch(JWTException $exception){
-            return $this->response()->json($exception);
+            return response()->json($exception);
         }
     }
 

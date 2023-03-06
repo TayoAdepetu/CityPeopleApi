@@ -32,7 +32,7 @@ class LoginController extends Controller
             'email' => ['The provided credentials are incorrect.']
         ]); */
     }catch(JWTException $exception){
-      return $this->response()->json($exception);
+      return response()->json($exception);
     }
 
 
