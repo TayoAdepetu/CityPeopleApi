@@ -36,7 +36,7 @@ class Registration extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), "CityPeople Support"),
+            from: env('MAIL_FROM_ADDRESS'),
             subject: 'CityPeople Registration: Verify Email Address',
         );
     }
