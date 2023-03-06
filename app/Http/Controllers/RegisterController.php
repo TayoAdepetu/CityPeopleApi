@@ -66,7 +66,7 @@ class RegisterController extends Controller
             Mail::to($email)->send(new Registration($name, $verification_code));
                 return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
         } catch(\Exception $error){
-            return response()->json(['success'=> false, 'message'=> 'Verification code not sent.']);
+            return response()->json(['success'=> false, 'message'=> $error]);
         }
     }
 
