@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Validator;
 use DB;
 use Illuminate\Mail\Message;
@@ -62,10 +63,9 @@ class RegisterController extends Controller
             return Response::json(compact('token'));
 
             //return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
-        } catch(\Exception $error){
-            //return response()->json(['success'=> false, 'message'=> $error]);
-            return $error;
-        }
+        } catch(JWTException $exception){
+      return $this->exceptionResponse($exception);
+    }
     }
 
 
