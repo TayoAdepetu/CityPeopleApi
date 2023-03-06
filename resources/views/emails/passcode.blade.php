@@ -14,7 +14,7 @@
         <br>
             Please, copy the above verification code and click on the link below to change your password.
         <br>            
-            <a href='http://localhost:3000/passwordchange'>Confirm my email address</a>
+            <a href='https://thecitypeople.com/passwordchange'>Confirm my email address</a>
             
         <br/>
     </div>

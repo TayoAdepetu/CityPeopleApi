@@ -18,7 +18,7 @@
     <br>
         Please, copy the verification code and click on the link below to confirm your email address.
     <br>
-    <a href='http://localhost:3000/confirm-email'>Confirm my email address</a>
+    <a href='https://thecitypeople.com/confirm-email'>Confirm my email address</a>
     <br>
 
     <b>Thank you,<br/>Team CityPeople</b>
