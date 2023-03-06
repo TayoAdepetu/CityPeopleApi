@@ -33,10 +33,10 @@ class Registration extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         return new Envelope(
-            from: env('MAIL_FROM_ADDRESS'),
+            from: new Address("Support@CityPeople.com", "CityPeople Support"),
             subject: 'CityPeople Registration: Verify Email Address',
         );
     }
