@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 use Validator;
 
@@ -25,7 +26,7 @@ class LoginController extends Controller
                 return response()->json(['success' => false, 'error' => $credentials->messages()], 401);
             }
 
-            $token = Auth::attempt($request->only('email', 'password'));
+            $token = JWTAuth::attempt($request->only('email', 'password'));
             $user = Auth::user();
 
             if ($token) {
