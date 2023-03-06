@@ -26,9 +26,15 @@ class LoginController extends Controller
             }
 
             $token = Auth::attempt($request->only('email', 'password'));
+            $user = Auth::user();
 
             if ($token) {
-                return $this->respondWithToken($token);
+                return response()->json([
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'user' => $user,
+                //'expires_in' => $this->guard()->factory()->getTTL() * 60 * 60
+        ]);
             }
 
             /* throw ValidationException::withMessages([

@@ -57,7 +57,7 @@ class RegisterController extends Controller
 
             //The email sending is done using the to method on the Mail facade
             Mail::to($email)->send(new Registration($name, $verification_code));
-            $user = User::first();
+            //$user = User::first();
             $token = JWTAuth::fromUser($user);
 
             return Response::json(compact('token'));
