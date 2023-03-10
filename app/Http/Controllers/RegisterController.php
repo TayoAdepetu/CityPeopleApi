@@ -59,11 +59,11 @@ class RegisterController extends Controller
             Mail::to($email)->send(new Registration($name, $verification_code));
             //$user = User::first();
             //difference between JWTAuth::fromUser($user),JWTAuth::toUser($user) and JWTAuth::attempt($user) 
-            $token = JWTAuth::fromUser($user);
+            //$token = JWTAuth::fromUser($user);
 
-            return Response::json(compact('token'));
+           // return Response::json(compact('token'));
 
-            //return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
+            return response()->json(['success'=> true, 'message'=> 'Thanks for signing up! Please check your email to complete your registration.']);
         } catch(JWTException $exception){
             return response()->json($exception);
         }
