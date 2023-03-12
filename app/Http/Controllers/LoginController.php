@@ -34,7 +34,6 @@ class LoginController extends Controller
                 return response()->json([
                 'access_token' => strval($token),
                 'token_type' => 'bearer',
-                'user' => $user,
                 //'expires_in' => $this->guard()->factory()->getTTL() * 60 * 60 * 3 // to expire in 3 hours 
                 "expires_in" => Auth::factory()->getTTL() * 60 * 60 * 3 // to expire in 3 hours
         ]);
