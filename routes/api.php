@@ -40,6 +40,7 @@ Route::post('auth/recover-password', 'App\Http\Controllers\LoginController@recov
 //Route::get('auth/login', 'App\Http\Controllers\LoginController@loginUser')->name('login');
 Route::post('auth/login', 'App\Http\Controllers\LoginController@loginUser');
 Route::post('auth/register', 'App\Http\Controllers\RegisterController@registerUser');
+Route::post('auth/refresh', 'App\Http\Controllers\RegisterController@refresh');
 //Get all Posts paginate 5
 Route::get('auth/posts', 'App\Http\Controllers\PostController@index');
 //Get all Posts paginate 20
