@@ -26,7 +26,8 @@ class LoginController extends Controller
                 return response()->json(['success' => false, 'error' => $credentials->messages()], 401);
             }
 
-            $token = JWTAuth::attempt($request->only('email', 'password'));
+            $info = $request->only('email', 'password');
+            $token = JWTAuth::attempt($info);
             $user = Auth::user();
 
             if ($token) {
