@@ -16,7 +16,7 @@ class LoginController extends Controller
 {
     public function loginUser(Request $request)
     {
-        
+        try {
             $credentials = $request->validate([
                 'email' => 'required|email',
                 'password' => 'required|string'
@@ -30,6 +30,7 @@ class LoginController extends Controller
             $token = JWTAuth::attempt($info);
             $user = Auth::user();
 
+            if ($token) {
                 return response()->json([
                 'access_token' => strval($token),
                 'token_type' => 'bearer',
@@ -37,7 +38,10 @@ class LoginController extends Controller
                 //'expires_in' => $this->guard()->factory()->getTTL() * 60 * 60 * 3 // to expire in 3 hours 
                 "expires_in" => Auth::factory()->getTTL() * 60 * 60 * 3 // to expire in 3 hours
         ]);
-       
+    }
+        } catch (JWTException $exception) {
+            return response()->json($exception);
+        }
     }
 
     /**
