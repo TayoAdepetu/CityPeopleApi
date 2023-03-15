@@ -42,6 +42,7 @@ return [
                 //'port' => env('PUSHER_PORT', 6001),
                 //'scheme' => env('PUSHER_SCHEME', 'http'),
                 //'useTLS' => env('PUSHER_SCHEME', 'http') === 'http',
+                'useTLS' => true,
                 
                 
             ],

@@ -37,6 +37,15 @@ class ChatMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        //to use one single channel
         return new PrivateChannel('chat');
+
+        //to use an array of channels
+        //return ['chat'];
+
+    }
+
+    public function broadcastAs(){
+        return 'message';
     }
 }
