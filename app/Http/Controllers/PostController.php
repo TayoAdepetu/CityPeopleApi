@@ -100,6 +100,7 @@ class PostController extends Controller
             'slug' => 'required|string',
             'description' => 'required|string',
             'body' => 'required|string',
+            'image_path' => 'required|string',
            // 'category_id' => 'required|integer',
         ]);
 
@@ -112,6 +113,7 @@ class PostController extends Controller
             'slug' => $request->slug,
             'description' => $request->description,
             'body' => $request->body,
+            'image_path' => $request->image_path,
         ]);
 
         return $post;

@@ -124,6 +124,14 @@ Route::group([
     //choose category for post
     Route::get('auth/category-admin', 'App\Http\Controllers\CategoryController@index');
 
+     //Blog Images
+    Route::get('auth/fetch-blog-images/', 'App\Http\Controllers\BlogimageController@index');
+    Route::get('auth/fetch-blog-images/', 'App\Http\Controllers\BlogimageController@indexMore');
+    Route::post('auth/create-blog-images/', 'App\Http\Controllers\BlogimageController@storeImages');
+    Route::post('auth/delete-blog-images/{image_path}', 'App\Http\Controllers\BlogimageController@deleteImage');
+    Route::post('auth/update-blog-images/{image_path}', 'App\Http\Controllers\BlogimageController@update');
+    Route::get('auth/fetch-blog-images/{username}', 'App\Http\Controllers\BlogimageController@showByUsername');
+
     });
 
     Route::group(['middleware' => 'isCommenter'], function(){
