@@ -36,6 +36,10 @@ class SubsubjectController extends Controller
         $subsubject->slug = $request->slug;   
         $subsubject->description = $request->description;   
         $subsubject->body = $request->body;
+
+        if($request->status){
+            $subsubject->status = $request->status;
+        }
     
         Subsubject::create($request->all());
     }
@@ -43,7 +47,7 @@ class SubsubjectController extends Controller
     public function index(Request $request, $subject_name)
     {
         //
-        $subsubject = Subsubject::where('subject_name', $subject_name);
+        $subsubject = Subsubject::where('subject_name', $subject_name)->where('status', 'published')->get();
 	    return $subsubject;
       
     }
@@ -63,7 +67,7 @@ class SubsubjectController extends Controller
            // 'category_id' => 'required|integer',
         ]);
 
-        if(!$validator->fails()){
+        if($validator){
         $subsubject = Subsubject::where('id', $id)->update([
             'subsubject_name' => $request->subsubject_name,
             'slug'=> $request->slug,

@@ -13,7 +13,7 @@ class Afrimages extends Model
         'image_name',
         'image_path',
         'user_id',
-        'photo_id',
+        'public_id',
         'description',
         'category_id',
     ];

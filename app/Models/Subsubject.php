@@ -15,6 +15,7 @@ class Subsubject extends Model
         'slug',
         'body',
         'description',
+        'status',
     ];
 
     public function post(){

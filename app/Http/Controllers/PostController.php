@@ -8,19 +8,15 @@ use App\Models\Category;
 use App\Models\User;
 use Image;
 use Illuminate\Support\Facades\Validator;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
-        $posts = Post::with('user', 'category')->orderBy('created_at', 'desc')->paginate(5);
+        $posts = Post::where('status', 'published')->with('user', 'category')->orderBy('created_at', 'desc')->paginate(5);
 	    return $posts;
       
     }
@@ -28,20 +24,15 @@ class PostController extends Controller
     public function indexMore()
     {
         //
-        $posts = Post::with('user', 'category')->orderBy('created_at', 'desc')->paginate(20);
+        $posts = Post::where('status', 'published')->with('user', 'category')->orderBy('created_at', 'desc')->paginate(20);
 	    return $posts;
       
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
-        //
+        try{
         $request->validate([
             'title' => 'required|string',
             'slug' => 'required|string',
@@ -49,7 +40,7 @@ class PostController extends Controller
             'body' => 'required|string',
             'category_id' => 'required|integer',
             'user_id' => 'required|integer',
-            //'image' => 'required',
+            'image' => 'required|string',
         ]);
 
         $post = new Post();
@@ -59,7 +50,10 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->category_id = $request->category_id;
         $post->user_id = $request->user_id;
+        $post->image_path = $request->image_path;
+                
 
+        /*
         
         if(preg_match('/^data:image\/(\w+);base64,/', $request->image)){
                 $value = substr($request->image, strpos($request->image, ',') + 1);
@@ -71,10 +65,15 @@ class PostController extends Controller
                 //put image name in database so that we can use it to search the folder when we need it
                 $post->image = $filename;
         }
-        
+        */
+
         $post->save();
+
+         }catch(\Exception $e){
+      throw $e;
+    }
         
-        }
+}
 
     public function show($slug)
     {
@@ -104,7 +103,7 @@ class PostController extends Controller
            // 'category_id' => 'required|integer',
         ]);
 
-        if($validator->fails()){
+        if(!$validator){
             return false;
 
     }else{

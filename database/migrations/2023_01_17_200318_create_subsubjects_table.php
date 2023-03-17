@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('description');
             $table->string('body');
+            $table->enum('status', ['published', 'draft'])->default('published');//published is default
             //$table->string('image');
             $table->timestamps();
         

@@ -23,11 +23,12 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('description');
             $table->integer('category_id');
+            $table->enum('status', ['published', 'draft'])->default('published');//published is default
            /* $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')
             ->onDelete('cascade')
             ->unique();*/
             $table->longtext('body');
-            //$table->string('image');
+            $table->string('image_path');
             $table->timestamps();
         });
     }

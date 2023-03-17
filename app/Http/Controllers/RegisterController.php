@@ -16,6 +16,8 @@ use Response;
 use Intervention\Image\Facades\Image;
 use App\Mail\Registration;
 use App\Mail\PasswordChangeCode;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 
 
 class RegisterController extends Controller
@@ -82,6 +84,7 @@ class RegisterController extends Controller
 
     public function updateUserImage(Request $request, $email){        
 
+        /*
             if(preg_match('/^data:image\/(\w+);base64,/', $request->user_image)){
                 $value = substr($request->user_image, strpos($request->user_image, ',') + 1);
                 $user = Auth::user();
@@ -93,9 +96,29 @@ class RegisterController extends Controller
                 $user_image = User::where('email', $email)->update([
                 'user_image' => $filename
             ]);
+            */
+
+            try{
+
+            if ($request->file('user_image')) {
+                $file_cloud_url = Cloudinary::uploadFile($request->file('user_image')->getRealPath())->getSecurePath();
+
+                if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
+                    return $file_cloud_url;
+                }
+
+                $image_path = $file_cloud_url;
+            }
+
+            $user_image = User::where('email', $email)->update([
+                'user_image' => $image_path,
+            ]);
 
             return $user_image;
-        }
+
+            }catch(\Exception $e){
+      throw $e;
+    }
         
     }
 

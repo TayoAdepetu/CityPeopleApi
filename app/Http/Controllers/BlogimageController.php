@@ -6,18 +6,18 @@ use Illuminate\Http\Request;
 use Image;
 use File;
 use Illuminate\Support\Facades\Response;
-use App\Models\Afrimages;
+use App\Models\Blogimage;
 use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
-class AfrimagesController extends Controller
+class BlogimageController extends Controller
 {
-    //
+  //
 
     public function index()
     {
         //
-        $images = Afrimages::with('user', 'category')->orderBy('created_at', 'desc')->paginate(5);
+        $images = Blogimage::with('user')->orderBy('created_at', 'desc')->paginate(5);
 	    return $images;
       
     }
@@ -25,7 +25,7 @@ class AfrimagesController extends Controller
     public function indexMore()
     {
         //
-        $images = Afrimages::with('user', 'category')->orderBy('created_at', 'desc')->paginate(20);
+        $images = Blogimage::with('user')->orderBy('created_at', 'desc')->paginate(20);
 	    return $images;
       
     }
@@ -65,17 +65,17 @@ class AfrimagesController extends Controller
             $request->validate([
             'image_name' => ['required', 'string', 'unique:afrimages'],
             'image_description' => ['required', 'string', 'min:2'],
-            'category_id' => 'required|integer',
+            //'category_id' => 'required|integer',
             'user_id' => 'required|integer',
             'image' => 'required',
             //'image_path' => 'required',
             //'photo_id' => 'required',
         ]);
 
-        $image = new Afrimages();
+        $image = new Blogimage();
         $image->image_name = $request->image_name;
         $image->image_description = $request->image_description;
-        $image->category_id = $request->category_id;
+        //$image->category_id = $request->category_id;
         $image->user_id = $request->user_id;
 
         // upload profile picture to cloudinary if available
@@ -108,13 +108,13 @@ class AfrimagesController extends Controller
     public function showByImagePath($image_path)
     {
         //
-        $image = Afrimages::where('image_path', $image_path)->with('user')->first();
+        $image = Blogimage::where('image_path', $image_path)->with('user')->first();
         return $image;
     }
 
     public function downloadImage(Request $request, $image_path){
         //using the image path store in database to fetch from cloudinary
-        $filepath = Afrimages::where('image_path', $image_path);
+        $filepath = Blogimage::where('image_path', $image_path);
         return Response::download($filepath);
        
 
@@ -127,9 +127,9 @@ class AfrimagesController extends Controller
         */
 
         //unlink("postimage/".$image_path);
-       $image = Afrimages::where("image_path", $image_path)->get();
+       $image = Blogimage::where("image_path", $image_path)->get();
        Cloudinary::destroy($image->public_id);
-       Afrimages::where("image_path", $image_path)->delete();
+       Blogimage::where("image_path", $image_path)->delete();
 
        return back()->with("success", "Image deleted successfully.");
 
@@ -145,9 +145,9 @@ class AfrimagesController extends Controller
         ]);
 
         if($validator){
-        $newImage = Afrimages::where('image_path', $image_path)->update([
+        $newImage = Blogimage::where('image_path', $image_path)->update([
             'image_name' => $request->image_name,
-            'category_id' => $request->category_id,
+            //'category_id' => $request->category_id,
             'image_description' => $request->image_description,
         ]);
 
@@ -157,3 +157,4 @@ class AfrimagesController extends Controller
     }
 
 }
+

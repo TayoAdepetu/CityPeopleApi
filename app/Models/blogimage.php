@@ -5,24 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-//use App\Models\Category;
-//use App\Models\User;
-
-class Post extends Model
+class Blogimage extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'title',
-        'user_id',
-        'category_id',
-        'slug',
-        'body',
-        'description',
-        'status',
-        'image_path',
-    ];
 
-    protected $table = "posts";
+    protected $fillable = [
+        'image_name',
+        'image_path',
+        'user_id',
+        'public_id',
+        'description',
+        //'category_id',
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -31,9 +25,4 @@ class Post extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
-
-    public function subsubject(){
-        return $this->hasMany(Subsubject::class);
-    }
-
 }

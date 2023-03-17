@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('image_path')->unique();
             $table->integer('user_id');
             $table->string('public_id')->unique();
-            $table->integer('category_id');
+           // $table->integer('category_id');
             $table->string('image_name')->unique();
             $table->string('image_description');
             $table->timestamps();
