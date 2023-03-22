@@ -40,7 +40,7 @@ class PostController extends Controller
             'body' => 'required|string',
             'category_id' => 'required|integer',
             'user_id' => 'required|integer',
-            'image' => 'required|string',
+            'image_path' => 'required|string',
         ]);
 
         $post = new Post();

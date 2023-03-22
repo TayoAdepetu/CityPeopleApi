@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use Auth;
 use DB;
 use App\Models\Message;
@@ -10,6 +10,7 @@ use App\Events\ChatMessage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Chat;
 
+use Illuminate\Http\JsonResponse;
 
 
 
