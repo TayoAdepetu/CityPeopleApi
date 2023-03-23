@@ -46,7 +46,7 @@ class BizdirectoryController extends Controller
         $biz->number_of_employees = $request->number_of_employees;
         $biz->user_id = $request->user_id;
         if (Auth::check()){
-            $biz->business_name_slug = Auth::user()->business_name_slug;
+            $biz->business_name_slug = auth()->user()->business_name_slug;
         }     
         
         $biz->verified = "NO";
