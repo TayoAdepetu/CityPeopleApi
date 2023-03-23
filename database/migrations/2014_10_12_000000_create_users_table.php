@@ -24,6 +24,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->binary('user_image')->nullable()->nullable();//default('user.png');
             $table->string('business_name')->nullable()->unique();
+            $table->string('business_name_slug')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });
