@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('afrimages', function (Blueprint $table) {
+        Schema::create('blogimages', function (Blueprint $table) {
             $table->id();
             $table->string('image_path')->unique();
             $table->integer('user_id');
