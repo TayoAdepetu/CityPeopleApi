@@ -30,22 +30,7 @@ class WorkingHoursController extends Controller
 	    return $worktime;     
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreWorkingHoursRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function store(Request $request)
     {
         //
@@ -57,7 +42,7 @@ class WorkingHoursController extends Controller
             'friday' => 'required|string',
             'saturday' => 'required|string',
             'sunday' => 'required|string',
-            'user_id' => 'required|string',
+            'user_id' => 'required|integer',
         ]);
 
         $worktime = new WorkingHours();
@@ -72,14 +57,7 @@ class WorkingHoursController extends Controller
     
         WorkingHours::create($request->all());
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\WorkingHours  $workingHours
-     * @return \Illuminate\Http\Response
-     */
-
+   
      /*
     public function show($businessname)
     {
@@ -93,25 +71,8 @@ class WorkingHoursController extends Controller
     }
 
     */
+ 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\WorkingHours  $workingHours
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(WorkingHours $workingHours)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateWorkingHoursRequest  $request
-     * @param  \App\Models\WorkingHours  $workingHours
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $business_name_slug)
     {
         //
@@ -126,7 +87,7 @@ class WorkingHoursController extends Controller
             'user_id' => 'required|string',
         ]);
 
-        if(!$validator->fails()){
+        if($validator){
         $user = User::where('business_name_slug', $business_name_slug)->first();
         $worktime = $user->worktime()->update([
             'monday' => $request->monday,
