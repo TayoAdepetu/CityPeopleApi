@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Africategory;
+
 
 class AfricategoryController extends Controller
 {
@@ -35,7 +37,7 @@ class AfricategoryController extends Controller
             'name' => ['required', 'string', 'unique:africategories', 'min:2', 'max:255'],
         ]);
 
-        if(!$validator->fails()){
+        if($validator){
         $category = Africategory::where('id', $id)->update([
             'name' => $request->name,
         ]);

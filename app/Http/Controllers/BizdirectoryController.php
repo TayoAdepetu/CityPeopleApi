@@ -35,6 +35,7 @@ class BizdirectoryController extends Controller
             'website' => 'required|string',
             'established' => 'required|string',
             'number_of_employees' => 'required|string',
+            'business_name_slug' => 'required|string',
         ]);
 
         $biz = new Bizdirectory();
@@ -44,10 +45,9 @@ class BizdirectoryController extends Controller
         $biz->established = $request->established;
         //$biz->registered_here = $request->registered_here;
         $biz->number_of_employees = $request->number_of_employees;
-        $biz->user_id = $request->user_id;
-        if (Auth::check()){
-            $biz->business_name_slug = auth()->user()->business_name_slug;
-        }     
+        $biz->user_id = $request->user_id;       
+        $biz->business_name_slug = $request->business_name_slug;
+       
         
         $biz->verified = "NO";
     
@@ -83,7 +83,7 @@ class BizdirectoryController extends Controller
             'number_of_employees' => 'required|string',
         ]);
 
-        if(!$validator-fails()){
+        if($validator){
         $user = User::where('business_name_slug', $business_name_slug)->first();
         $biz = $user->bizdirectory()->update([
             'description' => $request->description,
