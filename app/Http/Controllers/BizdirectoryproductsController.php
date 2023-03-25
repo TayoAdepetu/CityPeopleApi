@@ -8,15 +8,11 @@ use App\Models\User;
 use App\Models\Productimages;
 
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class BizdirectoryproductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+       public function index()
     {
         
        $bizproducts = Bizdirectoryproducts::with('user')->paginate(5);
@@ -30,27 +26,12 @@ class BizdirectoryproductsController extends Controller
 	   return $bizproducts;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         //
         $request->validate([
-            'product_name_slug' => 'required|string',
+            //'product_name_slug' => 'required|string',
             'product_name' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|string',
@@ -63,7 +44,7 @@ class BizdirectoryproductsController extends Controller
         function generateKey(){
             $str = "12356890abcefghjklnopqrsuvwxyz()/$";
             $randStr = substr(str_shuffle($str), 0);
-            while(exist(Bizdirectoryproducts::where('product_name_slug', $randStr))){
+            if(Bizdirectoryproducts::where('product_name_slug', $randStr)->exists()){
                 $randStr = substr(str_shuffle($str), 0);
             }
 
@@ -80,6 +61,28 @@ class BizdirectoryproductsController extends Controller
 
         $product_images = $request->images;
 
+        foreach ($product_images as $product_image) {
+            $file_cloud_url = Cloudinary::uploadFile($product_image->getRealPath())->getSecurePath();
+
+                if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
+                    return $file_cloud_url;
+                }
+
+                $file_path = $file_cloud_url;
+                $image_public_id = $file_cloud_url->getPublicId();
+
+            Productimages::create([
+                'product_image_path' => $file_path,
+                'user_id' => $product->user_id,
+                'image_public_id' => $image_public_id,
+                'product_name_slug' => $product->product_name_slug,
+            ]);
+
+        }
+
+        $product->save();
+
+        /*
         foreach($product_images as $product_image){
             if(preg_match('/^data:image\/(\w+);base64,/', $product_image)){
                 $value = substr($request->image, strpos($request->image, ',') + 1);
@@ -98,9 +101,10 @@ class BizdirectoryproductsController extends Controller
                 ]);
         
         }
+        
         }
-    
-        $product->save();
+        */
+
     }
 
     /**
@@ -117,12 +121,7 @@ class BizdirectoryproductsController extends Controller
         return $product;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bizdirectoryproducts  $bizdirectoryproducts
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function showProduct($productname)
     {
         //
@@ -130,14 +129,8 @@ class BizdirectoryproductsController extends Controller
         return $product;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests  $request
-     * @param  \App\Models\Bizdirectoryproducts  $bizdirectoryproducts
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $slug)
+
+    public function update(Request $request, $product_name_slug)
     {
         //
          $validator = $request->validate([
@@ -147,7 +140,7 @@ class BizdirectoryproductsController extends Controller
             'location' => 'required|string',
         ]);
 
-        if(!$validator-fails()){
+        if($validator){
         $product = Bizdirectoryproducts::where('product_name_slug', $product_name_slug)->update([
             'product_name' => $request->product_name,
             'description' => $request->description,
@@ -159,12 +152,6 @@ class BizdirectoryproductsController extends Controller
     }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Bizdirectoryproducts  $bizdirectoryproducts
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($product_name_slug)
     {
         //
