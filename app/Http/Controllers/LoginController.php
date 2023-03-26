@@ -39,7 +39,7 @@ class LoginController extends Controller
         ]);
     
     }else{
-        return $this->errorResponse("unauthorized", "Login failed. Invalid Credentials", 401);
+        return response()->json("Login failed. Invalid Credentials", 401);
     }
         } catch (JWTException $exception) {
             return response()->json($exception);
