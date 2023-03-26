@@ -100,8 +100,10 @@ class RegisterController extends Controller
 
             try{
 
-            if ($request->file('user_image')) {
-                $file_cloud_url = Cloudinary::uploadFile($request->file('user_image')->getRealPath())->getSecurePath();
+                $image = $request->user_imag;
+
+            if ($image) {
+                $file_cloud_url = Cloudinary::uploadFile($image->getRealPath())->getSecurePath();
 
                 if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                     return $file_cloud_url;
@@ -114,6 +116,8 @@ class RegisterController extends Controller
             ]);
 
             return $user_image;
+            }else {
+                return response()->json("Image not saved", 401);
             }
             
 
