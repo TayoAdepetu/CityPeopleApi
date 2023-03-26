@@ -100,7 +100,7 @@ class RegisterController extends Controller
 
             try{
 
-                $image = $request->user_imag;
+                $image = $request->user_image;
 
             if ($image) {
                 $file_cloud_url = Cloudinary::uploadFile($image->getRealPath())->getSecurePath();
