@@ -37,6 +37,9 @@ class LoginController extends Controller
                 //'expires_in' => $this->guard()->factory()->getTTL() * 60 * 60 * 3 // to expire in 3 hours 
                 "expires_in" => Auth::factory()->getTTL() * 60 * 60 * 3 // to expire in 3 hours
         ]);
+    
+    }else{
+        return $this->errorResponse("unauthorized", "Login failed. Invalid Credentials", 401);
     }
         } catch (JWTException $exception) {
             return response()->json($exception);
