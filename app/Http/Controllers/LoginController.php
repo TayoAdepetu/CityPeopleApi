@@ -23,7 +23,7 @@ class LoginController extends Controller
             ]);
 
             if (!$credentials) {
-                return response()->json(['success' => false, 'error' => $credentials->messages()], 401);
+                return response()->json('invalid credentials', 401);
             }
 
             $info = $request->only('email', 'password');
