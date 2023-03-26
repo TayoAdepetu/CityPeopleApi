@@ -108,13 +108,14 @@ class RegisterController extends Controller
                 }
 
                 $image_path = $file_cloud_url;
-            }
 
-            $user_image = User::where('email', $email)->update([
+                $user_image = User::where('email', $email)->update([
                 'user_image' => $image_path,
             ]);
 
             return $user_image;
+            }
+            
 
             }catch(\Exception $e){
       throw $e;
