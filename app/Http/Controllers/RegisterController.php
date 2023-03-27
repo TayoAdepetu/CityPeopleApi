@@ -18,7 +18,7 @@ use App\Mail\Registration;
 use App\Mail\PasswordChangeCode;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Cloudinary\Api\Upload\UploadApi;
-use Illuminate\Database\Eloquent\Casts\ArrayObject
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 
 
 
