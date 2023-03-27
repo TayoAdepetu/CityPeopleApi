@@ -18,6 +18,7 @@ use App\Mail\Registration;
 use App\Mail\PasswordChangeCode;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Cloudinary\Api\Upload\UploadApi;
+use Illuminate\Database\Eloquent\Casts\ArrayObject
 
 
 
@@ -102,7 +103,7 @@ class RegisterController extends Controller
             try{
 
                 if(preg_match('/^data:image\/(\w+);base64,/', $request->user_image)){
-                $value = substr($request->user_image, strpos($request->user_image, ',') + 1);
+                //$value = substr($request->user_image, strpos($request->user_image, ',') + 1);
                 //$image = base64_decode($value);
             
 
@@ -112,18 +113,22 @@ class RegisterController extends Controller
 
                 //\Cloudinary\Uploader::upload("data:image/jpeg;base64...")
 
+                $user = User::where('email', $email)->get();
+
                 $cloudinary = new UploadApi();
 
                 //$image = $request->user_image;
 
                 //$cloudinary->upload($file, $options = []);
-                $file_cloud_url = $cloudinary->upload("data:image/jpeg;base64,". $value, ['resource_type' => 'image']);
+                $file_cloud_url = $cloudinary->upload($request->user_image, 
+                ['resource_type' => 'image', "folder" => "citypeople/citypeople_user_avatars/", "public_id" => $user->name]);
+                
+                //$arrayobj = new ArrayObject(array($file_cloud_url));
+                $image_path = $file_cloud_url->offsetGet('secure_url');;
 
                 if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                     return $file_cloud_url;
                 }
-
-                $image_path = $file_cloud_url;
 
                 $user_image = User::where('email', $email)->update([
                 'user_image' => $image_path,
