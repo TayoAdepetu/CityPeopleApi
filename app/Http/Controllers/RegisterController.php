@@ -131,13 +131,13 @@ class RegisterController extends Controller
                     return $file_cloud_url;
                 }
 
-                /*
+                
                 $user_image = User::where('email', $email)->update([
                 'user_image' => $file_cloud_url,
             ]);
-            */
+            
 
-            return $file_cloud_url;
+            return $user_image;
             }else {
                 return response()->json("Image not saved", 401);
             }
