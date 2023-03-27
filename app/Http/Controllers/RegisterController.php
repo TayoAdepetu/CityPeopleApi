@@ -122,7 +122,7 @@ class RegisterController extends Controller
                 //$cloudinary->upload($file, $options = []);
                 //$file_cloud_url = $cloudinary->upload($request->user_image,['resource_type' => 'image', "folder" => "citypeople/citypeople_user_avatars/", "public_id" => $user->name])->offsetGet('secure_url');
                 
-                $file_cloud_url = $cloudinary->upload($request->user_image,['resource_type' => 'image'])->offsetGet('secure_url');
+                $file_cloud_url = $cloudinary->upload($request->user_image,['resource_type' => 'image', "folder" => "cityavatar/", "public_id" => $user->name])->offsetGet('secure_url');
 
                 //$arrayobj = new ArrayObject(array($file_cloud_url));
                 //$image_path = $file_cloud_url->offsetGet('secure_url');
