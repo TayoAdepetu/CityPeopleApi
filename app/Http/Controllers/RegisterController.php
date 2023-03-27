@@ -105,7 +105,9 @@ class RegisterController extends Controller
                 //$image = base64_decode($value);
             
 
-                $file_cloud_url = Cloudinary::uploadFile($request->file('user_image')->getRealPath())->getSecurePath();
+                //$file_cloud_url = Cloudinary::uploadFile($request->file('user_image')->getRealPath())->getSecurePath();
+
+                $file_cloud_url = Cloudinary::uploadFile($request->user_image->getRealPath())->getSecurePath();
 
                 if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                     return $file_cloud_url;
