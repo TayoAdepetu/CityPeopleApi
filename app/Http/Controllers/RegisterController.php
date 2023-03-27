@@ -102,7 +102,7 @@ class RegisterController extends Controller
             try{
 
                 if(preg_match('/^data:image\/(\w+);base64,/', $request->user_image)){
-                //$value = substr($request->user_image, strpos($request->user_image, ',') + 1);
+                $value = substr($request->user_image, strpos($request->user_image, ',') + 1);
                 //$image = base64_decode($value);
             
 
@@ -114,10 +114,10 @@ class RegisterController extends Controller
 
                 $cloudinary = new UploadApi();
 
-                $image = $request->user_image;
+                //$image = $request->user_image;
 
                 //$cloudinary->upload($file, $options = []);
-                $file_cloud_url = $cloudinary->upload($image, ['resource_type' => 'image']);
+                $file_cloud_url = $cloudinary->upload("data:image/jpeg;base64,". $value, ['resource_type' => 'image']);
 
                 if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                     return $file_cloud_url;
