@@ -9,20 +9,22 @@ use App\Models\Productimages;
 
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Api\Upload\UploadApi;
+
 
 class BizdirectoryproductsController extends Controller
 {
        public function index()
     {
         
-       $bizproducts = Bizdirectoryproducts::with('user')->paginate(5);
+       $bizproducts = Bizdirectoryproducts::with('user', 'productimages')->paginate(5);
 	   return $bizproducts;
     }
 
     public function indexMore()
     {
         
-       $bizproducts = Bizdirectoryproducts::with('user')->paginate(20);
+       $bizproducts = Bizdirectoryproducts::with('user', 'productimages')->paginate(20);
 	   return $bizproducts;
     }
 
@@ -68,7 +70,7 @@ class BizdirectoryproductsController extends Controller
                     //https://www.php.net/manual/en/arrayobject.offsetget.php
                     //https://support.cloudinary.com/hc/en-us/community/posts/5806959634962-how-to-read-secure-url-from-the-response-object-after-uploading-in-php
 
-                    $user = User::where('email', $email)->get();
+                    $user = User::where('user_id', $request->user_id)->get();
 
                     $cloudinary = new UploadApi();
                     $file_cloud_url = $cloudinary->upload($product_image, ['resource_type' => 'image', "folder" => "cityavatar/", "public_id" => $user->name]);
@@ -103,7 +105,7 @@ class BizdirectoryproductsController extends Controller
     {
         //
         $user = User::where('business_name_slug', $business_name_slug)->first();
-        $product = $user->products()->with('user')->get();
+        $product = $user->products()->with('user', 'productimages')->get();
         return $product;
     }
 
@@ -111,7 +113,7 @@ class BizdirectoryproductsController extends Controller
     public function showProduct($productname)
     {
         //
-        $product = Bizdirectoryproducts::with('user')->where('product_name_slug', $productname)->get();
+        $product = Bizdirectoryproducts::with('user', 'productimages')->where('product_name_slug', $productname)->get();
         return $product;
     }
 
