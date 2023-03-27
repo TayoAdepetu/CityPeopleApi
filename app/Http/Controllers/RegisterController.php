@@ -17,6 +17,7 @@ use Intervention\Image\Facades\Image;
 use App\Mail\Registration;
 use App\Mail\PasswordChangeCode;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Api\Upload\UploadApi;
 
 
 
@@ -107,7 +108,14 @@ class RegisterController extends Controller
 
                 //$file_cloud_url = Cloudinary::uploadFile($request->file('user_image')->getRealPath())->getSecurePath();
 
-                $file_cloud_url = Cloudinary::uploadFile($request->user_image->getRealPath())->getSecurePath();
+                //$file_cloud_url = Cloudinary::uploadFile($request->user_image->getRealPath())->getSecurePath();
+
+                //\Cloudinary\Uploader::upload("data:image/jpeg;base64...")
+
+                $cloudinary = new UploadApi();
+
+                //$cloudinary->upload($file, $options = []);
+                $file_cloud_url = $cloudinary->upload($request->user_image, $options = ['resource_type' => 'video']);
 
                 if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                     return $file_cloud_url;
