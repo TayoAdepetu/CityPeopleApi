@@ -115,7 +115,7 @@ class RegisterController extends Controller
                 $cloudinary = new UploadApi();
 
                 //$cloudinary->upload($file, $options = []);
-                $file_cloud_url = $cloudinary->upload($request->user_image, $options = ['resource_type' => 'image']);
+                $file_cloud_url = $cloudinary->upload($request->user_image, ['resource_type' => 'image']);
 
                 if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                     return $file_cloud_url;
