@@ -19,7 +19,7 @@ class AfricategoryController extends Controller
         $category = new Africategory();
         $category->name = $request->name;      
     
-        Africategory::create($request->all());
+        $category->save();
     }
 
     public function index()
