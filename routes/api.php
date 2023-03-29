@@ -60,7 +60,7 @@ Route::get('auth/product/{product_name_slug}', 'App\Http\Controllers\Bizdirector
 //get all Bizdirectory with 5 paginate
 Route::get('auth/all-biz', 'App\Http\Controllers\BizdirectoryController@index');
 //get all Bizdirectory with 20 paginate
-Route::get('auth/all-biusinesses', 'App\Http\Controllers\BizdirectoryController@indexMore');
+Route::get('auth/all-businesses', 'App\Http\Controllers\BizdirectoryController@indexMore');
 //get a specific biz directory using business_name_slug
 Route::get('auth/biz-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@showbiz');
 //Get WorkingHours for a specific business using business_name_slug

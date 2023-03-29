@@ -34,7 +34,7 @@ class BizdirectoryproductsController extends Controller
     {
         //
         try {
-            $request->validate([
+            $validator = $request->validate([
                 //'product_name_slug' => 'required|string',
                 'product_name' => 'required|string',
                 'description' => 'required|string',
@@ -43,6 +43,10 @@ class BizdirectoryproductsController extends Controller
                 'location' => 'required|string',
                 'images' => 'required',
             ]);
+
+            if(!$validator){
+                return response()->json("check your credentials", 401);
+            }
 
             $product_images = $request->images;
 
