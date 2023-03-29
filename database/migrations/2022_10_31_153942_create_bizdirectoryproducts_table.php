@@ -19,7 +19,7 @@ return new class extends Migration
             /*$table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')
             ->onDelete('cascade')
             ->unique();*/
-            $table->string('product_name')->unique();
+            $table->string('product_name');
             $table->string('product_name_slug')->unique();
             $table->string('description');
             $table->string('location');
