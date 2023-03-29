@@ -19,4 +19,8 @@ class Productimages extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function bizdirectoryproducts(){
+        return $this->belongsTo(Bizdirectoryproducts::class, 'product_name_slug', 'product_name_slug');
+    }
 }

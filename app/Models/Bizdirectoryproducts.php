@@ -27,6 +27,6 @@ class Bizdirectoryproducts extends Model
     }
 
     public function productimages(){
-        return $this->hasMany(Productimages::class);
+        return $this->hasMany(Productimages::class, 'product_name_slug', 'product_name_slug');
     }
 }
