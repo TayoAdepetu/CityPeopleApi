@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('product_name_slug');
             $table->string('product_image_path')->unique();
             $table->string('image_public_id')->unique();         
-            $table->string('user_id')->unique();
+            $table->string('user_id');
             $table->timestamps();
         });
     }
