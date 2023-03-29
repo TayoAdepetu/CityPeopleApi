@@ -76,7 +76,7 @@ class BizdirectoryproductsController extends Controller
                        // $user = User::where('id', $request->user_id)->get();
 
                         $cloudinary = new UploadApi();
-                        $file_cloud_url = $cloudinary->upload($product_image, ['resource_type' => 'image', "folder" => "cityavatar/", "public_id" => Auth::user()->name]);
+                        $file_cloud_url = $cloudinary->upload($product_image, ['resource_type' => 'image', "folder" => "city_product_images/"]);
 
                         if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                             return $file_cloud_url;
