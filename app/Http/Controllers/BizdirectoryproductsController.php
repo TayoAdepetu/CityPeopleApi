@@ -43,58 +43,63 @@ class BizdirectoryproductsController extends Controller
                 'images' => 'required',
             ]);
 
-            function generateKey()
-            {
-                $str = "12356890abcefghjklnopqrsuvwxyz()/$";
-                $randStr = substr(str_shuffle($str), 0);
-                if (Bizdirectoryproducts::where('product_name_slug', $randStr)->exists()) {
-                    $randStr = substr(str_shuffle($str), 0);
-                }
-
-                return $randStr;
-            }
-
-            $product = new Bizdirectoryproducts();
-            $product->product_name = $request->product_name;
-            $product->product_name_slug = $request->product_name . '/' . generateKey();
-            $product->price = $request->price;
-            $product->location = $request->biz_location;
-            $product->description = $request->description;
-            $product->user_id = $request->user_id;
-
             $product_images = $request->images;
 
-            foreach ($product_images as $product_image) {
+            if (sizeof($product_images) < 5) {
 
-                if (preg_match('/^data:image\/(\w+);base64,/', $product_image)) {
-                    //https://www.php.net/manual/en/arrayobject.offsetget.php
-                    //https://support.cloudinary.com/hc/en-us/community/posts/5806959634962-how-to-read-secure-url-from-the-response-object-after-uploading-in-php
-
-                    $user = User::where('id', $request->user_id)->get();
-
-                    $cloudinary = new UploadApi();
-                    $file_cloud_url = $cloudinary->upload($product_image, ['resource_type' => 'image', "folder" => "cityavatar/", "public_id" => $user->name]);
-
-                    if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
-                        return $file_cloud_url;
+                function generateKey()
+                {
+                    $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+                    $randStr = substr(str_shuffle($str), 0);
+                    if (Bizdirectoryproducts::where('product_name_slug', $randStr)->exists()) {
+                        $randStr = substr(str_shuffle($str), 0);
                     }
 
-                    $file_path = $file_cloud_url->offsetGet('secure_url');
-                    $image_public_id = $file_cloud_url->offsetGet('public_id');
-
-                    Productimages::create([
-                        'product_image_path' => $file_path,
-                        'user_id' => $product->user_id,
-                        'image_public_id' => $image_public_id,
-                        'product_name_slug' => $product->product_name_slug,
-                    ]);
-
-                } else {
-                    return response()->json("Image not saved", 401);
+                    return $randStr;
                 }
-            }
 
-            $product->save();
+                $product = new Bizdirectoryproducts();
+                $product->product_name = $request->product_name;
+                $product->product_name_slug = $request->product_name . '/' . generateKey();
+                $product->price = $request->price;
+                $product->location = $request->biz_location;
+                $product->description = $request->description;
+                $product->user_id = $request->user_id;
+
+                foreach ($product_images as $product_image) {
+
+                    if (preg_match('/^data:image\/(\w+);base64,/', $product_image)) {
+                        //https://www.php.net/manual/en/arrayobject.offsetget.php
+                        //https://support.cloudinary.com/hc/en-us/community/posts/5806959634962-how-to-read-secure-url-from-the-response-object-after-uploading-in-php
+
+                        $user = User::where('id', $request->user_id)->get();
+
+                        $cloudinary = new UploadApi();
+                        $file_cloud_url = $cloudinary->upload($product_image, ['resource_type' => 'image', "folder" => "cityavatar/", "public_id" => $user->name]);
+
+                        if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
+                            return $file_cloud_url;
+                        }
+
+                        $file_path = $file_cloud_url->offsetGet('secure_url');
+                        $image_public_id = $file_cloud_url->offsetGet('public_id');
+
+                        Productimages::create([
+                            'product_image_path' => $file_path,
+                            'user_id' => $product->user_id,
+                            'image_public_id' => $image_public_id,
+                            'product_name_slug' => $product->product_name_slug,
+                        ]);
+
+                    } else {
+                        return response()->json("Image not saved", 401);
+                    }
+                }
+
+                $product->save();
+            }else{
+                return response()->json("Images more than 5", 401);
+            }
 
         } catch (\Exception $e) {
             throw $e;
