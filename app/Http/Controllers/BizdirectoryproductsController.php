@@ -10,6 +10,7 @@ use App\Models\Productimages;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Cloudinary\Api\Upload\UploadApi;
+use Auth;
 
 
 class BizdirectoryproductsController extends Controller
@@ -72,10 +73,10 @@ class BizdirectoryproductsController extends Controller
                         //https://www.php.net/manual/en/arrayobject.offsetget.php
                         //https://support.cloudinary.com/hc/en-us/community/posts/5806959634962-how-to-read-secure-url-from-the-response-object-after-uploading-in-php
 
-                        $user = User::where('id', $request->user_id)->get();
+                       // $user = User::where('id', $request->user_id)->get();
 
                         $cloudinary = new UploadApi();
-                        $file_cloud_url = $cloudinary->upload($product_image, ['resource_type' => 'image', "folder" => "cityavatar/", "public_id" => $user->name]);
+                        $file_cloud_url = $cloudinary->upload($product_image, ['resource_type' => 'image', "folder" => "cityavatar/", "public_id" => Auth::user()->name]);
 
                         if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                             return $file_cloud_url;
