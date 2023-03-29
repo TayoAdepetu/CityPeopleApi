@@ -35,7 +35,7 @@ class BizdirectoryproductsController extends Controller
         //
         try {
             $validator = $request->validate([
-                //'product_name_slug' => 'required|string',
+                'product_name_slug' => 'required|string',
                 'product_name' => 'required|string',
                 'description' => 'required|string',
                 'price' => 'required|string',
@@ -65,7 +65,7 @@ class BizdirectoryproductsController extends Controller
 
                 $product = new Bizdirectoryproducts();
                 $product->product_name = $request->product_name;
-                $product->product_name_slug = $request->product_name . '/' . generateKey();
+                $product->product_name_slug = $request->product_name_slug . '/' . generateKey();
                 $product->price = $request->price;
                 $product->location = $request->location;
                 $product->description = $request->description;
