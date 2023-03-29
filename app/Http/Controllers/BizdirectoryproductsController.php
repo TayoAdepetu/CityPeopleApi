@@ -63,7 +63,7 @@ class BizdirectoryproductsController extends Controller
                 $product->product_name = $request->product_name;
                 $product->product_name_slug = $request->product_name . '/' . generateKey();
                 $product->price = $request->price;
-                $product->location = $request->biz_location;
+                $product->location = $request->location;
                 $product->description = $request->description;
                 $product->user_id = $request->user_id;
 
