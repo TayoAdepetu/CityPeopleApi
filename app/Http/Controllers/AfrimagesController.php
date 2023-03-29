@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Response;
 use App\Models\Afrimages;
 use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Api\Upload\UploadApi;
+
 
 class AfrimagesController extends Controller
 {
@@ -67,7 +69,7 @@ class AfrimagesController extends Controller
             'image_description' => ['required', 'string', 'min:2'],
             'category_id' => 'required|integer',
             'user_id' => 'required|integer',
-            'image' => 'required',
+            'image' => 'required|string',
             //'image_path' => 'required',
             //'photo_id' => 'required',
         ]);
@@ -79,15 +81,16 @@ class AfrimagesController extends Controller
         $image->user_id = $request->user_id;
 
         // upload profile picture to cloudinary if available
-            if ($request->file('image')) {
-                $file_cloud_url = Cloudinary::uploadFile($request->file('image')->getRealPath())->getSecurePath();
+            if (preg_match('/^data:image\/(\w+);base64,/', $request->image)) {
+                $cloudinary = new UploadApi();
+                $file_cloud_url = $cloudinary->upload($request->image, ['resource_type' => 'image', "folder" => "Afrimages/"]);
 
                 if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
                     return $file_cloud_url;
                 }
 
-                $image->image_path = $file_cloud_url;
-                $image->public_id = $file_cloud_url->getPublicId();                
+                $image->image_path = $file_cloud_url->offsetGet('secure_url');
+                $image->public_id = $file_cloud_url->offsetGet('public_id');             
             }
 
             $image->save();
