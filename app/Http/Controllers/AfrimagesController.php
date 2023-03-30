@@ -72,13 +72,7 @@ class AfrimagesController extends Controller
             'image' => 'required|string',
             //'image_path' => 'required',
             //'photo_id' => 'required',
-        ]);
-
-        $image = new Afrimages();
-        $image->image_name = $request->image_name;
-        $image->image_description = $request->image_description;
-        $image->category_id = $request->category_id;
-        $image->user_id = $request->user_id;
+        ]);        
 
         // upload profile picture to cloudinary if available
             if (preg_match('/^data:image\/(\w+);base64,/', $request->image)) {
@@ -89,11 +83,18 @@ class AfrimagesController extends Controller
                     return $file_cloud_url;
                 }
 
-                $image->image_path = $file_cloud_url->offsetGet('secure_url');
-                $image->public_id = $file_cloud_url->offsetGet('public_id');             
-            }
+                $image = new Afrimages();
+                $image->image_name = $request->image_name;
+                $image->image_description = $request->image_description;
+                $image->category_id = $request->category_id;
+                $image->user_id = $request->user_id;
 
-            $image->save();
+                $image->image_path = $file_cloud_url->offsetGet('secure_url');
+                $image->public_id = $file_cloud_url->offsetGet('public_id');
+                $image->save();           
+            }else{
+                return response()->json('image not uploaded', 422);
+            }            
 
          }catch(\Exception $e){
       throw $e;
