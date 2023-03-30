@@ -87,6 +87,9 @@ Route::get('auth/all-ecommerce-products', 'App\Http\Controllers\Bizdirectoryprod
 Route::get('auth/retrieve-image{image_path}', 'App\Http\Controllers\AfrimagesController@showByImagePath');
 //download image from Afrimages
 Route::get('auth/download-image{image_path}', 'App\Http\Controllers\AfrimagesController@downloadImage');
+//fetch African images
+Route::get('auth/fetch-afri-images/', 'App\Http\Controllers\AfrimagesController@indexMore');
+Route::get('auth/fetch-images/', 'App\Http\Controllers\AfrimagesController@index');  
 
 
 
@@ -207,9 +210,7 @@ Route::group([
     Route::post('auth/delete-categories/{id}', 'App\Http\Controllers\AfricategoryController@destroy');
     Route::post('auth/update-categories/{id}', 'App\Http\Controllers\AfricategoryController@update');
 
-    //Images
-    Route::get('auth/fetch-images/', 'App\Http\Controllers\AfrimagesController@index');
-    Route::get('auth/fetch-afri-images/', 'App\Http\Controllers\AfrimagesController@indexMore');
+    //Images      
     Route::post('auth/create-images/', 'App\Http\Controllers\AfrimagesController@storeImages');
     Route::post('auth/delete-images/{image_path}', 'App\Http\Controllers\AfrimagesController@deleteImage');
     Route::post('auth/update-images/{image_path}', 'App\Http\Controllers\AfrimagesController@update');
