@@ -112,7 +112,7 @@ class AfrimagesController extends Controller
     public function showByImagePath($image_path)
     {
         //
-        $image = Afrimages::where('public_id', 'Afrimages/'.$image_path)->with('user')->first();
+        $image = Afrimages::where('id', $image_path)->with('user')->first();
         return $image;
     }
 
