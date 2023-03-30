@@ -210,7 +210,7 @@ Route::group([
     Route::post('auth/delete-categories/{id}', 'App\Http\Controllers\AfricategoryController@destroy');
     Route::post('auth/update-categories/{id}', 'App\Http\Controllers\AfricategoryController@update');
 
-    //Images      
+    //Afri Images      
     Route::post('auth/create-images/', 'App\Http\Controllers\AfrimagesController@storeImages');
     Route::post('auth/delete-images/{image_path}', 'App\Http\Controllers\AfrimagesController@deleteImage');
     Route::post('auth/update-images/{image_path}', 'App\Http\Controllers\AfrimagesController@update');
