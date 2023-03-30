@@ -84,7 +84,7 @@ Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsContro
 //Get all Bizdirectoryproducts paginate 20
 Route::get('auth/all-ecommerce-products', 'App\Http\Controllers\BizdirectoryproductsController@indexMore');
 //get a single image from Afrimages
-Route::get('auth/retrieve-image{image_path}', 'App\Http\Controllers\AfrimagesController@showByImagePath');
+Route::get('auth/retrieve-image/{image_path}', 'App\Http\Controllers\AfrimagesController@showByImagePath');
 //download image from Afrimages
 Route::get('auth/download-image{image_path}', 'App\Http\Controllers\AfrimagesController@downloadImage');
 //fetch African images
