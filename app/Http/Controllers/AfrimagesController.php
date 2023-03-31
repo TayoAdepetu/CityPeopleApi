@@ -117,7 +117,7 @@ class AfrimagesController extends Controller
     }
 
     public function downloadImage(Request $request, $image_path){
-        //using the image path store in database to fetch from cloudinary
+        //using the image_path store in database to fetch from cloudinary
         $filepath = Afrimages::where('id', $image_path);
         return Response::download($filepath);
        
