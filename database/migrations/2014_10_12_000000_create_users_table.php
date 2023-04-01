@@ -25,6 +25,7 @@ return new class extends Migration
             $table->binary('user_image')->nullable()->nullable();//default('user.png');
             $table->string('business_name')->nullable()->unique();
             $table->string('business_name_slug')->nullable()->unique();
+            $table->string('biz_logo')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });

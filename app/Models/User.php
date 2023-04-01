@@ -33,6 +33,7 @@ class User extends Authenticatable implements JWTSubject
         'scope',
         'email_verified_at',
         'is_verified',
+        'biz_logo',
     ];
 
     protected $table = "users";

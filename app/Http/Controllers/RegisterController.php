@@ -86,7 +86,7 @@ class RegisterController extends Controller
                 }
 
                 $business_name = User::where('email', $email)->update([
-                    'biz_logo' => $file_cloud_url->offsetGet('secure_url');
+                    'biz_logo' => $file_cloud_url->offsetGet('secure_url'),
                     'business_name' => $request->business_name,
                     'business_name_slug' => $request->business_name_slug,
                     'scope' => 'seller',
