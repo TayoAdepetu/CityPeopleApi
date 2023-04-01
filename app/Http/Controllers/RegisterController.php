@@ -76,12 +76,25 @@ class RegisterController extends Controller
 
     //let users supply business name before they can have bizdirectory
     public function updateUserBiz(Request $request, $email){
-        $business_name = User::where('email', $email)->update([
-            'business_name' => $request->business_name,
-            'business_name_slug' => $request->business_name_slug,
-        ]);
 
-        return $business_name;
+        if (preg_match('/^data:image\/(\w+);base64,/', $request->imagepiece)) {
+                $cloudinary = new UploadApi();
+                $file_cloud_url = $cloudinary->upload($request->imagepiece, ['resource_type' => 'image', "folder" => "citylogo/"]);
+
+                if (isset($file_cloud_url['status']) && $file_cloud_url['status'] == false) {
+                    return $file_cloud_url;
+                }
+
+                $business_name = User::where('email', $email)->update([
+                    'biz_logo' => $file_cloud_url->offsetGet('secure_url');
+                    'business_name' => $request->business_name,
+                    'business_name_slug' => $request->business_name_slug,
+                    'scope' => 'seller',
+                ]);  
+            
+            }else{
+                return response()->json('Business not registered', 422);
+                }  
     }
 
     public function updateUserImage(Request $request, $email){        

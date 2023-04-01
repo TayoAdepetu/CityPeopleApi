@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jobsdirectory;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Auth;
 
 class JobsdirectoryController extends Controller
 {   
@@ -45,6 +45,8 @@ class JobsdirectoryController extends Controller
 
                 return $randStr;
             }
+        
+        if(Auth::user()->scope === 'seller'){
 
         $job = new Jobsdirectory();
         $job->title = $request->title;
@@ -56,6 +58,9 @@ class JobsdirectoryController extends Controller
         $job->user_id = $request->user_id;   
     
         Jobsdirectory::create($request->all());
+        return true;
+        }
+        
     }
 
     public function show($business_name_slug)
