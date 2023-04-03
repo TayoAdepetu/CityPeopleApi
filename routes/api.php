@@ -50,8 +50,12 @@ Route::get('auth/blog/{slug}', 'App\Http\Controllers\PostController@show');
 
 //get products for specific business using business_name_slug
 Route::get('auth/products/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@show');
+//get myproducts for specific category
+Route::get('auth/products/{category}', 'App\Http\Controllers\MyproductsController@show');
 //get single product using product_name_slug
 Route::get('auth/product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@showProduct');
+//get one myproduct using product_name_slug
+Route::get('auth/myproduct/{product_name_slug}', 'App\Http\Controllers\MyyproductsController@showProduct');
 //get all Bizdirectory with 5 paginate
 Route::get('auth/all-biz', 'App\Http\Controllers\BizdirectoryController@index');
 //get all Bizdirectory with 20 paginate
@@ -76,8 +80,13 @@ Route::get('auth/review-comments/{page_slug}', 'App\Http\DirectoryReviewsControl
 Route::get('auth/all-faqs/{business_name_slug}', 'App\Http\Controllers\FaqsController@index');
 //Get all Bizdirectoryproducts paginate 5
 Route::get('auth/all-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+//Get all Bizdirectoryproducts paginate 5
+Route::get('auth/all-my-products', 'App\Http\Controllers\BizdirectoryproductsController@index');
+
 //Get all Bizdirectoryproducts paginate 20
 Route::get('auth/all-ecommerce-products', 'App\Http\Controllers\BizdirectoryproductsController@indexMore');
+//Get all myproducts paginate 20
+Route::get('auth/all-myproducts', 'App\Http\Controllers\MyproductsController@indexMore');
 //get a single image from Afrimages
 Route::get('auth/retrieve-image/{image_path}', 'App\Http\Controllers\AfrimagesController@showByImagePath');
 //download image from Afrimages
@@ -134,10 +143,14 @@ Route::group([
     
     //create products for specific business
     Route::post('auth/create-directory-product', 'App\Http\Controllers\BizdirectoryproductsController@store');
+    //create myproducts
+    Route::post('auth/create-myproduct', 'App\Http\Controllers\MyproductsController@store');
     //update product using product_name_slug
     Route::post('auth/update-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
     //delete product using product_name_slug
     Route::delete('auth/delete-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@destroy');
+    //delete myproduct using product_name_slug
+    Route::delete('auth/delete-myproduct/{product_name_slug}', 'App\Http\Controllers\MyproductsController@destroy');
     
     //save post comment for logged-in user
     Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
@@ -149,12 +162,14 @@ Route::group([
     Route::post('auth/create-directory-product', 'App\Http\Controllers\BizdirectoryproductsController@store');
     //update product using product_name_slug
     Route::post('auth/update-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
+    //update myproduct
+    Route::post('auth/update-myproduct/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
     //delete product using product_name_slug
     Route::delete('auth/delete-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@destroy');
     //create new directory
     Route::post('auth/create-directory', 'App\Http\Controllers\BizdirectoryController@store');
     //update a specific biz directory
-    Route::post('auth/update-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
+    Route::post('auth/update-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@update');
     //delete a specific directory
     Route::delete('auth/delete-directory/{business_name_slug}', 'App\Http\Controllers\BizdirectoryController@destroy');
     //create new faqs

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Myproducts;
 use App\Models\Bizdirectory;
 use App\Models\User;
-use App\Models\Productimages;
+use App\Models\Myproductimages;
 
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -18,14 +18,14 @@ class MyproductsController extends Controller
        public function index()
     {
         
-       $bizproducts = Myproducts::inRandomOrder()->with('user', 'productimages')->limit(5)->orderBy('created_at', 'desc')->get();
+       $bizproducts = Myproducts::inRandomOrder()->with('myproductimages')->limit(5)->orderBy('created_at', 'desc')->get();
 	   return $bizproducts;
     }
 
     public function indexMore()
     {
         
-       $bizproducts = Myproducts::inRandomOrder()->with('user', 'productimages')->limit(20)->orderBy('created_at', 'desc')->get();
+       $bizproducts = Myproducts::with('myproductimages')->orderBy('created_at', 'desc')->paginate(20);
 	   return $bizproducts;
     }
 
@@ -36,6 +36,7 @@ class MyproductsController extends Controller
         try {
             $validator = $request->validate([
                 'product_name_slug' => 'required|string',
+                'category' => 'required|string',
                 'product_name' => 'required|string',
                 'description' => 'required|string',
                 'price' => 'required|string',
@@ -80,6 +81,7 @@ class MyproductsController extends Controller
                 $product->user_id = $request->user_id;
                 $product->landing_page_title = $request->landing_page_title;
                 $product->headline_support = $request->headline_support;
+                $product->category = $request->category;
                 
 
                 foreach ($product_images as $product_image) {
@@ -100,7 +102,7 @@ class MyproductsController extends Controller
                         $file_path = $file_cloud_url->offsetGet('secure_url');
                         $image_public_id = $file_cloud_url->offsetGet('public_id');
 
-                        Productimages::create([
+                        Myproductimages::create([
                             'product_image_path' => $file_path,
                             'user_id' => $product->user_id,
                             'image_public_id' => $image_public_id,
@@ -155,19 +157,20 @@ class MyproductsController extends Controller
         }
     }
 
-    public function show($business_name_slug)
+    //show all products in a category
+    public function show($category)
     {
         //
-        $user = User::where('business_name_slug', $business_name_slug)->first();
-        $product = $user->products()->with('user', 'productimages')->get();
+        $product = Myproducts::where('category', $category)->with('myproductimages')->paginate(10);
         return $product;
     }
 
  
+    //show one product
     public function showProduct($productname)
     {
         //
-        $product = Myproducts::with('user', 'productimages')->where('product_name_slug', $productname)->get();
+        $product = Myproducts::with('myproductimages')->where('product_name_slug', $productname)->get();
         return $product;
     }
 
@@ -176,17 +179,21 @@ class MyproductsController extends Controller
     {
         //
          $validator = $request->validate([
-            'product_name' => 'required|string',
+            'landing_page_title' => 'required|string',
+            'headline_support' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|string',
-            'location' => 'required|string',
+            'delivery_days' => 'required|string',
+            'category' => 'required|string',
         ]);
 
         if($validator){
         $product = Myproducts::where('product_name_slug', $product_name_slug)->update([
-            'product_name' => $request->product_name,
+            'category' => $request->category,
+            'landing_page_title' => $request->landing_page_title,
+            'headline_support' => $request->headline_support,
             'description' => $request->description,
-            'location' => $request->biz_location,
+            'delivery_days' => $request->delivery_days,
             'price' => $request->price,
         ]);
 
