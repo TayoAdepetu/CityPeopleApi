@@ -19,7 +19,7 @@ class AfrimagesController extends Controller
     public function index()
     {
         //
-        $images = Afrimages::with('user', 'category')->orderBy('created_at', 'desc')->paginate(5);
+        $images = Afrimages::inRandomOrder()->with('user', 'category')->limit(5)->orderBy('created_at', 'desc')->get();
 	    return $images;
       
     }
@@ -27,7 +27,7 @@ class AfrimagesController extends Controller
     public function indexMore()
     {
         //
-        $images = Afrimages::with('user', 'category')->orderBy('created_at', 'desc')->paginate(20);
+        $images = Afrimages::inRandomOrder()->with('user', 'category')->limit(20)->orderBy('created_at', 'desc')->get();
 	    return $images;
       
     }

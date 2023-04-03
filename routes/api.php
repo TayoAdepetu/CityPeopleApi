@@ -47,12 +47,7 @@ Route::get('auth/posts', 'App\Http\Controllers\PostController@index');
 Route::get('auth/more-posts', 'App\Http\Controllers\PostController@indexMore');
 //get specific post by slug
 Route::get('auth/blog/{slug}', 'App\Http\Controllers\PostController@show');
-//Get all Jobs paginate 5
-Route::get('auth/jobs', 'App\Http\Controllers\JobsdirectoryController@index');
-//Get all Jobs paginate 20
-Route::get('auth/more-jobs', 'App\Http\Controllers\JobsdirectoryController@indexMore');
-//get a specific job using job_slug
-Route::get('auth/job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@showByJobSlug');
+
 //get products for specific business using business_name_slug
 Route::get('auth/products/{business_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@show');
 //get single product using product_name_slug
@@ -89,7 +84,7 @@ Route::get('auth/retrieve-image/{image_path}', 'App\Http\Controllers\AfrimagesCo
 Route::get('auth/download-image/{image_path}', 'App\Http\Controllers\AfrimagesController@downloadImage');
 //fetch African images
 Route::get('auth/fetch-afri-images/', 'App\Http\Controllers\AfrimagesController@indexMore');
-Route::get('auth/fetch-images/', 'App\Http\Controllers\AfrimagesController@index');  
+Route::get('auth/fetch-images/', 'App\Http\Controllers\AfrimagesController@index'); 
 
 
 
@@ -100,9 +95,7 @@ Route::group([
 ], function () {
 
     Route::get('auth/user', 'App\Http\Controllers\LoginController@me');
-    Route::post('auth/logout', 'App\Http\Controllers\LoginController@logoutUser');
-    //to register business name on the Users Table for the first time
-    Route::post('auth/update-business-name/{email}', 'App\Http\Controllers\RegisterController@updateUserBiz');
+    Route::post('auth/logout', 'App\Http\Controllers\LoginController@logoutUser');    
     //upload user image
     Route::post('auth/update-user-image/{email}', 'App\Http\Controllers\RegisterController@updateUserImage');
 
@@ -138,14 +131,20 @@ Route::group([
     });
 
     Route::group(['middleware' => 'isCommenter'], function(){
-    //get all jobs using business_name_slug
-    Route::get('auth/jobs/{business_name_slug}', 'App\Http\Controllers\JobsdirectoryController@show');
-    //create new job
-    Route::post('auth/create-new-job', 'App\Http\Controllers\JobsdirectoryController@store');
-    //update a specific job using job_slug
-    Route::post('auth/update-job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@update');
-    //deele specific job using job_slug
-    Route::post('auth/delete-job/{job_slug}', 'App\Http\Controllers\JobsdirectoryController@destroy');
+    
+    //create products for specific business
+    Route::post('auth/create-directory-product', 'App\Http\Controllers\BizdirectoryproductsController@store');
+    //update product using product_name_slug
+    Route::post('auth/update-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@update');
+    //delete product using product_name_slug
+    Route::delete('auth/delete-product/{product_name_slug}', 'App\Http\Controllers\BizdirectoryproductsController@destroy');
+    
+    //save post comment for logged-in user
+    Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
+
+     //to register business name on the Users Table for the first time
+    Route::post('auth/update-business-name/{email}', 'App\Http\Controllers\RegisterController@updateUserBiz');
+
     //create products for specific business
     Route::post('auth/create-directory-product', 'App\Http\Controllers\BizdirectoryproductsController@store');
     //update product using product_name_slug
@@ -170,19 +169,17 @@ Route::group([
     Route::post('auth/update-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@update');
     //delete worktime using business_name_slug
     Route::delete('auth/delete-worktime/{business_name_slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
+
     //save post comment for logged-in user
     Route::post('auth/post-comments', 'App\Http\PostCommentsController@store');
     //save biz-directory review comment for logged-in user
     Route::post('auth/directory-comments', 'App\Http\DirectoryReviewsController@store');
+    
 
 });
     
-    Route::group(['middleware' => 'isAdmin'], function(){
-        
-    //Get all Faqs for admin and superadmin
-    Route::get('auth/all-faqs-table', 'App\Http\Controllers\FaqsController@showAll');
-    //get all worktime for admin
-    Route::get('auth/worktime-admin', 'App\Http\Controllers\WorkingHoursController@showAll');
+    Route::group(['middleware' => 'isAdmin'], function(){        
+    
     //update and delete secret
     Route::post('auth/update-secret/{slug}', 'App\Http\Controllers\SecretController@update');
     Route::delete('auth/delete-secret/{slug}', 'App\Http\Controllers\SecretController@destroy');
@@ -221,22 +218,4 @@ Route::group([
 
         });
 });
-
-//get faq by ID when editing
-//Route::get('auth/faq/{id}', 'App\Http\Controllers\FaqsController@show');
-
-
-
-/*For WorkingHours
-Route::get('auth/all-worktime', 'App\Http\Controllers\WorkingHoursController@index');
-Route::post('auth/create-new-worktime', 'App\Http\Controllers\WorkingHoursController@store');
-Route::get('auth/worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@show');
-Route::post('auth/update-worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@update');
-Route::delete('auth/delete-worktime/{slug}', 'App\Http\Controllers\WorkingHoursController@destroy');
-
-*/
-
-
-
-
 
