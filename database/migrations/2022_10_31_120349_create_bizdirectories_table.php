@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('website');
             $table->string('established');
             $table->enum('verified', ['YES', 'NO'])->nullable();//default('YES');
-            //$table->string('registered_here');
             $table->string('location');
             $table->timestamps();
         });

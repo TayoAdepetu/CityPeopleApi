@@ -14,13 +14,26 @@ class CategoryController extends Controller
         //
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'unique:categories', 'min:2', 'max:255'],
+            'name_slug'=> 'required|string',
         ]);
+
+        function generateKey(Request $request)
+                {
+                    $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+                    $randStr = substr(str_shuffle($str), 0);
+                    if (Category::where('name_slug', $request->name_slug.'-'.$randStr)->exists()) {
+                        $randStr = substr(str_shuffle($str), 0);
+                    }
+
+                    return $randStr;
+                }
 
         if($validator->fails()){
 
         } else{
             $category = new Category();
-            $category->name = $request->name;      
+            $category->name = $request->name; 
+            $category->name_slug = $request->name_slug.'-'.generateKey();      
     
             Category::create($request->all());
         }

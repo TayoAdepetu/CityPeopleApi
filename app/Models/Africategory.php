@@ -11,5 +11,6 @@ class Africategory extends Model
 
     protected $fillable = [
         'name',
+        'reference_id',
     ];
 }

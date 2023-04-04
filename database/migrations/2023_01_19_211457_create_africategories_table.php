@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('africategories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('reference_id')->unique();
             $table->timestamps();
         });
     }

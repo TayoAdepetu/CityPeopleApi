@@ -38,15 +38,27 @@ class BizdirectoryController extends Controller
             'business_name_slug' => 'required|string',
         ]);
 
+        function generateKey(Request $request)
+                {
+                    $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+                    $randStr = substr(str_shuffle($str), 0);
+                    if (Bizdirectory::where('reference_id', $request->business_name_slug . '-'.$randStr)->exists()) {
+                        $randStr = substr(str_shuffle($str), 0);
+                    }
+
+                    return $randStr;
+                }
+
+        
+
         $biz = new Bizdirectory();
         $biz->location = $request->location;
         $biz->description = $request->description;
         $biz->website = $request->website;
         $biz->established = $request->established;
-        //$biz->registered_here = $request->registered_here;
         $biz->number_of_employees = $request->number_of_employees;
         $biz->user_id = $request->user_id;       
-        $biz->business_name_slug = $request->business_name_slug;
+        $biz->business_name_slug = $request->business_name_slug . '-'.generateKey();
        
         
         $biz->verified = "NO";

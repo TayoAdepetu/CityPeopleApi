@@ -11,6 +11,7 @@ class Blogimage extends Model
 
     protected $fillable = [
         'image_name',
+        'image_name_slug',
         'image_path',
         'user_id',
         'public_id',

@@ -61,21 +61,31 @@ class BlogimageController extends Controller
 
         */
 
+        function generateKey(Request $request)
+                {
+                    $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+                    $randStr = substr(str_shuffle($str), 0);
+                    if (Blogimage::where('image_name_slug', $request->image_name_slug.'-'.$randStr)->exists()) {
+                        $randStr = substr(str_shuffle($str), 0);
+                    }
+
+                    return $randStr;
+                }
+
         try{
             $request->validate([
             'image_name' => ['required', 'string', 'unique:afrimages'],
+            'image_name_slug' => 'required|string',
             'image_description' => ['required', 'string', 'min:2'],
-            //'category_id' => 'required|integer',
             'user_id' => 'required|integer',
             'image' => 'required',
-            //'image_path' => 'required',
-            //'photo_id' => 'required',
+            
         ]);
 
         $image = new Blogimage();
         $image->image_name = $request->image_name;
         $image->image_description = $request->image_description;
-        //$image->category_id = $request->category_id;
+        $image->image_name_slug = $request->image_name_slug.'-'.generateKey();
         $image->user_id = $request->user_id;
 
         // upload profile picture to cloudinary if available

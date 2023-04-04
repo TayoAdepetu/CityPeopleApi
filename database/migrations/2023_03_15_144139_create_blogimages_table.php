@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('public_id')->unique();
            // $table->integer('category_id');
             $table->string('image_name')->unique();
+            $table->string('image_name_slug')->unique();
             $table->string('image_description');
             $table->timestamps();
         });

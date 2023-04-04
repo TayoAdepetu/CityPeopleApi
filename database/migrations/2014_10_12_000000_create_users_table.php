@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('email')->unique();
-            $table->enum('scope', ['admin', 'publisher', 'seller', 'commenter', 'guest', 'superadmin'])->default('guest');//guest is default
+            $table->enum('scope', ['admin', 'seller', 'commenter', 'guest', 'superadmin'])->default('guest');//guest is default
             $table->string('password');
             $table->string('password_confirmation');
             $table->string('phone_number')->nullable()->unique();

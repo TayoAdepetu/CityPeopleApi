@@ -17,7 +17,19 @@ class AfricategoryController extends Controller
         ]);
 
         $category = new Africategory();
-        $category->name = $request->name;      
+        $category->name = $request->name;
+
+         function generateKey(Request $request)
+                {
+                    $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+                    $randStr = substr(str_shuffle($str), 0);
+                    if (Africategory::where('name_slug', $request->name_slug . '-'.$randStr)->exists()) {
+                        $randStr = substr(str_shuffle($str), 0);
+                    }
+
+                    return $randStr;
+                }
+        $category->name_slug = $request->name_slug . '-'.generateKey();    
     
         $category->save();
     }

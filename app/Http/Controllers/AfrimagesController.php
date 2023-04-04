@@ -34,16 +34,19 @@ class AfrimagesController extends Controller
 
     public function storeImages(Request $request){ 
 
-        /*
-         function generateKey(){
-            $str = "12356890abcefghjklnopqrsuvwxyz()/$";
-            $randStr = substr(str_shuffle($str), 0);
-            while(exist(Afrimages::where('photo_id', $randStr))){
-                $randStr = substr(str_shuffle($str), 0);
-            }
+        
+         function generateKey(Request $request)
+                {
+                    $str = "12356890abcefghjklnopqrsuvwxyz()/$";
+                    $randStr = substr(str_shuffle($str), 0);
+                    if (Afrimages::where('reference_id', $request->image_name_slug . '-'.$randStr)->exists()) {
+                        $randStr = substr(str_shuffle($str), 0);
+                    }
 
-                return $randStr;
-            }
+                    return $randStr;
+                }
+
+        /*
 
             $image->photo_id = generateKey();
 
@@ -88,6 +91,7 @@ class AfrimagesController extends Controller
                 $image->image_description = $request->image_description;
                 $image->category_id = $request->category_id;
                 $image->user_id = $request->user_id;
+                $image->image_name_slug = $request->image_name_slug . '-'.generateKey();
 
                 $image->image_path = $file_cloud_url->offsetGet('secure_url');
                 $image->public_id = $file_cloud_url->offsetGet('public_id');

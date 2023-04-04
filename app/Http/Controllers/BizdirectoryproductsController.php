@@ -52,11 +52,11 @@ class BizdirectoryproductsController extends Controller
 
             if (sizeof($product_images) < 5) {
 
-                function generateKey()
+                function generateKey(Request $request)
                 {
                     $str = "12356890abcefghjklnopqrsuvwxyz()/$";
                     $randStr = substr(str_shuffle($str), 0);
-                    if (Bizdirectoryproducts::where('product_name_slug', $randStr)->exists()) {
+                    if (Bizdirectoryproducts::where('product_name_slug', $request->product_name_slug . '-' .$randStr)->exists()) {
                         $randStr = substr(str_shuffle($str), 0);
                     }
 
@@ -65,7 +65,7 @@ class BizdirectoryproductsController extends Controller
 
                 $product = new Bizdirectoryproducts();
                 $product->product_name = $request->product_name;
-                $product->product_name_slug = $request->product_name_slug . '/' . generateKey();
+                $product->product_name_slug = $request->product_name_slug . '-' . generateKey();
                 $product->price = $request->price;
                 $product->location = $request->location;
                 $product->description = $request->description;

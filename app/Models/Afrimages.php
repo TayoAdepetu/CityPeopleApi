@@ -16,6 +16,7 @@ class Afrimages extends Model
         'public_id',
         'description',
         'category_id',
+        'reference_id'
     ];
 
     public function user(){
